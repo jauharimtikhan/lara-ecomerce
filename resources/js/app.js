@@ -15,12 +15,7 @@ import {
 document.addEventListener("livewire:navigated", () => {
 
     AOS.init();
-    const dismiss = document.querySelector('#toast-default');
-    Livewire.on('alert', () => {
-        setTimeout(() => {
-            dismiss.classList.add('hidden');
-        }, 3000);
-    })
+    
   const pageProps = window.PageProps;
     const dismiss = document.getElementById(`alert-${pageProps.session}`);
     Livewire.on("alert", () => {
