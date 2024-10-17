@@ -1,4 +1,5 @@
-<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore data-aos="fade-up"
+    data-aos-duration="3000">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Keranjang Belanja</h2>
 
@@ -57,8 +58,7 @@
 
 
                                         <div class="text-end md:order-4 md:w-32 flex items-center justify-end">
-                                            <p wire:poll.visible
-                                                class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
+                                            <p class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
                                                 {{ $item->formatRupiah('sub_total') }}</p>
                                         </div>
                                     </div>

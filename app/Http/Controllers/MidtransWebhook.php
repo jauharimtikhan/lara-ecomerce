@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\MidtransNotification;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -68,7 +68,7 @@ class MidtransWebhook extends Controller
                 'data' => $notification->getResponse()
             ], 200);
         } catch (\Exception $e) {
-            Log::error('Midtrans Webhook Error: ' . $e->getMessage());
+
             return response()->json(['message' => 'Webhook error'], 500);
         }
     }

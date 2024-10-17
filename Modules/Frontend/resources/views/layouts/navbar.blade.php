@@ -39,7 +39,8 @@
                                                     aria-labelledby="mega-menu-icons-dropdown-button-{{ $it->id }}">
                                                     @foreach ($it->subcategory as $subcategory)
                                                         <li>
-                                                            <a href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
+                                                            <a wire:navigate wire:key="{{ $subcategory->id }}"
+                                                                href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
                                                                 class="flex items-center text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500 group">
                                                                 <span class="sr-only">{{ $subcategory->name }}</span>
 
@@ -126,7 +127,7 @@
                         </svg>
 
 
-                        <div wire:poll="updateCartCount"
+                        <div
                             class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
                             {{ $cartCount }}
                         </div>
@@ -313,20 +314,3 @@
         </div>
     </div>
 </nav>
-@script
-    <script>
-        const navbarContainer = document.getElementById("navbarContainer");
-        navbarContainer.classList.add("fixed");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY >= 0) {
-                navbarContainer.classList.add("fixed");
-                navbarContainer.style.transition =
-                    "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
-            } else {
-                navbarContainer.classList.remove("fixed");
-                navbarContainer.style.transition =
-                    "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
-            }
-        });
-    </script>
-@endscript

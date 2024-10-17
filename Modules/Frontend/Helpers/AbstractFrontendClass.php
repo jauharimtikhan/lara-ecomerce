@@ -12,8 +12,6 @@ abstract class AbstractFrontendClass extends Component
 
     public function callAlert($type, $message)
     {
-        Notification::make('alert' . $this->__id)
-
-                    ->title($message)->$type()->send();
+        $this->dispatch('alert', ['type' => $type, 'message' => $message]);
     }
 }
