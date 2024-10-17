@@ -1,10 +1,9 @@
-<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore data-aos="fade-up"
-    data-aos-duration="3000">
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore>
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0" data-aos="fade-up" data-aos-duration="3000">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Keranjang Belanja</h2>
 
         <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl ">
                 <div class="space-y-6">
                     @if ($items->count() > 0)
 
@@ -72,7 +71,6 @@
 
 
                                         <div class="text-end md:order-4 md:w-32 flex items-center justify-end">
-
                                             <p wire:ignore.self
                                                 class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
                                                 {{ $item->formatRupiah('sub_total') }}</p>

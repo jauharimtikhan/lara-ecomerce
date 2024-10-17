@@ -23,6 +23,7 @@ document.addEventListener("livewire:navigated", () => {
             dismiss.classList.add("hidden");
         }, 3000);
     });
+
     var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
     var themeToggleLightIcon = document.getElementById(
         "theme-toggle-light-icon"
@@ -99,6 +100,7 @@ document.addEventListener("livewire:navigated", () => {
         } else {
             navbarContainer.classList.remove("fixed");
             navbarContainer.style.transition = "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
+
         }
     });
 
