@@ -2,7 +2,7 @@
 
     {{-- Hero Start --}}
     <section class="bg-white md:py-16 max-w-screen-xl antialiased dark:bg-gray-900  mx-auto">
-        <div class="z-[10] relative dark:bg-gray-900 pb-8 px-6 rounded-lg" data-aos="fade-down">
+        <div class="z-[10] relative dark:bg-gray-900 pb-1 px-6 rounded-lg" data-aos="fade-down">
             <div id="controls-carousel" class="relative w-full  dark:bg-gray-900" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 md:h-[30rem] overflow-hidden dark:bg-gray-900 rounded-lg ">
@@ -151,7 +151,7 @@
 
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <h2 class="mt-3 mb-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl" data-aos="fade-up"
-                data-aos-duration="3000">Kategori
+                data-aos-duration="3000">
             </h2>
             <!-- Heading & Filters -->
 
@@ -277,11 +277,9 @@
                     <div class="lg:col-span-5 lg:mt-0">
                         <a href="#">
                             <img class="mb-4 h-56 w-56 dark:hidden sm:h-96 sm:w-96 md:h-full md:w-full"
-                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components.svg"
-                                alt="peripherals" />
+                                src="{{ asset('frontend/img/Content/Content 4.png') }}" alt="peripherals" />
                             <img class="mb-4 hidden dark:block md:h-full"
-                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components-dark.svg"
-                                alt="peripherals" />
+                                src="{{ asset('frontend/img/Content/Content 4.png') }}" alt="peripherals" />
                         </a>
                     </div>
                     <div class="me-auto place-self-center lg:col-span-7">

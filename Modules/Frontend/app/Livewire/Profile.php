@@ -10,7 +10,7 @@ use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class Profile extends AbstractFrontendClass
 {
-    protected static string|array $middleware = ['auth', 'rools:member|admin|super_admin'];
+    protected static string|array $middleware = ['auth', 'role:member|admin|super_admin'];
 
     public function render()
     {

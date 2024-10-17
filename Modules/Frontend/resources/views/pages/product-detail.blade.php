@@ -191,24 +191,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="my-6 md:my-12">
-                    <iframe class="h-[260px] md:h-[540px] w-full rounded-lg"
-                        src="https://www.youtube.com/embed/KaLxCiilHns"
-                        title="Flowbite Crash Course in 20 mins | Introduction to UI components using Tailwind CSS"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
-                <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
-                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Connectivity includes two
-                        Thunderbolt / USB 4 ports and two USB 3 ports (all with a USB-C connector), a 3.5 mm headphone
-                        jack conveniently mounted on the left edge of the display, Wi-Fi 6 (802.11ax), and Bluetooth
-                        5.0.</p>
 
-                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">A-Grade/CR: iMacs are in 9/10
-                        Cosmetic Condition and are 100% Fully Functional. iMacs will be shipped in generic packaging and
-                        will contain generic accessories. 90 Days Seller Warranty Included. iMacs may show signs of wear
-                        like scratches, scuffs and minor dents.</p>
+                <div class="mx-auto mb-6 max-w-3xl space-y-6 md:mb-12">
                 </div>
                 <div class="text-center">
                     <a href="#"
