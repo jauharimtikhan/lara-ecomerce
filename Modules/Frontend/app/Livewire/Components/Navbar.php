@@ -5,6 +5,7 @@ namespace Modules\Frontend\App\Livewire\Components;
 use App\Models\Cart;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -45,11 +46,9 @@ class Navbar extends Component
     {
         $cart = Cart::find($cartId);
         $cart->delete();
+        $this->dispatch('updateCart');
         $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil menghapus item dari keranjang!']);
     }
 
-    public function globalSearch()
-    {
-
-    }
+    public function globalSearch() {}
 }

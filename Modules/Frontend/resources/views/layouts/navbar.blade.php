@@ -21,7 +21,7 @@
                                     $url = urlencode($it->name);
                                 @endphp
                                 @if ($it->subcategory->count() > 0)
-                                    <li>
+                                    <li wire:key="{{ $it->id }}" wire:ignore.self>
                                         <button id="mega-menu-dropdown-button-{{ $it->id }}"
                                             data-dropdown-toggle="mega-menu-icons-dropdown-{{ $it->id }}"
                                             class="flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
@@ -90,7 +90,7 @@
 
 
 
-                <button id="theme-toggle" type="button" wire:ignore
+                <button id="theme-toggle" type="button" wire:ignore.self
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +126,7 @@
                         </svg>
 
 
-                        <div wire:poll="updateCartCount"
+                        <div
                             class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
                             {{ $cartCount }}
                         </div>

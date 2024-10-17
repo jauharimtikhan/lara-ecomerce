@@ -3,6 +3,7 @@
 namespace Modules\Frontend\App\Livewire;
 
 use App\Models\Orders;
+use App\Models\Transaction;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
@@ -15,7 +16,7 @@ class Payment extends AbstractFrontendClass
 
     public function mount()
     {
-        $this->items = Orders::where('user_id', Auth::user()->id)->get();
+        $this->items = Transaction::with('user')->where('user_id', Auth::user()->id)->first();
     }
 
     public function payNow()
@@ -34,7 +35,7 @@ class Payment extends AbstractFrontendClass
         $midtransSnapParams = [
             'transaction_details' => [
                 'order_id' => 'invoice-lara' . Carbon::now()->format('YmdHis'),
-                'gross_amount' => $this->items->sum('sub_total') + $this->items->pluck('grand_total')->first() + 1000,
+                'gross_amount' => $this->items->total_price + 1000,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
