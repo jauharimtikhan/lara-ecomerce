@@ -2,7 +2,7 @@
 
     {{-- Hero Start --}}
     <section class="bg-white md:py-16 max-w-screen-xl antialiased dark:bg-gray-900  mx-auto">
-        <div class="z-[10] relative dark:bg-gray-900 pb-8 px-6 rounded-lg" data-aos="fade-down">
+        <div class="z-[10] relative dark:bg-gray-900 pb-8 px-6 rounded-lg">
             <div id="controls-carousel" class="relative w-full  dark:bg-gray-900" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 md:h-[30rem] overflow-hidden dark:bg-gray-900 rounded-lg ">
@@ -27,7 +27,6 @@
 
                 </div>
                 <!-- Slider controls -->
-
                 <button type="button"
                     class="absolute top-0 h-full start-0 z-30 flex items-center justify-center  px-4 cursor-pointer group focus:outline-none"
                     data-carousel-prev>
@@ -59,7 +58,7 @@
         <div
             class="mx-auto grid max-w-screen-xl grid-cols-2 gap-8 text-gray-500 dark:text-gray-400 sm:grid-cols-3 sm:gap-12 lg:grid-cols-6 px-4">
 
-            <a href="#" class="flex items-center md:justify-center" data-aos="fade-right">
+            <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-20 hover:text-gray-900 dark:hover:text-white"
                     viewBox="0 0 192.756 200">
                     <g fill-rule="evenodd" clip-rule="evenodd">
@@ -74,7 +73,7 @@
                 </svg>
 
             </a>
-            <a href="#" class="flex items-center md:justify-center" data-aos="fade-up">
+            <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-25 h-21 hover:text-gray-900 dark:hover:text-white"
                     viewBox="0 0 192.756 200">
                     <g fill-rule="evenodd" clip-rule="evenodd">
@@ -92,7 +91,7 @@
                 </svg>
 
             </a>
-            <a href="#" class="flex items-center md:justify-center" data-aos="fade-up">
+            <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-27 hover:text-gray-900 dark:hover:text-white"
                     viewBox="0 0 192.744 192.744">
                     <g fill-rule="evenodd" clip-rule="evenodd">
@@ -103,7 +102,7 @@
                 </svg>
 
             </a>
-            <a href="#" class="flex items-center md:justify-center" data-aos="fade-up">
+            <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class=" w-20 hover:text-gray-900 dark:hover:text-white"
                     viewBox="0 0 26.088 26.999">
                     <path fill="currentColor"
@@ -111,7 +110,7 @@
                 </svg>
 
             </a>
-            <a href="#" class="flex items-center md:justify-center" data-aos="fade-up">
+            <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class=" w-22 hover:text-gray-900 dark:hover:text-white"
                     viewBox="0 0 192.756 192.756">
                     <g fill-rule="evenodd" clip-rule="evenodd">
@@ -122,7 +121,7 @@
                 </svg>
 
             </a>
-            <a href="#" class="flex items-center md:justify-center" data-aos="fade-left">
+            <a href="#" class="flex items-center md:justify-center">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 2500 583"
                     class=" w-22 hover:text-gray-900 dark:hover:text-white" xml:space="preserve">
@@ -147,105 +146,29 @@
     </section>
     {{-- Hero end --}}
 
-    <section class=>
-
+    <section class="bg-white-50 py-8 antialiased dark:bg-gray-900 md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-            <h2 class="mt-3 mb-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl" data-aos="fade-up"
-                data-aos-duration="3000">Kategori
-            </h2>
-            <!-- Heading & Filters -->
-
-            <div class="mb-4 grid gap-4 grid-cols-3 md:mb-8 lg:grid-cols-3 xl:grid-cols-7 md:grid-cols-2"
-                data-aos="fade-up" data-aos-duration="3000">
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden " src="{{ asset('frontend/img/jaket.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src= "{{ asset('frontend/img/jaket.png') }}"
-                            alt="" />
-                    </a>
-                    </class=>
-
-
-                </div>
-
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden" src="{{ asset('frontend/img/tas.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('frontend/img/tas.png') }}"
-                            alt="" />
-                    </a>
-                    </>
-
-                </div>
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden" src="{{ asset('frontend/img/Sandal.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('frontend/img/Sandal.png') }}"
-                            alt="" />
-                    </a>
-                    </>
-
-
-                </div>
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden" src="{{ asset('frontend/img/Sepatu.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('frontend/img/Sepatu.png') }}"
-                            alt="" />
-                    </a>
-                    </>
-
-
-                </div>
-
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden" src="{{ asset('frontend/img/Gamis.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('frontend/img/Gamis.png') }}"
-                            alt="" />
-                    </a>
-                    </>
-
-
-                </div>
-
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden" src="{{ asset('frontend/img/Anak_anak.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('frontend/img/Anak_anak.png') }}"
-                            alt="" />
-                    </a>
-                    </>
-
-
-                </div>
-
-                <div class="h-40 w-full">
-                    <a href="#">
-                        <img class="mx-auto h-full dark:hidden" src="{{ asset('frontend/img/Baju.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('frontend/img/Baju.png') }}"
-                            alt="" />
-                    </a>
-                    </>
-
-
-                </div>
-
+            <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Kategori</h2>
 
 
             </div>
 
+            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                @foreach ($categories as $category)
+                    <a href="#"
+                        class="flex items-center md:justify-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 
-            {{-- Featured Start --}}
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $category?->name }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
 
-            {{-- <section class="bg-white dark:bg-gray-900 py-8 antialiased">
+    {{-- Featured Start --}}
+
+    {{-- <section class="bg-white dark:bg-gray-900 py-8 antialiased">
         <div class="py-6 mx-auto grid max-w-screen-xl px-4 md:grid-cols-3 md:gap-8 lg:gap-8  xl:gap-8">
             <div
                 class="bg-gray-100 w-full dark:bg-gray-100 px-6 py-4 flex flex-col items-center rounded-lg shadow-lg md:py-6">
@@ -268,41 +191,40 @@
         </div>
     </section> --}}
 
-            {{-- Featured End --}}
+    {{-- Featured End --}}
 
-            {{-- Discount Start --}}
-            <section class="bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
-                <div
-                    class="mx-auto grid max-w-screen-xl rounded-lg bg-gray-50 p-4 dark:bg-gray-800 md:p-8 lg:grid-cols-12 lg:gap-8 lg:p-16 xl:gap-16">
-                    <div class="lg:col-span-5 lg:mt-0">
-                        <a href="#">
-                            <img class="mb-4 h-56 w-56 dark:hidden sm:h-96 sm:w-96 md:h-full md:w-full"
-                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components.svg"
-                                alt="peripherals" />
-                            <img class="mb-4 hidden dark:block md:h-full"
-                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components-dark.svg"
-                                alt="peripherals" />
-                        </a>
-                    </div>
-                    <div class="me-auto place-self-center lg:col-span-7">
-                        <h1
-                            class="mb-3 text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-4xl">
-                            Save $500 today on your purchase <br />
-                            of a new iMac computer.
-                        </h1>
-                        <p class="mb-6 text-gray-500 dark:text-gray-400">Reserve your new Apple iMac 27” today and
-                            enjoy
-                            exclusive savings with qualified activation. Pre-order now to secure your discount.</p>
-                        <a href="#"
-                            class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                            Pre-order now </a>
-                    </div>
-                </div>
-            </section>
-            {{-- Discount End --}}
+    {{-- Discount Start --}}
+    <section class="bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
+        <div
+            class="mx-auto grid max-w-screen-xl rounded-lg bg-gray-50 p-4 dark:bg-gray-800 md:p-8 lg:grid-cols-12 lg:gap-8 lg:p-16 xl:gap-16">
+            <div class="lg:col-span-5 lg:mt-0">
+                <a href="#">
+                    <img class="mb-4 h-56 w-56 dark:hidden sm:h-96 sm:w-96 md:h-full md:w-full"
+                        src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components.svg"
+                        alt="peripherals" />
+                    <img class="mb-4 hidden dark:block md:h-full"
+                        src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components-dark.svg"
+                        alt="peripherals" />
+                </a>
+            </div>
+            <div class="me-auto place-self-center lg:col-span-7">
+                <h1
+                    class="mb-3 text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-4xl">
+                    Save $500 today on your purchase <br />
+                    of a new iMac computer.
+                </h1>
+                <p class="mb-6 text-gray-500 dark:text-gray-400">Reserve your new Apple iMac 27” today and enjoy
+                    exclusive savings with qualified activation. Pre-order now to secure your discount.</p>
+                <a href="#"
+                    class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+                    Pre-order now </a>
+            </div>
+        </div>
+    </section>
+    {{-- Discount End --}}
 
-            {{-- Feature section --}}
-            {{-- <section class="bg-white dark:bg-gray-900">
+    {{-- Feature section --}}
+    {{-- <section class="bg-white dark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div class="max-w-screen-md mb-8 lg:mb-16">
                 <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Designed for
@@ -404,53 +326,51 @@
             </div>
         </div>
     </section> --}}
-            {{-- End --}}
+    {{-- End --}}
 
-            {{-- Latest Product --}}
-            <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-12">
-                <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-                    <!-- Heading & Filters -->
-                    <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
-                        <div>
+    {{-- Latest Product --}}
+    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-12">
+        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+            <!-- Heading & Filters -->
+            <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
+                <div>
 
-                            <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Produk
-                                Terbaru
-                            </h2>
-                        </div>
-
-                    </div>
-                    <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-                        @isset($products)
-                            @foreach ($products as $prod)
-                                <livewire:frontend-sub-component::productcard :product="$prod" lazy :key="$prod->id" />
-                            @endforeach
-                        @else
-                            <section class="bg-white dark:bg-gray-900 col-span-4">
-                                <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-                                    <div class="mx-auto max-w-screen-sm text-center">
-                                        <h1
-                                            class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">
-                                            404</h1>
-                                        <p
-                                            class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
-                                            Wadooh</p>
-                                        <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">Yah, Produk
-                                            yang
-                                            anda cari tidak ditemukan</p>
-                                        <a href="{{ route('frontend.home') }}" wire:navigate
-                                            class="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4">
-                                            Kembali Ke Beranda
-                                        </a>
-                                    </div>
-                                </div>
-                            </section>
-                        @endisset
-                    </div>
-                    <div class="w-full text-center">
-                        {{ $products->links() }}
-                    </div>
+                    <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Produk Terbaru
+                    </h2>
                 </div>
 
-            </section>
-            {{-- End --}}
+            </div>
+            <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+                @isset($products)
+                    @foreach ($products as $prod)
+                        <livewire:frontend-sub-component::productcard :product="$prod" lazy :key="$prod->id" />
+                    @endforeach
+                @else
+                    <section class="bg-white dark:bg-gray-900 col-span-4">
+                        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+                            <div class="mx-auto max-w-screen-sm text-center">
+                                <h1
+                                    class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">
+                                    404</h1>
+                                <p
+                                    class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+                                    Wadooh</p>
+                                <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">Yah, Produk yang
+                                    anda cari tidak ditemukan</p>
+                                <a href="{{ route('frontend.home') }}" wire:navigate
+                                    class="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4">
+                                    Kembali Ke Beranda
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                @endisset
+            </div>
+            <div class="w-full text-center">
+                {{ $products->links() }}
+            </div>
         </div>
+
+    </section>
+    {{-- End --}}
+</div>

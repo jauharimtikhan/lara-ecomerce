@@ -71,7 +71,6 @@
 
 
                                         <div class="text-end md:order-4 md:w-32 flex items-center justify-end">
-
                                             <p wire:ignore.self
                                                 class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
                                                 {{ $item->formatRupiah('sub_total') }}</p>
