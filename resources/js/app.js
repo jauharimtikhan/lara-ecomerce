@@ -13,6 +13,7 @@ import {
     initModals,
 } from "flowbite";
 document.addEventListener("livewire:navigated", () => {
+
     AOS.init();
     const dismiss = document.querySelector('#toast-default');
     Livewire.on('alert', () => {
@@ -20,6 +21,14 @@ document.addEventListener("livewire:navigated", () => {
             dismiss.classList.add('hidden');
         }, 3000);
     })
+  const pageProps = window.PageProps;
+    const dismiss = document.getElementById(`alert-${pageProps.session}`);
+    Livewire.on("alert", () => {
+        dismiss.classList.add("block");
+        setTimeout(() => {
+            dismiss.classList.add("hidden");
+        }, 3000);
+    });
     var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
     var themeToggleLightIcon = document.getElementById(
         "theme-toggle-light-icon"
@@ -38,7 +47,7 @@ document.addEventListener("livewire:navigated", () => {
 
     var themeToggleBtn = document.getElementById("theme-toggle");
 
-    themeToggleBtn.addEventListener("click", function() {
+    themeToggleBtn.addEventListener("click", function () {
         // toggle icons inside button
         themeToggleDarkIcon.classList.toggle("hidden");
         themeToggleLightIcon.classList.toggle("hidden");
@@ -100,20 +109,13 @@ document.addEventListener("livewire:navigated", () => {
                 "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
         }
     });
- 
 
-    initDatepickers();
-    initCarousels();
-    initDropdowns();
-    initFlowbite();
-    initPopovers();
-    initInputCounters();
-    initModals();    
+    // initDatepickers();
+    // initCarousels();
+    // initDropdowns();
+    // initFlowbite();
+    // initPopovers();
+    // initInputCounters();
+    // initModals();
 
-  
-  
-    
-    
 });
-
-

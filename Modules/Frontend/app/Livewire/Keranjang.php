@@ -5,17 +5,9 @@ namespace Modules\Frontend\App\Livewire;
 use App\Models\Cart;
 use App\Models\Orders;
 use App\Models\Transaction;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Support\RawJs;
+use App\Models\UserDetail;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
 use Ramsey\Uuid\Uuid;
@@ -27,7 +19,7 @@ class Keranjang extends AbstractFrontendClass
     public $modalId;
     public $items;
     public $wire;
-
+    public $address;
     public ?array $dataOngkir = [
         'provinsi' => '',
         'kabupaten' => '',
@@ -54,9 +46,22 @@ class Keranjang extends AbstractFrontendClass
     public function mount()
     {
         $this->wire = $this->__id;
+        $this->address = $this->getUserAddress();
         $this->modalId = Auth::user()->id;
         $this->items = Cart::with('product')->where('user_id', Auth::user()->id)->with('user')->get();
     }
+
+    protected function getUseraddress()
+    {
+        try {
+            $userDetails = UserDetail::with('user')->where('user_id', Auth::user()->id)->first();
+            return $userDetails;
+            //code...
+        } catch (\Illuminate\Database\QueryException $th) {
+            return null;
+        }
+    }
+
 
     public function loadCities()
     {
@@ -70,7 +75,6 @@ class Keranjang extends AbstractFrontendClass
                 'postal_code' => $value['postal_code'],
             ];
             $this->dataAlamat['kabupaten'] = $value['type'] . ' ' . $value['city_name'];
-
         }
         return collect($results);
     }
@@ -136,7 +140,6 @@ class Keranjang extends AbstractFrontendClass
         } catch (\GuzzleHttp\Exception\ClientException $th) {
             return $th->getMessage();
         }
-
     }
 
     public function cekOngkirAction()
@@ -167,6 +170,7 @@ class Keranjang extends AbstractFrontendClass
     {
         $cart = Cart::find($id);
         $cart->delete();
+        $this->dispatch('updateCart');
         $this->callAlert('success', 'Berhasil menghapus item dari keranjang!');
     }
 
@@ -188,6 +192,7 @@ class Keranjang extends AbstractFrontendClass
         } else {
             try {
                 $products = [];
+                $total = 0;
                 foreach ($this->items as $item) {
                     Orders::create([
                         'id' => Uuid::uuid4()->toString(),
@@ -200,6 +205,7 @@ class Keranjang extends AbstractFrontendClass
                         'sub_total' => $item->product->price * $item->quantity,
                         'quantity' => $item->quantity
                     ]);
+                    $total += $item->grand_total * $item->quantity + $this->totalOngkir;
 
 
                     $products[] = collect([
@@ -208,7 +214,7 @@ class Keranjang extends AbstractFrontendClass
                         'price' => $item->product->price,
                         'quantity' => $item->quantity,
                         'weight' => $item->product->weight,
-                    ])->toJson();
+                    ])->toArray();
                 }
 
                 Transaction::create([
@@ -217,7 +223,8 @@ class Keranjang extends AbstractFrontendClass
                     'quantity' => $this->items->sum('quantity'),
                     'weight' => $this->items->sum('weight'),
                     'status' => 'pending',
-                    'total_price' => ($this->items->grand_total * $this->items->sum('quantity')) + $this->totalOngkir,
+                    'total_price' => $total,
+                    'ongkir' => $this->totalOngkir
                 ]);
 
                 Cart::where('user_id', Auth::user()->id)
@@ -229,11 +236,10 @@ class Keranjang extends AbstractFrontendClass
                 $this->callAlert('danger', 'Ups terjadi kesalahan!');
             }
         }
-
     }
 
 
-
+    #[On('updateCart')]
     public function render()
     {
         $cart = collect($this->items);
@@ -249,5 +255,10 @@ class Keranjang extends AbstractFrontendClass
             'cart' => $cart,
             'originalPriceFormated' => $originalPriceFormated,
         ]);
+    }
+
+    public function openModalAddress()
+    {
+        $this->dispatch('openModalAddress');
     }
 }

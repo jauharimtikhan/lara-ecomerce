@@ -1,10 +1,13 @@
 <?php
+
 namespace Modules\Frontend\App\Livewire;
 
 use App\Models\Product as ModelsProduct;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
+
 class Product extends AbstractFrontendClass
 {
     use WithPagination;
@@ -61,7 +64,7 @@ class Product extends AbstractFrontendClass
             $this->loadProducts();
         }
     }
-
+    #[Computed(true)]
     protected function getProducts($searchQuery = null, $subSearchQuery = null)
     {
         $products = ModelsProduct::with(['category', 'category.subcategory'])
@@ -74,10 +77,10 @@ class Product extends AbstractFrontendClass
                     });
                 })
                     ->where(function ($subcategoryQuery) use ($subSearchQuery) {
-                    $subcategoryQuery->whereHas('category.subcategory', function ($query) use ($subSearchQuery) {
-                        $query->where('name', 'like', '%' . $subSearchQuery . '%');
+                        $subcategoryQuery->whereHas('category.subcategory', function ($query) use ($subSearchQuery) {
+                            $query->where('name', 'like', '%' . $subSearchQuery . '%');
+                        });
                     });
-                });
             })
             ->paginate(12, ['*'], 'page', $this->currentPage);
         return [
@@ -94,6 +97,4 @@ class Product extends AbstractFrontendClass
             'products' => $this->products,
         ]);
     }
-
-   
 }
