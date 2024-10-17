@@ -14,6 +14,13 @@
         @vite(['resources/css/app.css', 'resources/js/unauthenticate.js'])
     @else
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script>
+            window.PageProps = {
+                user: @json(Auth::user()->toArray()),
+                session: @json(session()->getId()),
+
+            }
+        </script>
     @endif
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     @filamentStyles
@@ -22,6 +29,7 @@
 
 <body>
     @livewire('notifications')
+    @livewire('frontend-sub-component::toast')
 
     @if (!Auth::check())
         @if (Route::currentRouteName() == 'frontend.login')

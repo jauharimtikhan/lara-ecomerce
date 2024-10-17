@@ -28,7 +28,14 @@
                                                 data-input-counter-decrement="counter-input-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
                                                 wire:click="changeQuantity('{{ $item->id }}', 'decrease')"
                                                 class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                                                @svg('bx-loader-alt', [
+                                                    'class' => 'h-2.5 w-2.5 text-gray-900 dark:text-white animate-spin',
+                                                    'wire:loading' => true,
+                                                    'wire:target' => "changeQuantity('{$item->id}', 'decrease')",
+                                                ])
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
+                                                    wire:loading.remove
+                                                    wire:target="changeQuantity('{{ $item->id }}', 'decrease')"
                                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 18 2">
                                                     <path stroke="currentColor" stroke-linecap="round"
@@ -45,7 +52,14 @@
                                                 data-input-counter-increment="counter-input-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
                                                 wire:click="changeQuantity('{{ $item->id }}', 'increase')"
                                                 class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                                                @svg('bx-loader-alt', [
+                                                    'class' => 'h-2.5 w-2.5 text-gray-900 dark:text-white animate-spin',
+                                                    'wire:loading' => true,
+                                                    'wire:target' => "changeQuantity('{$item->id}', 'increase')",
+                                                ])
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
+                                                    wire:loading.remove
+                                                    wire:target="changeQuantity('{{ $item->id }}', 'increase')"
                                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 18 18">
                                                     <path stroke="currentColor" stroke-linecap="round"
@@ -57,7 +71,7 @@
 
 
                                         <div class="text-end md:order-4 md:w-32 flex items-center justify-end">
-                                            <p wire:poll.visible
+                                            <p wire:ignore.self
                                                 class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
                                                 {{ $item->formatRupiah('sub_total') }}</p>
                                         </div>
@@ -142,11 +156,10 @@
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
                                     {{ 'Rp. ' . number_format($cart->pluck('sub_total')->sum(), 2, ',', '.') }}</dd>
                             </dl>
-
-
                             <dl class="grid grid-cols-2 items-center justify-between gap-2">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Ongkir</dt>
-                                <dd class="text-base font-medium text-gray-900 dark:text-white col-span-1 text-right">
+                                <dd wire:ignore.self
+                                    class="text-base font-medium text-gray-900 dark:text-white col-span-1 text-right">
                                     {{ 'Rp. ' . number_format($totalOngkir, 2, ',', '.') }}
                                 </dd>
                                 <dt role="button" wire:click="cekOngkir"
@@ -161,8 +174,32 @@
                                     </span>
                                 </dt>
                             </dl>
-
                         </div>
+                        @if ($address != null)
+                            <div class="space-y-2  border-t border-gray-200 pt-2 dark:border-gray-700">
+                                <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                        Alamat Pengiriman
+                                    </dt>
+                                </dl>
+                                <dl class="flex items-center justify-between gap-4">
+                                    <p></p>
+                                </dl>
+                            </div>
+                        @else
+                            <div class="space-y-2  border-t border-gray-200 pt-2 dark:border-gray-700">
+                                <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                        Alamat Pengiriman
+                                    </dt>
+                                </dl>
+                                <dl class="flex items-center justify-center">
+                                    <x-filament::button type="button" wire:click="openModalAddress"
+                                        color="primary">Masukan Alamat
+                                        Pengiriman</x-filament::button>
+                                </dl>
+                            </div>
+                        @endif
                         @php
                             $total = '';
                             if ($totalOngkir > 0) {
@@ -307,94 +344,160 @@
         </div>
     </div>
 
+    @livewire('frontend-sub-component::modaladdress')
 
 </section>
 @script
     <script>
         const modalCekOngkir = `modalcekongkir-{{ Auth::user()->id }}-{{ session()->getId() }}-{{ $wire }}`;
-        const options = {
-            placement: 'center',
-            backdrop: 'dynamic',
-            backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-            closable: true,
-            onHide: () => {
-                console.log('modal is hidden');
+        Object.assign(window.PageProps, {
+            keranjang: {
+                idModalCekOngkir: modalCekOngkir,
             },
-            onShow: () => {
-                console.log('modal is shown');
-            },
-            onToggle: () => {
-                console.log('modal has been toggled');
-            },
-        };
-
-        // instance options object
-        const instanceOptions = {
-            id: modalCekOngkir,
-            override: true
-        };
-        const modalBackdropCekOngkir = new Modal(document.getElementById(modalCekOngkir), options, instanceOptions);
-        Livewire.on('openModalCekongkir', () => {
-            modalBackdropCekOngkir.show();
-            let provinsi = document.getElementById('provinsi-{{ Auth::user()->id }}-{{ session()->getId() }}');
-            let kabupaten = document.getElementById('kabupaten-{{ Auth::user()->id }}-{{ session()->getId() }}');
-            $wire.loadProvincies().then((res) => {
-                res.forEach(prov => {
-                    provinsi.innerHTML +=
-                        `<option value="${prov.province_id}" data-name="${prov.province}">${prov.province}</option>`
-                    provinsi.addEventListener('change', (e) => {
-                        let selectedOption = e.target.options[e.target.selectedIndex];
-                        let provinceName = selectedOption.dataset.name;
-
-                        $wire.dataAlamat.provinsi = provinceName;
-                    })
-                })
-                provinsi.addEventListener('change', (e) => {
-                    $wire.loadCities().then((res) => {
-                        res.forEach(prov => {
-                            kabupaten.innerHTML +=
-                                `<option value="${prov.city_id}">${prov.city_name}</option>`
-                        })
-
-                    })
-                })
-            });
-
-            const cekongkirButton = document.getElementById(
-                'cekongkirButton-{{ Auth::user()->id }}-{{ session()->getId() }}');
-            cekongkirButton.addEventListener('click', () => {
-                $wire.cekOngkirAction().then((res) => {
-                    let resultOngkir = document.getElementById(
-                        'result-ongkir-{{ Auth::user()->id }}-{{ session()->getId() }}');
-                    res.costs.forEach(res => {
-                        const dataParam = {
-                            'service': res.service,
-                            'cost': res.cost[0].value,
-                            'estimate': res.cost[0].etd,
-                            'description': res.description
-                        }
-                        resultOngkir.innerHTML += `
-                        <button type="button" wire:click="setOngkir('${dataParam.service}', '${dataParam.cost}', '${dataParam.estimate}', '${dataParam.description}')"
-                         class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
-                        (${dataParam.service}) ${dataParam.description} - Rp. ${dataParam.cost} - ${dataParam.estimate} Hari
-                        </button>
-                      `;
-                    })
-                });
-            })
 
         });
 
-        Livewire.on('updatedOngkir', () => {
-            let resultOngkir = document.getElementById(
-                'result-ongkir-{{ Auth::user()->id }}-{{ session()->getId() }}');
-            let provinsi = document.getElementById('provinsi-{{ Auth::user()->id }}-{{ session()->getId() }}');
-            let kabupaten = document.getElementById('kabupaten-{{ Auth::user()->id }}-{{ session()->getId() }}');
-            provinsi.innerHTML = '';
-            kabupaten.innerHTML = '';
-            resultOngkir.innerHTML = '';
-            modalBackdropCekOngkir.hide();
+        const propsKeranjang = window.PageProps;
+        const options = {
+            placement: "center",
+            backdrop: "dynamic",
+            backdropClasses: "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40",
+            closable: true,
+            onHide: () => {
+                let resultOngkir = document.getElementById(
+                    "result-ongkir-{{ Auth::user()->id }}-{{ session()->getId() }}"
+                );
+                let provinsi = document.getElementById(
+                    "provinsi-{{ Auth::user()->id }}-{{ session()->getId() }}"
+                );
+                let kabupaten = document.getElementById(
+                    "kabupaten-{{ Auth::user()->id }}-{{ session()->getId() }}"
+                );
+                provinsi.innerHTML = "";
+                kabupaten.innerHTML = "";
+                resultOngkir.innerHTML = "";
+            },
+            onShow: () => {
+                let provinsi = document.getElementById(
+                    `provinsi-${propsKeranjang.user.id}-${propsKeranjang.session}`
+                );
+                let kabupaten = document.getElementById(
+                    `kabupaten-${propsKeranjang.user.id}-${propsKeranjang.session}`
+                );
+                $wire.loadProvincies().then((res) => {
+                    res.forEach((prov) => {
+                        provinsi.innerHTML +=
+                            `<option value="${prov.province_id}" data-name="${prov.province}">${prov.province}</option>`;
+                        provinsi.addEventListener("change", (e) => {
+                            let selectedOption =
+                                e.target.options[e.target.selectedIndex];
+                            let provinceName = selectedOption.dataset.name;
 
+                            $wire.dataAlamat.provinsi = provinceName;
+                        });
+                    });
+                    provinsi.addEventListener("change", (e) => {
+                        $wire.loadCities().then((res) => {
+                            res.forEach((prov) => {
+                                kabupaten.innerHTML +=
+                                    `<option value="${prov.city_id}">${prov.city_name}</option>`;
+                            });
+                        });
+                    });
+                });
+
+                const cekongkirButton = document.getElementById(
+                    `cekongkirButton-${propsKeranjang.user.id}-${propsKeranjang.session}`
+                );
+                cekongkirButton.addEventListener("click", () => {
+                    $wire.cekOngkirAction().then((res) => {
+                        let resultOngkir = document.getElementById(
+                            `result-ongkir-${propsKeranjang.user.id}-${propsKeranjang.session}`
+                        );
+                        res.costs.forEach((res) => {
+                            const dataParam = {
+                                service: res.service,
+                                cost: res.cost[0].value,
+                                estimate: res.cost[0].etd,
+                                description: res.description,
+                            };
+                            resultOngkir.innerHTML += `
+                            <button type="button" wire:click="setOngkir('${dataParam.service}', '${dataParam.cost}', '${dataParam.estimate}', '${dataParam.description}')"
+                            class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                            (${dataParam.service}) ${dataParam.description} - Rp. ${dataParam.cost} - ${dataParam.estimate} Hari
+                            </button>
+                        `;
+                        });
+                    });
+                });
+            },
+            onToggle: () => {
+                console.log("modal has been toggled");
+            },
+        };
+
+        const instanceOptions = {
+            id: propsKeranjang.keranjang.idModalCekOngkir,
+            override: true,
+        };
+        const modalBackdropCekOngkir = new Modal(
+            document.getElementById(propsKeranjang.keranjang.idModalCekOngkir),
+            options,
+            instanceOptions
+        );
+
+        const optionsAddress = {
+            placement: "center",
+            backdrop: "static",
+            backdropClasses: "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40",
+            closable: true,
+            onHide: () => {
+                //
+            },
+            onShow: () => {
+                //
+            },
+            onToggle: () => {
+                // console.log("modal has been toggled");
+            },
+        };
+
+        const instanceOptionsAddress = {
+            id: `modal-address-{{ Auth::user()->id }}`,
+            override: true,
+        };
+
+        const modalBackdropAddress = new Modal(
+            document.getElementById(`modal-address-{{ Auth::user()->id }}`),
+            optionsAddress,
+            instanceOptionsAddress);
+        const closeModalAddressButton = document.getElementById(`close-modal-address-{{ Auth::user()->id }}`);
+
+        closeModalAddressButton.addEventListener("click", () => {
+            modalBackdropAddress.hide();
         })
+        Livewire.on("openModalCekongkir", () => {
+            modalBackdropCekOngkir.show();
+        });
+
+        Livewire.on('openModalAddress', () => {
+            modalBackdropAddress.show();
+        })
+
+        Livewire.on("updatedOngkir", () => {
+            modalBackdropCekOngkir.hide();
+            let resultOngkir = document.getElementById(
+                "result-ongkir-{{ Auth::user()->id }}-{{ session()->getId() }}"
+            );
+            let provinsi = document.getElementById(
+                "provinsi-{{ Auth::user()->id }}-{{ session()->getId() }}"
+            );
+            let kabupaten = document.getElementById(
+                "kabupaten-{{ Auth::user()->id }}-{{ session()->getId() }}"
+            );
+            provinsi.innerHTML = "";
+            kabupaten.innerHTML = "";
+            resultOngkir.innerHTML = "";
+        });
     </script>
 @endscript

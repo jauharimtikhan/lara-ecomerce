@@ -1,6 +1,6 @@
 <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 h-screen">
-        <div class="flex items-center justify-center md:max-w-sm sm:max-w-sm">
+        <div class="flex items-center justify-center md:max-w-sm sm:max-w-sm md:mt-8">
             <dotlottie-player src="{{ asset('frontend/icon/lara_logo.json') }}" background="transparent" speed="1"
                 class="mb-28 mx-auto max-w-md absolute translate-x-[-9%]" loop autoplay>
             </dotlottie-player>
@@ -33,7 +33,7 @@
                     <x-frontend-component::button type="submit" bg_color="primary" wire_loading="true"
                         wire_target="login" size="large">Login</x-frontend-component::button>
                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Sudah punya akun? <a href="{{ route('frontend.register') }}"
+                        Belum punya akun? <a href="{{ route('frontend.register') }}"
                             class="font-medium text-primary-600 hover:underline dark:text-primary-500">Daftar</a>
                     </p>
                 </form>

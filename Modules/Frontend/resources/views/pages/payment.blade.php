@@ -6,7 +6,8 @@
             <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
 
 
-                <div id="skeleton-payment" class="max-w-xl w-full flex justify-center">
+                <div id="skeleton-payment" class="max-w-xl w-full flex items-center justify-center">
+
                     <dotlottie-player id="skeleton-lottie" src="{{ asset('frontend/icon/search_icon.json') }}"
                         background="transparent" speed="1" class="justify-center"
                         style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
@@ -19,31 +20,27 @@
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Total Harga</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ 'Rp. ' . number_format($items->pluck('sub_total')->sum(), 2, ',', '.') }}</dd>
+                                    {{ $items->totalHarga() }}</dd>
                             </dl>
 
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Biaya Ongkir</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ 'Rp. ' . number_format($items->pluck('grand_total')->first(), 2, ',', '.') }}
+                                    {{ $items->totalOngkir() }}
                                 </dd>
                             </dl>
 
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Biaya Admin</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ 'Rp. ' . number_format(1000, 2, ',', '.') }}</dd>
+                                    {{ $items->biayaAdmin() }}</dd>
                         </div>
 
                         <dl
                             class="flex items-center justify-between gap-4 border-t border-b border-gray-200 py-2 dark:border-gray-700">
                             <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                            @php
-                                $recap =
-                                    $items->pluck('sub_total')->sum() + $items->pluck('grand_total')->first() + 1000;
-                                $total = 'Rp. ' . number_format($recap, 2, ',', '.');
-                            @endphp
-                            <dd class="text-base font-bold text-gray-900 dark:text-white">{{ $total }}</dd>
+                            <dd class="text-base font-bold text-gray-900 dark:text-white">{{ $items->grandTotal() }}
+                            </dd>
                         </dl>
                         <dl class="flex items-center">
                             <x-filament::button wire:click="payNow" type="button" color="primary" class="w-full">
