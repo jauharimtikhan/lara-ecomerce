@@ -13,10 +13,10 @@ import {
     initModals,
 } from "flowbite";
 document.addEventListener("livewire:navigated", () => {
-
     AOS.init();
-    
-  const pageProps = window.PageProps;
+
+    const pageProps = window.PageProps;
+
     const dismiss = document.getElementById(`alert-${pageProps.session}`);
     Livewire.on("alert", () => {
         dismiss.classList.add("block");
@@ -96,12 +96,10 @@ document.addEventListener("livewire:navigated", () => {
     window.addEventListener("scroll", () => {
         if (window.scrollY >= 0) {
             navbarContainer.classList.add("fixed");
-            navbarContainer.style.transition =
-                "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
+            navbarContainer.style.transition = "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
         } else {
             navbarContainer.classList.remove("fixed");
-            navbarContainer.style.transition =
-                "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
+            navbarContainer.style.transition = "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
         }
     });
 
@@ -112,5 +110,4 @@ document.addEventListener("livewire:navigated", () => {
     // initPopovers();
     // initInputCounters();
     // initModals();
-
 });
