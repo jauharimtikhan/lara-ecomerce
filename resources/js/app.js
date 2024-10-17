@@ -13,7 +13,15 @@ import {
     initModals,
 } from "flowbite";
 document.addEventListener("livewire:navigated", () => {
-    const pageProps = window.PageProps;
+
+    AOS.init();
+    const dismiss = document.querySelector('#toast-default');
+    Livewire.on('alert', () => {
+        setTimeout(() => {
+            dismiss.classList.add('hidden');
+        }, 3000);
+    })
+  const pageProps = window.PageProps;
     const dismiss = document.getElementById(`alert-${pageProps.session}`);
     Livewire.on("alert", () => {
         dismiss.classList.add("block");
@@ -21,7 +29,6 @@ document.addEventListener("livewire:navigated", () => {
             dismiss.classList.add("hidden");
         }, 3000);
     });
-
     var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
     var themeToggleLightIcon = document.getElementById(
         "theme-toggle-light-icon"
@@ -89,6 +96,19 @@ document.addEventListener("livewire:navigated", () => {
             backToTopButton.classList.add("hidden");
         }
     };
+    const navbarContainer = document.getElementById("navbarContainer");
+    navbarContainer.classList.add("fixed");
+    window.addEventListener("scroll", () => {
+        if (window.scrollY >= 0) {
+            navbarContainer.classList.add("fixed");
+            navbarContainer.style.transition =
+                "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
+        } else {
+            navbarContainer.classList.remove("fixed");
+            navbarContainer.style.transition =
+                "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
+        }
+    });
 
     // initDatepickers();
     // initCarousels();
@@ -97,4 +117,5 @@ document.addEventListener("livewire:navigated", () => {
     // initPopovers();
     // initInputCounters();
     // initModals();
+
 });

@@ -1,4 +1,5 @@
-<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore.self>
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore.self data-aos="fade-up"
+    data-aos-duration="3000">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <div class="mx-auto max-w-5xl">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Pembayaran</h2>
@@ -9,8 +10,9 @@
                 <div id="skeleton-payment" class="max-w-xl w-full flex items-center justify-center">
 
                     <dotlottie-player id="skeleton-lottie" src="{{ asset('frontend/icon/search_icon.json') }}"
+
                         background="transparent" speed="1" class="justify-center"
-                        style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+                        style="width: 300px; height: 300px;" loop autoplay></dotlottie-player> --}}
                 </div>
 
                 <div class="mt-6 grow sm:mt-8 lg:mt-0">
