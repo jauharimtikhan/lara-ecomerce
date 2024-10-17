@@ -4,7 +4,7 @@
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Keranjang Belanja</h2>
 
         <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl ">
                 <div class="space-y-6">
                     @if ($items->count() > 0)
 
