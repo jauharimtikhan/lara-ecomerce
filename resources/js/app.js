@@ -16,7 +16,6 @@ document.addEventListener("livewire:navigated", () => {
     AOS.init();
 
     const pageProps = window.PageProps;
-
     const dismiss = document.getElementById(`alert-${pageProps.session}`);
     Livewire.on("alert", () => {
         dismiss.classList.add("block");
@@ -101,8 +100,7 @@ document.addEventListener("livewire:navigated", () => {
         } else {
             navbarContainer.classList.remove("fixed");
             navbarContainer.style.transition = "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
-            navbarContainer.style.transition = "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
-            navbarContainer.style.transition = "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
+
         }
     });
 
