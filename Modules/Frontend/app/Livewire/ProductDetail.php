@@ -39,10 +39,11 @@ class ProductDetail extends AbstractFrontendClass
                 'sub_total' => $this->product->sum('price'),
                 'grand_total' => $this->product->sum('price'),
                 'weight' => $this->product->weight,
-
             ]);
-            $this->dispatch('cartAdded');
             $this->callAlert('success', 'Berhasil Menambahkan ke Keranjang!');
+            $this->redirect(route('frontend.productdetail', [
+                'id' => $this->product->id
+            ]));
         } catch (\Exception $th) {
             $this->callAlert('danger', 'Gagal Menambahkan ke Keranjang!');
         }

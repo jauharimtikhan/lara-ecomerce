@@ -5,13 +5,13 @@
     <div class="flex items-center justify-center">
         @switch($status)
             @case('pending')
-                {{-- <dotlottie-player src="https://lottie.host/2bdeab54-0b3d-4faa-a549-2af78411bb3b/FHMs5NT9DW.json"
-                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></dotlottie-player> --}}
+                <dotlottie-player src="https://lottie.host/2bdeab54-0b3d-4faa-a549-2af78411bb3b/FHMs5NT9DW.json"
+                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></dotlottie-player>
             @break
 
             @case('settlement')
-                {{-- <dotlottie-player src="https://lottie.host/c646d496-47b5-4a0d-95eb-78fb56aa955a/tN4JLfEGIZ.json"
-                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></dotlottie-player> --}}
+                <dotlottie-player src="https://lottie.host/c646d496-47b5-4a0d-95eb-78fb56aa955a/tN4JLfEGIZ.json"
+                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></dotlottie-player>
             @break
 
             @case('error')
@@ -19,9 +19,9 @@
             @break
 
             @default
-                {{-- <dotlottie-player src="https://lottie.host/2bdeab54-0b3d-4faa-a549-2af78411bb3b/FHMs5NT9DW.json"
+                <dotlottie-player src="https://lottie.host/2bdeab54-0b3d-4faa-a549-2af78411bb3b/FHMs5NT9DW.json"
                     background="transparent" speed="1" style="width: 200px; height: 200px;" loop
-                    autoplay></dotlottie-player> --}}
+                    autoplay></dotlottie-player>
         @endswitch
     </div>
 

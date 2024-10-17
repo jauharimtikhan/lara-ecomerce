@@ -21,7 +21,7 @@
                                     $url = urlencode($it->name);
                                 @endphp
                                 @if ($it->subcategory->count() > 0)
-                                    <li>
+                                    <li wire:key="{{ $it->id }}" wire:ignore.self>
                                         <button id="mega-menu-dropdown-button-{{ $it->id }}"
                                             data-dropdown-toggle="mega-menu-icons-dropdown-{{ $it->id }}"
                                             class="flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
@@ -39,8 +39,7 @@
                                                     aria-labelledby="mega-menu-icons-dropdown-button-{{ $it->id }}">
                                                     @foreach ($it->subcategory as $subcategory)
                                                         <li>
-                                                            <a wire:navigate wire:key="{{ $subcategory->id }}"
-                                                                href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
+                                                            <a href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
                                                                 class="flex items-center text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500 group">
                                                                 <span class="sr-only">{{ $subcategory->name }}</span>
 
@@ -91,7 +90,7 @@
 
 
 
-                <button id="theme-toggle" type="button" wire:ignore
+                <button id="theme-toggle" type="button" wire:ignore.self
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -314,3 +313,20 @@
         </div>
     </div>
 </nav>
+@script
+    <script>
+        const navbarContainer = document.getElementById("navbarContainer");
+        navbarContainer.classList.add("fixed");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY >= 0) {
+                navbarContainer.classList.add("fixed");
+                navbarContainer.style.transition =
+                    "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
+            } else {
+                navbarContainer.classList.remove("fixed");
+                navbarContainer.style.transition =
+                    "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
+            }
+        });
+    </script>
+@endscript

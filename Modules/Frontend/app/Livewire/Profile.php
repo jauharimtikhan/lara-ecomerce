@@ -17,3 +17,4 @@ class Profile extends AbstractFrontendClass
         return view('frontend::pages.profile');
     }
 }
+

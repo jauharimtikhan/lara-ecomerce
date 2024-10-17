@@ -3,6 +3,7 @@
 namespace Modules\Frontend\Helpers;
 
 use Filament\Notifications\Notification;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -10,6 +11,7 @@ use Livewire\Component;
 abstract class AbstractFrontendClass extends Component
 {
 
+    #[Computed(true)]
     public function callAlert($type, $message)
     {
         $this->dispatch('alert', ['type' => $type, 'message' => $message]);
