@@ -3,11 +3,14 @@
 namespace Modules\Frontend\App\Livewire;
 
 use App\Models\Cart;
+use App\Models\City;
 use App\Models\Orders;
+use App\Models\Provinsi;
 use App\Models\Transaction;
 use App\Models\UserDetail;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
 use Ramsey\Uuid\Uuid;
@@ -65,27 +68,37 @@ class Keranjang extends AbstractFrontendClass
 
     public function loadCities()
     {
-        $response = $this->requestApi(['endpoint' => 'city?province=' . $this->dataOngkir['provinsi']]);
-        $cities = collect($response['rajaongkir']['results']);
-        $results = [];
-        foreach ($cities as $value) {
-            $results[] = [
-                'city_id' => $value['city_id'],
-                'city_name' => $value['type'] . ' ' . $value['city_name'],
-                'postal_code' => $value['postal_code'],
-            ];
-            $this->dataAlamat['kabupaten'] = $value['type'] . ' ' . $value['city_name'];
-        }
-        return collect($results);
+        $provinceId = $this->dataOngkir['provinsi'];
+        $cacheKey = config('app.key') . "_cities_{$provinceId}";
+        $ttl = now()->addMinutes(60);
+
+        $response = Cache::remember($cacheKey, $ttl, function () use ($provinceId) {
+            return City::where('province_id', $provinceId)
+                ->select('city_id', 'city_name', 'postal_code', 'type')
+                ->get()
+                ->map(function ($city) {
+                    return [
+                        'city_id' => $city->city_id,
+                        'city_name' => "{$city->type} {$city->city_name}",
+                        'postal_code' => $city->postal_code,
+                    ];
+                })
+                ->toArray();
+        });
+
+        return collect($response);
     }
 
 
     public function loadProvincies()
     {
-        $response = $this->requestApi(['endpoint' => 'province']);
-        $this->provinces = collect($response['rajaongkir']['results']);
+        $cacheKey = config('app.key');
+        $ttl = now()->addMinutes(60);
 
-        return collect($response['rajaongkir']['results']);
+        $apiDataProvinces = Cache::remember("province_{$cacheKey}", $ttl, function () {
+            return Provinsi::select('province_id', 'province')->get()->toArray(); // Ambil semua data provinsi
+        });
+        return collect($apiDataProvinces);
     }
 
     public function changeQuantity($id, $type)
@@ -176,13 +189,13 @@ class Keranjang extends AbstractFrontendClass
 
     public function setOngkir($service, $cost, $estimate, $description)
     {
+        $this->dispatch('updatedOngkir');
+        $this->callAlert('success', 'Berhasil memilih ongkir');
         $this->totalOngkir = $cost;
         $this->dataOngkir['service'] = $service;
         $this->dataOngkir['cost'] = $cost;
         $this->dataOngkir['estimate'] = $estimate;
         $this->dataOngkir['description'] = $description;
-        $this->dispatch('updatedOngkir');
-        $this->callAlert('success', 'Berhasil memilih ongkir');
     }
 
     public function checkout()
@@ -254,6 +267,7 @@ class Keranjang extends AbstractFrontendClass
             'items' => $this->items,
             'cart' => $cart,
             'originalPriceFormated' => $originalPriceFormated,
+            'totalOngkir' => $this->totalOngkir
         ]);
     }
 

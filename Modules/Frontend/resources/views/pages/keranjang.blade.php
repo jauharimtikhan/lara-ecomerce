@@ -1,5 +1,5 @@
-<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore>
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0" data-aos="fade-up" data-aos-duration="3000">
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" wire:ignore.self>
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0" data-aos="fade-up" wire:ignore.self data-aos-duration="3000">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Keranjang Belanja</h2>
 
         <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
@@ -71,8 +71,7 @@
 
 
                                         <div class="text-end md:order-4 md:w-32 flex items-center justify-end">
-                                            <p wire:ignore.self
-                                                class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
+                                            <p class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
                                                 {{ $item->formatRupiah('sub_total') }}</p>
                                         </div>
                                     </div>
@@ -158,48 +157,36 @@
                             </dl>
                             <dl class="grid grid-cols-2 items-center justify-between gap-2">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Ongkir</dt>
-                                <dd wire:ignore.self
-                                    class="text-base font-medium text-gray-900 dark:text-white col-span-1 text-right">
+                                <dd class="text-base font-medium text-gray-900 dark:text-white col-span-1 text-right">
                                     {{ 'Rp. ' . number_format($totalOngkir, 2, ',', '.') }}
                                 </dd>
-                                <dt role="button" wire:click="cekOngkir"
-                                    class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400 hover:underline hover:cursor-pointer">
-                                    @svg('bx-loader-alt', [
-                                        'class' => 'me-1.5 h-5 w-5 animate-spin',
-                                        'wire:loading' => true,
-                                        'wire:target' => 'cekOngkir',
-                                    ])
-                                    <span wire:loading.remove wire:target="cekOngkir">
-                                        Cek Ongkir
-                                    </span>
-                                </dt>
+                                @if ($this->address != null)
+                                    <dt role="button" wire:click="cekOngkir"
+                                        class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400 hover:underline hover:cursor-pointer">
+                                        @svg('bx-loader-alt', [
+                                            'class' => 'me-1.5 h-5 w-5 animate-spin',
+                                            'wire:loading' => true,
+                                            'wire:target' => 'cekOngkir',
+                                        ])
+                                        <span wire:loading.remove wire:target="cekOngkir">
+                                            Cek Ongkir
+                                        </span>
+                                    </dt>
+                                @else
+                                    <dt role="button" wire:click="openModalAddress"
+                                        class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400 hover:underline hover:cursor-pointer">
+                                        @svg('bx-loader-alt', [
+                                            'class' => 'me-1.5 h-5 w-5 animate-spin',
+                                            'wire:loading' => true,
+                                            'wire:target' => 'openModalAddress',
+                                        ])
+                                        <span wire:loading.remove wire:target="openModalAddress">
+                                            Alamat Pengiriman
+                                        </span>
+                                    </dt>
+                                @endif
                             </dl>
                         </div>
-                        @if ($address != null)
-                            <div class="space-y-2  border-t border-gray-200 pt-2 dark:border-gray-700">
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">
-                                        Alamat Pengiriman
-                                    </dt>
-                                </dl>
-                                <dl class="flex items-center justify-between gap-4">
-                                    <p></p>
-                                </dl>
-                            </div>
-                        @else
-                            <div class="space-y-2  border-t border-gray-200 pt-2 dark:border-gray-700">
-                                <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">
-                                        Alamat Pengiriman
-                                    </dt>
-                                </dl>
-                                <dl class="flex items-center justify-center">
-                                    <x-filament::button type="button" wire:click="openModalAddress"
-                                        color="primary">Masukan Alamat
-                                        Pengiriman</x-filament::button>
-                                </dl>
-                            </div>
-                        @endif
                         @php
                             $total = '';
                             if ($totalOngkir > 0) {
