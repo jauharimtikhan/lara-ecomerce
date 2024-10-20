@@ -20,26 +20,26 @@
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Total Harga</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ $items->totalHarga() }}</dd>
+                                    {{ $items?->totalHarga() }}</dd>
                             </dl>
 
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Biaya Ongkir</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ $items->totalOngkir() }}
+                                    {{ $items?->totalOngkir() }}
                                 </dd>
                             </dl>
 
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Biaya Admin</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ $items->biayaAdmin() }}</dd>
+                                    {{ $items?->biayaAdmin() }}</dd>
                         </div>
 
                         <dl
                             class="flex items-center justify-between gap-4 border-t border-b border-gray-200 py-2 dark:border-gray-700">
                             <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                            <dd class="text-base font-bold text-gray-900 dark:text-white">{{ $items->grandTotal() }}
+                            <dd class="text-base font-bold text-gray-900 dark:text-white">{{ $items?->grandTotal() }}
                             </dd>
                         </dl>
                         <dl class="flex items-center">
@@ -67,17 +67,19 @@
 @script
     <script>
         const modalPaymentId = `openModalPayment-{{ Auth::user()->id }}-{{ session()->getId() }}`;
+        let showEmbed = false;
         Livewire.on(modalPaymentId, () => {
             $wire.requestSnapToken().then((res) => {
                 const skeletonPayment = document.getElementById('skeleton-lottie');
                 const skeletonPaymentContainer = document.getElementById('skeleton-payment');
                 skeletonPayment.remove();
                 skeletonPaymentContainer.classList.add('rounded-lg');
-
+                showEmbed = true;
                 window.snap.embed(res, {
                     embedId: 'skeleton-payment',
                     onSuccess: function(result) {
                         console.log('success', result);
+                        $wire.navigatedToRoute(result.transaction_id);
                     },
                     onPending: function(result) {
                         console.log('pending', result);
@@ -94,5 +96,13 @@
 
 
         })
+        window.addEventListener("beforeunload", function(e) {
+            if (showEmbed) {
+                // Menampilkan pesan peringatan untuk mencegah refresh
+                e.preventDefault();
+
+                e.returnValue = 'Silahkan klik tombol "Tutup"'; // Pesan default akan ditampilkan di browser
+            }
+        });
     </script>
 @endscript
