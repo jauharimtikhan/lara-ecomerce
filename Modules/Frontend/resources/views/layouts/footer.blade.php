@@ -10,31 +10,29 @@
      <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
          <div class="border-b border-gray-100 py-6 dark:border-gray-700 md:py-8 lg:py-16">
              <div class="items-start gap-6 md:gap-8 lg:flex 2xl:gap-24">
-                 <div class="grid min-w-0 flex-1 grid-cols-2 gap-6 md:gap-8 xl:grid-cols-3">
-                     <div class="col-span-2 xl:col-span-3 space-y-5 dark:text-gray-200">
-                         <p class="text-lg">Lara Ecomerce</p>
+                 <div class="max-w-xl space-y-5 dark:text-gray-200">
+                     <p class="text-lg">Lara Ecomerce</p>
 
-                         <p>Lara Ecomerce - Jual Beli Fasion Online</p>
+                     <p>Lara Ecomerce - Jual Beli Fasion Online</p>
 
-                         <p>Lara Ecomerce merupakan brand penyedia perlengkapan Fasion kalian asal Indonesia
-                             yang memenuhi berbagai kebutuhan perlengkapan dan perlengkapan gaya hidup para pecinta
-                             Fasion.
-                             Didirikan pada tahun 2024, Lara Ecomerce menawarkan banyak pilahan Fasion terkini untuk
-                             memenuhi
-                             kebutuhan fasionable kalian, mulai dari pakaian pria, wanita, sampai anak-anak. </p>
+                     <p>Lara Ecomerce merupakan brand penyedia perlengkapan Fasion kalian asal Indonesia
+                         yang memenuhi berbagai kebutuhan perlengkapan dan perlengkapan gaya hidup para pecinta
+                         Fasion.
+                         Didirikan pada tahun 2024, Lara Ecomerce menawarkan banyak pilahan Fasion terkini untuk
+                         memenuhi
+                         kebutuhan fasionable kalian, mulai dari pakaian pria, wanita, sampai anak-anak. </p>
 
-                         </p>
+                     </p>
 
-                         <p>Pusat Produk Gratis Ongkir di Indonesia
-                             Nikmati Gratis Ongkir hanya di lara Ecomerce! Belanja sesuka hatimu tanpa harus khawatir
-                             akan
-                             biaya pengiriman! Sebagai penjual, kamu akan mendapatkan subsidi ongkir atas seluruh
-                             penjualanmu.</p>
+                     <p>Pusat Produk Gratis Ongkir di Indonesia
+                         Nikmati Gratis Ongkir hanya di lara Ecomerce! Belanja sesuka hatimu tanpa harus khawatir
+                         akan
+                         biaya pengiriman! Sebagai penjual, kamu akan mendapatkan subsidi ongkir atas seluruh
+                         penjualanmu.</p>
 
-                         </p>Belanja online gratis ongkir di Lara Ecomerce memang asik!</p>
-                     </div>
+                     </p>Belanja online gratis ongkir di Lara Ecomerce memang asik!</p>
                  </div>
-
+                 {{-- 
                  <div class="mt-6 w-full md:mt-8 lg:mt-0 lg:max-w-lg">
                      <div class="space-y-5 rounded-lg bg-gray-50 p-6 dark:bg-gray-700">
                          <a href="#"
@@ -150,7 +148,7 @@
                              </a>
                          </div>
                      </div>
-                 </div>
+                 </div> --}}
              </div>
          </div>
 

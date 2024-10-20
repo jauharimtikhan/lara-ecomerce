@@ -38,6 +38,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-archive-box';
     protected static ?string $navigationLabel = 'Produk';
+    protected static ?string $navigationGroup = "Inventory";
 
     public static function form(Form $form): Form
     {
@@ -100,7 +101,7 @@ class ProductResource extends Resource
                                             'category_id' => $category->id
                                         ]);
                                     })
-                                    ->disabled(fn($get) => empty($get('category_id')))
+                                    ->disabled(fn($get) => empty ($get('category_id')))
                                     ->live()
                                     ->native(false),
                                 TextInput::make('stock')
@@ -154,7 +155,7 @@ class ProductResource extends Resource
                                 $image->save("storage/{$path}")->toWebp(quality: 10);
                                 return $path;
                             })
-                            ->deleteUploadedFileUsing(function ($file,  $record) {
+                            ->deleteUploadedFileUsing(function ($file, $record) {
                                 if ($record && $record->thumbnail) {
                                     // Menghapus file dari penyimpanan
                                     Storage::disk('public')->delete($record->thumbnail);
@@ -167,7 +168,7 @@ class ProductResource extends Resource
                             ->imageEditor()
                             ->disk('public')
                             ->directory('product')
-                            ->saveUploadedFileUsing(function (Component $component,  $file) {
+                            ->saveUploadedFileUsing(function (Component $component, $file) {
                                 $manager = ImageManager::gd();
                                 $image = $manager->read($file);
                                 $path = "product/product_galleries/" . Str::random(40) . ".webp";
@@ -230,7 +231,8 @@ class ProductResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->label('Edit'),
                 Tables\Actions\DeleteAction::make()
-                    ->label('Hapus'),
+                    ->label('Hapus')
+                    ->modalHeading('Hapus Produk'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
