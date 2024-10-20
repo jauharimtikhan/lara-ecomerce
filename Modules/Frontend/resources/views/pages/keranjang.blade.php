@@ -85,12 +85,6 @@
 
                                         <div class="flex items-center gap-4">
                                             <button type="button"
-                                                class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
-                                                @svg('bxs-message-detail', 'me-1.5 h-5 w-5')
-                                                Pesan Kepenjual
-                                            </button>
-
-                                            <button type="button"
                                                 wire:confirm="Apakah Anda Yakin Ingin Menghapus Item Ini?"
                                                 wire:click="removeItem('{{ $item->id }}')"
                                                 class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
@@ -161,17 +155,47 @@
                                     {{ 'Rp. ' . number_format($totalOngkir, 2, ',', '.') }}
                                 </dd>
                                 @if ($this->address != null)
-                                    <dt role="button" wire:click="cekOngkir"
-                                        class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400 hover:underline hover:cursor-pointer">
-                                        @svg('bx-loader-alt', [
-                                            'class' => 'me-1.5 h-5 w-5 animate-spin',
-                                            'wire:loading' => true,
-                                            'wire:target' => 'cekOngkir',
-                                        ])
-                                        <span wire:loading.remove wire:target="cekOngkir">
-                                            Cek Ongkir
-                                        </span>
-                                    </dt>
+                                    @isset($resultOngkirWhenUserDetailIsNotNull)
+                                        <dt
+                                            class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400">
+                                            <div
+                                                class="w-full rounded-lg text-sm font-medium text-gray-900 bg-white flex flex-col flex-1 px-3 py-1 gap-y-2 border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                                @foreach ($resultOngkirWhenUserDetailIsNotNull as $cost)
+                                                    <button
+                                                        wire:click="setOngkir('{{ $cost['service'] }}', '{{ $cost['cost'][0]['value'] }}', '{{ $cost['cost'][0]['etd'] }}', '{{ $cost['description'] }}')"
+                                                        type="button"
+                                                        class="w-full px-4 py-2 hover:bg-primary-600  font-medium flex items-center flex-wrap rounded-lg  text-truncate text-white bg-primary-700 border-b border-gray-200 cursor-pointer focus:outline-none dark:bg-gray-800 dark:border-gray-600">
+                                                        @svg('bx-loader-alt', [
+                                                            'class' => 'text-white h-5 w-5 animate-spin',
+                                                            'wire:loading' => true,
+                                                            'wire:target' => "setOngkir('{$cost['service']}', '{$cost['cost'][0]['value']}', '{$cost['cost'][0]['etd']}', '{$cost['description']}')",
+                                                        ])
+                                                        <span class="dark:text-white font-medium" wire:loading.remove
+                                                            wire:target="setOngkir('{{ $cost['service'] }}', '{{ $cost['cost'][0]['value'] }}', '{{ $cost['cost'][0]['etd'] }}', '{{ $cost['description'] }}')">
+                                                            ({{ $cost['service'] }})
+                                                            {{ $cost['description'] }} -
+                                                            {{ 'Rp. ' . number_format($cost['cost'][0]['value'], 2, ',', '.') }}
+                                                        </span>
+                                                        <span class="dark:text-white" wire:loading.remove
+                                                            wire:target="setOngkir('{{ $cost['service'] }}', '{{ $cost['cost'][0]['value'] }}', '{{ $cost['cost'][0]['etd'] }}', '{{ $cost['description'] }}')">
+                                                            Estimasi {{ $cost['cost'][0]['etd'] }} Hari
+                                                        </span>
+                                                    </button>
+                                                @endforeach
+                                            </div>
+                                        </dt>
+                                        <dt role="button" wire:click="openModalAddress"
+                                            class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400 hover:underline hover:cursor-pointer">
+                                            @svg('bx-loader-alt', [
+                                                'class' => 'me-1.5 h-5 w-5 animate-spin',
+                                                'wire:loading' => true,
+                                                'wire:target' => 'openModalAddress',
+                                            ])
+                                            <span wire:loading.remove wire:target="openModalAddress">
+                                                Ubah Alamat Pengiriman
+                                            </span>
+                                        </dt>
+                                    @endisset
                                 @else
                                     <dt role="button" wire:click="openModalAddress"
                                         class="text-right col-span-2 text-base font-normal text-primary-500 dark:text-primary-400 hover:underline hover:cursor-pointer">
@@ -185,6 +209,40 @@
                                         </span>
                                     </dt>
                                 @endif
+                                <dd>
+                                <dt role="button" data-dropdown-offset-skidding="30"
+                                    data-dropdown-toggle="notes-seller-dropdown-{{ Auth::user()->id }}-{{ session()->getId() }}"
+                                    class="text-right col-span-2 text-base font-normal text-gray-500 dark:text-gray-400 hover:underline hover:cursor-pointer">
+                                    <div class="flex items-center justify-end">
+
+                                        @svg('bxs-message-detail', [
+                                            'class' => 'me-1.5 h-5 w-5',
+                                        ])
+                                        <span class="dark:text-white">
+                                            Pesan Kepenjual
+                                        </span>
+                                    </div>
+                                </dt>
+                                <div wire:ignore.self
+                                    id="notes-seller-dropdown-{{ Auth::user()->id }}-{{ session()->getId() }}"
+                                    class="z-10 w-80 px-4 py-6 bg-gray-50 hidden divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700">
+                                    <ul class="py-2 text-sm text-white" aria-labelledby="dropdownDefaultButton">
+                                        <li class="flex flex-col items-center w-full gap-4">
+                                            <textarea wire:model.defer="notes" rows="8"
+                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                placeholder="Tulis catatan..."></textarea>
+
+                                            <x-filament::button wire:click="setNotes"
+                                                class="flex flex-wrap items-center justify-center w-full">
+
+
+                                                <span class="dark:text-white " wire:loading.remove
+                                                    wire:target="setNotes">Kirim</span>
+                                            </x-filament::button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                </dd>
                             </dl>
                         </div>
                         @php
@@ -340,6 +398,7 @@
         Object.assign(window.PageProps, {
             keranjang: {
                 idModalCekOngkir: modalCekOngkir,
+                userDetail: @json($address)
             },
 
         });
@@ -373,31 +432,51 @@
                 );
                 $wire.loadProvincies().then((res) => {
                     res.forEach((prov) => {
+                        let selected = '';
+                        if (prov.province_id == propsKeranjang.keranjang.userDetail.provinsi) {
+                            selected = 'selected';
+                        } else {
+                            selected = '';
+                        }
                         provinsi.innerHTML +=
-                            `<option value="${prov.province_id}" data-name="${prov.province}">${prov.province}</option>`;
-                        provinsi.addEventListener("change", (e) => {
-                            let selectedOption =
-                                e.target.options[e.target.selectedIndex];
-                            let provinceName = selectedOption.dataset.name;
+                            `<option ${selected} value="${prov.province_id}" data-name="${prov.province}">${prov.province}</option>`;
+                        if (propsKeranjang.keranjang.userDetail.provinsi == null) {
+                            provinsi.addEventListener("change", (e) => {
 
-                            $wire.dataAlamat.provinsi = provinceName;
-                        });
-                    });
-                    provinsi.addEventListener("change", (e) => {
-                        $wire.loadCities().then((res) => {
-                            res.forEach((prov) => {
-                                kabupaten.innerHTML +=
-                                    `<option value="${prov.city_id}">${prov.city_name}</option>`;
+                                let selectedOption =
+                                    e.target.options[e.target.selectedIndex];
+                                let provinceName = selectedOption.dataset.name;
+
+                                $wire.dataAlamat.provinsi = provinceName;
+
+                                $wire.loadCities(propsKeranjang.keranjang.userDetail
+                                        .provinsi)
+                                    .then((res) => {
+                                        res.forEach((prov) => {
+                                            let selected = '';
+                                            if (prov.city_id == propsKeranjang
+                                                .keranjang
+                                                .userDetail.kabupaten) {
+                                                selected = 'selected';
+                                            } else {
+                                                selected = '';
+                                            }
+                                            kabupaten.innerHTML +=
+                                                `<option ${selected} value="${prov.city_id}">${prov.city_name}</option>`;
+                                        });
+                                    });
                             });
-                        });
+                        }
                     });
+
+
                 });
 
                 const cekongkirButton = document.getElementById(
                     `cekongkirButton-${propsKeranjang.user.id}-${propsKeranjang.session}`
                 );
                 cekongkirButton.addEventListener("click", () => {
-                    $wire.cekOngkirAction().then((res) => {
+                    $wire.cekOngkirAction(propsKeranjang.keranjang.userDetail.kabupaten).then((res) => {
                         let resultOngkir = document.getElementById(
                             `result-ongkir-${propsKeranjang.user.id}-${propsKeranjang.session}`
                         );
@@ -439,7 +518,7 @@
             backdropClasses: "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40",
             closable: true,
             onHide: () => {
-                //
+                window.location.reload();
             },
             onShow: () => {
                 //
@@ -458,11 +537,13 @@
             document.getElementById(`modal-address-{{ Auth::user()->id }}`),
             optionsAddress,
             instanceOptionsAddress);
+
         const closeModalAddressButton = document.getElementById(`close-modal-address-{{ Auth::user()->id }}`);
 
         closeModalAddressButton.addEventListener("click", () => {
             modalBackdropAddress.hide();
-        })
+        });
+
         Livewire.on("openModalCekongkir", () => {
             modalBackdropCekOngkir.show();
         });
@@ -486,5 +567,13 @@
             kabupaten.innerHTML = "";
             resultOngkir.innerHTML = "";
         });
+
+        Livewire.on('redirectOnPaymentIsNotNull', (e) => {
+            ;
+
+            setTimeout(() => {
+                window.location.replace(e[0].url);
+            }, e[0].delay);
+        })
     </script>
 @endscript

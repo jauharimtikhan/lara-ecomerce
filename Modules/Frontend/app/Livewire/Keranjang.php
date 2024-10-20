@@ -9,6 +9,7 @@ use App\Models\Provinsi;
 use App\Models\Transaction;
 use App\Models\UserDetail;
 use GuzzleHttp\Client;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
@@ -41,8 +42,12 @@ class Keranjang extends AbstractFrontendClass
 
     public $resultOngkir;
 
+    public $resultOngkirWhenUserDetailIsNotNull;
+
     protected $provinces;
     protected $cities;
+
+    public $notes = null;
 
 
 
@@ -52,6 +57,12 @@ class Keranjang extends AbstractFrontendClass
         $this->address = $this->getUserAddress();
         $this->modalId = Auth::user()->id;
         $this->items = Cart::with('product')->where('user_id', Auth::user()->id)->with('user')->get();
+        if ($this->address !== null) {
+            $response = $this->cekOngkirAction($this->address->kabupaten);
+            $this->resultOngkirWhenUserDetailIsNotNull = Cache::remember("ongkir_{$this->address->kabupaten}", now()->addMinutes(60), function () use ($response) {
+                return $response['costs'];
+            });
+        }
     }
 
     protected function getUseraddress()
@@ -66,9 +77,9 @@ class Keranjang extends AbstractFrontendClass
     }
 
 
-    public function loadCities()
+    public function loadCities($id =  null)
     {
-        $provinceId = $this->dataOngkir['provinsi'];
+        $provinceId = $id ?? $this->dataOngkir['provinsi'];
         $cacheKey = config('app.key') . "_cities_{$provinceId}";
         $ttl = now()->addMinutes(60);
 
@@ -92,6 +103,7 @@ class Keranjang extends AbstractFrontendClass
 
     public function loadProvincies()
     {
+
         $cacheKey = config('app.key');
         $ttl = now()->addMinutes(60);
 
@@ -155,11 +167,11 @@ class Keranjang extends AbstractFrontendClass
         }
     }
 
-    public function cekOngkirAction()
+    public function cekOngkirAction($id = null): Collection
     {
         $origin = config('services.rajaongkir.origin');
         $courier = config('services.rajaongkir.courier');
-        $destination = $this->dataOngkir['kabupaten'];
+        $destination = $id ?? $this->dataOngkir['kabupaten'];
         $weight = $this->items->sum('weight');
 
         $response = $this->requestApi([
@@ -190,7 +202,7 @@ class Keranjang extends AbstractFrontendClass
     public function setOngkir($service, $cost, $estimate, $description)
     {
         $this->dispatch('updatedOngkir');
-        $this->callAlert('success', 'Berhasil memilih ongkir');
+        $this->callAlert('success', 'Berhasil memilih jasa pengiriman!');
         $this->totalOngkir = $cost;
         $this->dataOngkir['service'] = $service;
         $this->dataOngkir['cost'] = $cost;
@@ -200,50 +212,70 @@ class Keranjang extends AbstractFrontendClass
 
     public function checkout()
     {
+
         if ($this->totalOngkir == 0) {
-            $this->callAlert('danger', 'Mohon pilih layanan pengiriman terlebih dahulu!');
+            $this->callAlert('danger', 'Silahkan pilih jasa pengiriman terlebih dahulu!');
         } else {
             try {
                 $products = [];
                 $total = 0;
-                foreach ($this->items as $item) {
-                    Orders::create([
-                        'id' => Uuid::uuid4()->toString(),
+
+                $orders = Orders::where('user_id', Auth::user()->id)
+                    ->where('status', 'pending')
+                    ->first();
+
+                if ($orders == null) {
+                    foreach ($this->items as $item) {
+                        Orders::create([
+                            'id' => Uuid::uuid4()->toString(),
+                            'user_id' => Auth::user()->id,
+                            'grand_total' => $this->totalOngkir,
+                            'weight' => $this->items->sum('weight'),
+                            'status' => 'pending',
+                            'address' => $this->address->alamat_lengkap,
+                            'product_id' => $item->product->id,
+                            'sub_total' => $item->product->price * $item->quantity,
+                            'quantity' => $item->quantity,
+                            'notes' => $this->notes
+                        ]);
+                        $total += $item->grand_total * $item->quantity + $this->totalOngkir;
+
+
+                        $products[] = collect([
+                            'id' => $item->product->id,
+                            'name' => $item->product->name,
+                            'price' => $item->product->price,
+                            'quantity' => $item->quantity,
+                            'weight' => $item->product->weight,
+                        ])->toArray();
+                    }
+
+                    Transaction::create([
                         'user_id' => Auth::user()->id,
-                        'grand_total' => $this->totalOngkir,
+                        'products' => $products,
+                        'quantity' => $this->items->sum('quantity'),
                         'weight' => $this->items->sum('weight'),
                         'status' => 'pending',
-                        'address' => $this->dataAlamat['provinsi'] . ' ' . $this->dataAlamat['kabupaten'],
-                        'product_id' => $item->product->id,
-                        'sub_total' => $item->product->price * $item->quantity,
-                        'quantity' => $item->quantity
+                        'total_price' => $total,
+                        'ongkir' => $this->totalOngkir
                     ]);
-                    $total += $item->grand_total * $item->quantity + $this->totalOngkir;
 
-
-                    $products[] = collect([
-                        'id' => $item->product->id,
-                        'name' => $item->product->name,
-                        'price' => $item->product->price,
-                        'quantity' => $item->quantity,
-                        'weight' => $item->product->weight,
-                    ])->toArray();
+                    Cart::where('user_id', Auth::user()->id)
+                        ->delete();
+                    $this->redirect(route('frontend.payment', ['user_id' => Auth::user()->id]), true);
+                } else {
+                    $this->callAlert('danger', 'Anda masih memiliki tagihan yang belum dibayar!');
+                    $transaction_id = Transaction::where('user_id', Auth::user()->id)
+                        ->orWhere('status', 'pending')
+                        ->first()->transaction_id;
+                    $this->dispatch('redirectOnPaymentIsNotNull', [
+                        'url' => route('frontend.detailpembayaran', [
+                            'user_id' => Auth::user()->id,
+                            'order_id' => $transaction_id
+                        ]),
+                        'delay' => 4000
+                    ]);
                 }
-
-                Transaction::create([
-                    'user_id' => Auth::user()->id,
-                    'products' => $products,
-                    'quantity' => $this->items->sum('quantity'),
-                    'weight' => $this->items->sum('weight'),
-                    'status' => 'pending',
-                    'total_price' => $total,
-                    'ongkir' => $this->totalOngkir
-                ]);
-
-                Cart::where('user_id', Auth::user()->id)
-                    ->delete();
-
-                $this->redirect(route('frontend.payment', ['user_id' => Auth::user()->id]), true);
             } catch (\Exception $th) {
                 dd($th->getMessage());
                 $this->callAlert('danger', 'Ups terjadi kesalahan!');
@@ -267,12 +299,23 @@ class Keranjang extends AbstractFrontendClass
             'items' => $this->items,
             'cart' => $cart,
             'originalPriceFormated' => $originalPriceFormated,
-            'totalOngkir' => $this->totalOngkir
+            'totalOngkir' => $this->totalOngkir,
+            'address' => $this->address,
+            'resultOngkirOnUserDetailIsNotNull' => $this->resultOngkirWhenUserDetailIsNotNull
         ]);
     }
 
     public function openModalAddress()
     {
         $this->dispatch('openModalAddress');
+    }
+
+    public function setNotes()
+    {
+        if ($this->notes === '') {
+            $this->callAlert('danger', 'Catatan tidak boleh kosong!');
+        } else {
+            $this->callAlert('success', 'Berhasil memberikan catatan!');
+        }
     }
 }

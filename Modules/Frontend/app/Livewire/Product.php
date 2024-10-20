@@ -76,7 +76,7 @@ class Product extends AbstractFrontendClass
                         $query->where('name', 'like', '%' . $searchQuery . '%');
                     });
                 })
-                    ->where(function ($subcategoryQuery) use ($subSearchQuery) {
+                    ->orWhere(function ($subcategoryQuery) use ($subSearchQuery) {
                         $subcategoryQuery->whereHas('category.subcategory', function ($query) use ($subSearchQuery) {
                             $query->where('name', 'like', '%' . $subSearchQuery . '%');
                         });

@@ -18,6 +18,12 @@
                 <img src="{{ asset('frontend/icon/error.png') }}" alt="" class="w-20 h-20 ">
             @break
 
+            @case('expire')
+                <dotlottie-player src="https://lottie.host/6607ea53-a5c6-4e44-b1bc-f2353d2f2087/usCuGAobPZ.json"
+                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop
+                    autoplay></dotlottie-player>
+            @break
+
             @default
                 <dotlottie-player src="https://lottie.host/2bdeab54-0b3d-4faa-a549-2af78411bb3b/FHMs5NT9DW.json"
                     background="transparent" speed="1" style="width: 200px; height: 200px;" loop
@@ -38,6 +44,14 @@
                         class="font-medium text-gray-900 dark:text-white hover:underline">
                         {{ $midtransData['order_id'] }}
                     </a>. Silahkan lakukan pembayaran sesuai dengan nominal yang tertera di bawah.
+                    <br>
+                    <br>
+                    <span class="dark:text-gray-400 py-4 px-4 bg-red-100 rounded-lg">
+                        Lakukan pembayaran sebelum
+                        <i>
+                            <span class="font-bold text-red-500 ">{{ $expiryTime }}</span>
+                        </i>
+                    </span>
                 </p>
                 <div class="w-full my-6">
                     <div class="relative">
@@ -89,6 +103,9 @@
 
             @case('error')
                 {{-- <img src="{{ asset('frontend/icon/error.png') }}" alt="" class="w-20 h-20 "> --}}
+            @break
+
+            @case('expire')
             @break
 
             @default

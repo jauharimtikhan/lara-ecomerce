@@ -1,10 +1,7 @@
 <?php
 
-use Modules\Admin\App\Providers\AdminServiceProvider;
-use Modules\Frontend\App\Providers\FrontendServiceProvider;
-
 return [
     App\Providers\AppServiceProvider::class,
-    FrontendServiceProvider::class,
-    AdminServiceProvider::class,
+    App\Providers\Filament\AdminPanelProvider::class,
+    Modules\Frontend\App\Providers\FrontendServiceProvider::class,
 ];
