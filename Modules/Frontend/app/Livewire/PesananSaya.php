@@ -10,7 +10,8 @@ use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class PesananSaya extends AbstractFrontendClass
 {
-    protected static string|array $middleware = ['auth', 'role:admin|member'];
+    protected static string|array $middleware = ['auth', 'role:member|admin|super_admin'];
+
 
     public function render()
     {
