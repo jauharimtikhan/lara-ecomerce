@@ -28,8 +28,8 @@
                 </div>
                 <!-- Slider controls -->
                 <button type="button"
-                    class="absolute top-0 h-full start-0 z-30 flex items-center justify-center  px-4 cursor-pointer group focus:outline-none"
-                    data-carousel-prev>
+                    class="absolute top-0 h-full start-0 z-30 flex items-center justify-center  px-4 cursor-pointer group focus:outline-none "
+                    data-aos="fade-right" data-carousel-prev>
                     <span
                         class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                         <svg class="w-4 h-4 text-gray-800 dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
@@ -60,7 +60,7 @@
 
             <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-20 hover:text-gray-900 dark:hover:text-white"
-                    viewBox="0 0 192.756 200">
+                    data-aos="fade-right" viewBox="0 0 192.756 200">
                     <g fill-rule="evenodd" clip-rule="evenodd">
                         <path fill="currentColor" fill-opacity="0" d="M0 0h192.756v192.756H0V0z" />
                         <path fill="currentColor"
@@ -75,7 +75,7 @@
             </a>
             <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-25 h-21 hover:text-gray-900 dark:hover:text-white"
-                    viewBox="0 0 192.756 200">
+                    data-aos="fade-up" viewBox="0 0 192.756 200">
                     <g fill-rule="evenodd" clip-rule="evenodd">
                         <path fill="currentColor" fill-opacity="0" d="M0 0h192.756v192.756H0V0z" />
                         <path fill="currentColor"
@@ -93,7 +93,7 @@
             </a>
             <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-27 hover:text-gray-900 dark:hover:text-white"
-                    viewBox="0 0 192.744 192.744">
+                    data-aos="fade-up" viewBox="0 0 192.744 192.744">
                     <g fill-rule="evenodd" clip-rule="evenodd">
                         <path fill="currentColor" fill="#fff" fill-opacity="0" d="M0 0h192.744v192.744H0V0z" />
                         <path fill="currentColor"
@@ -104,7 +104,7 @@
             </a>
             <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class=" w-20 hover:text-gray-900 dark:hover:text-white"
-                    viewBox="0 0 26.088 26.999">
+                    data-aos="fade-up" viewBox="0 0 26.088 26.999">
                     <path fill="currentColor"
                         d="M5.208 3.78V5c-.439.39-1.488.622-2.269.622C2.159 5.622 0 5.134 0 2.841S2.055.054 2.884.054c.83 0 1.714.152 2.226.494v1.073c0 .134-.183.122-.183 0-.012-.183-.5-1.28-1.72-1.256C1.89.392 1 1.427 1 2.792s.865 2.537 2.171 2.5c.424-.012.866-.146 1.08-.324l.005-1.188c0-.341-.207-.463-.414-.463-.135 0-.135-.195 0-.195h1.78c.134 0 .134.207 0 .195-.206 0-.414.122-.414.463zm12.001-2.158c0 .134-.134.122-.134 0-.013-.183-.5-1.317-1.72-1.292-1.317.026-2.208 1.098-2.208 2.463s.854 2.573 2.159 2.537c1.305-.037 1.927-1.329 1.976-1.5s.134-.146.134-.012v1c-.536.39-1.549.805-2.329.805s-2.939-.488-2.939-2.781C12.148.548 14.197 0 15.026 0c.83 0 1.671.207 2.184.548v1.074zM25.942.134c.195 0 .195.183 0 .183-.208 0-.415.122-.415.463v4.061c0 .341.207.463.415.463.195 0 .195.244 0 .244h-1.793c-.195 0-.195-.244 0-.244.208 0 .415-.122.415-.463V.78c0-.342-.207-.463-.415-.463-.195 0-.195-.183 0-.183h1.793zm-14.258 0c.195 0 .195.183 0 .183-.207 0-.414.122-.414.463l-.024 2.665c0 1.276-1.035 2.214-2.312 2.214S6.66 4.721 6.66 3.445V.78c0-.342-.208-.463-.415-.463-.195 0-.195-.183 0-.183H8.05c.195 0 .195.183 0 .183-.208 0-.415.122-.415.463l-.002 2.976c0 .9.736 1.63 1.636 1.63.9 0 1.63-.913 1.63-1.812L10.855.78c0-.342-.207-.463-.415-.463-.194 0-.194-.183 0-.183h1.244zm1.669 11.948a7.854 7.854 0 0 1 3.49-.812 7.865 7.865 0 1 1-3.488 14.915A7.864 7.864 0 1 1 9.867 11.27c1.254 0 2.434.292 3.486.812zm1.586 1.033a7.768 7.768 0 0 1 2.513 3.917h-1.63a6.311 6.311 0 0 0-2.469-3.159 6.318 6.318 0 0 0-2.465 3.157l-1.629.001a7.837 7.837 0 0 1 2.522-3.924 6.404 6.404 0 0 0-1.915-.286 6.312 6.312 0 1 0 1.891 12.336 7.827 7.827 0 0 1-2.754-5.392h3.742v1.569l-1.82-.001a6.328 6.328 0 0 0 2.433 3.063 6.288 6.288 0 0 0 2.428-3.063l-1.82.001v-1.569h3.742a7.83 7.83 0 0 1-2.78 5.383 6.312 6.312 0 1 0 .011-12.033zm8.234-11.493c0 .134-.134.122-.134 0-.012-.183-.5-1.317-1.72-1.292-1.317.026-2.208 1.098-2.208 2.463s.854 2.573 2.159 2.537 1.927-1.329 1.976-1.5.135-.146.135-.012v1c-.537.39-1.549.805-2.33.805-.78 0-2.939-.488-2.939-2.781C18.112.548 20.161 0 20.991 0c.829 0 1.671.207 2.183.548v1.074z" />
                 </svg>
@@ -112,7 +112,7 @@
             </a>
             <a href="#" class="flex items-center md:justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class=" w-22 hover:text-gray-900 dark:hover:text-white"
-                    viewBox="0 0 192.756 192.756">
+                    data-aos="fade-up" viewBox="0 0 192.756 192.756">
                     <g fill-rule="evenodd" clip-rule="evenodd">
                         <path fill="currentColor" fill="#fff" fill-opacity="0" d="M0 0h192.756v192.756H0V0z" />
                         <path fill="currentColor"
@@ -124,7 +124,8 @@
             <a href="#" class="flex items-center md:justify-center">
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 2500 583"
-                    class=" w-22 hover:text-gray-900 dark:hover:text-white" xml:space="preserve">
+                    data-aos="fade-left" class=" w-22 hover:text-gray-900 dark:hover:text-white"
+                    xml:space="preserve">
                     <path fill="currentColor" d="M508.9,501.4c0,39.3-32.8,71.2-57.5,71.2H172.1L523.4,11.4H53.7v93h24.1c0-39.3,25.4-71.1,50.2-71.1h241.3L15.9,594.4h509.6
                l0-93H508.9" />
                     <g>
@@ -148,35 +149,42 @@
 
     <section class="bg-white-50 py-8 antialiased dark:bg-gray-900 md:py-16">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-            <h2 class="mt-3 mb-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl" data-aos="fade-up"
-                data-aos-duration="3000">Kategori
-            </h2>
             <!-- Heading & Filters -->
 
-            <div class="mb-4 grid gap-4 grid-cols-3 md:mb-8 lg:grid-cols-3 xl:grid-cols-7 md:grid-cols-2"
+            <div class="mb-4 grid gap-4 grid-cols-3 md:mb-8 lg:grid-cols-3 xl:grid-cols-6 md:grid-cols-2"
                 data-aos="fade-up" data-aos-duration="3000">
                 <div class="h-40 w-full">
                     <a href="#">
-                        <img class="mx-auto h-full dark:hidden " src="{{ asset('frontend/img/jaket.png') }}"
-                            alt="" />
-                        <img class="mx-auto hidden h-full dark:block" src= "{{ asset('frontend/img/jaket.png') }}"
-                            alt="" />
+                        <img class="mx-auto h-full  " src="{{ asset('frontend/img/Jaket.png') }}" alt="" />
                     </a>
-                    </class=>
-
-
+                </div>
+                <div class="h-40 w-full">
+                    <a href="#">
+                        <img class="mx-auto h-full  " src="{{ asset('frontend/img/baju.png') }}" alt="" />
+                    </a>
+                </div>
+                <div class="h-40 w-full">
+                    <a href="#">
+                        <img class="mx-auto h-full  " src="{{ asset('frontend/img/anak.png') }}" alt="" />
+                    </a>
+                </div>
+                <div class="h-40 w-full">
+                    <a href="#">
+                        <img class="mx-auto h-full  " src="{{ asset('frontend/img/gamis.png') }}" alt="" />
+                    </a>
+                </div>
+                <div class="h-40 w-full">
+                    <a href="#">
+                        <img class="mx-auto h-full  " src="{{ asset('frontend/img/Sandal.png') }}" alt="" />
+                    </a>
+                </div>
+                <div class="h-40 w-full">
+                    <a href="#">
+                        <img class="mx-auto h-full  " src="{{ asset('frontend/img/Sepatu.png') }}" alt="" />
+                    </a>
                 </div>
 
-                <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    @foreach ($categories as $category)
-                        <a href="#"
-                            class="flex items-center md:justify-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 
-                            <span
-                                class="text-sm font-medium text-gray-900 dark:text-white">{{ $category?->name }}</span>
-                        </a>
-                    @endforeach
-                </div>
             </div>
     </section>
 
