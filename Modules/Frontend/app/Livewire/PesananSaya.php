@@ -12,6 +12,7 @@ class PesananSaya extends AbstractFrontendClass
 {
     protected static string|array $middleware = ['auth', 'role:member|admin|super_admin'];
 
+
     public function render()
     {
         return view('frontend::pages.pesanan-saya');

@@ -184,11 +184,6 @@
                             'cart_id' => Auth::user()->id,
                         ]) }}"
                             wire:navigate
-                            class="text-center flex justify-center text-gray-600 dark:text-gray-200 underline hover:text-gray-700 dark:hover:text-gray-300">Lihat
-                            Semua</a>
-
-
-                        <a href="#"
                             class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             role="button"> Checkout Sekarang </a>
                     </div>

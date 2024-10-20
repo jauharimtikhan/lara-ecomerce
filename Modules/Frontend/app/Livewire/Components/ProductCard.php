@@ -61,15 +61,17 @@ class ProductCard extends Component
                 'weight' => $this->product->weight
 
             ]);
-            $this->dispatch('cartAdded');
-            Notification::make('cartAdded')
-                ->title('Berhasil menambahkan item ke keranjang!')->success()->send();
+
+            $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+            $this->redirect(route('frontend.product'), [
+                'category' => request()->get('category'),
+                'subcategory' => request()->get('subcategory'),
+            ]);
             // $this->redirect(route('frontend.productdetail', [
             //     'id' => $this->product->id
             // ]), true);
         } catch (\Exception $th) {
-            Notification::make('cartAdded')
-                ->title('Gagal menambahkan item ke keranjang!')->danger()->send();
+            $this->dispatch('alert', ['type' => 'danger', 'message' => 'Gagal Menambahkan ke keranjang!']);
         }
     }
 }

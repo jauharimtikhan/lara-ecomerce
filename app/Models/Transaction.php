@@ -33,13 +33,13 @@ class Transaction extends Model
 
     public function totalHarga()
     {
-        $result = $this->total_price - $this->ongkir;
-        return Number::currency($result, 'IDR', 'id');
+        $result = $this->total_price ?? 0 - $this->ongkir ?? 0;
+        return Number::currency($result, 'IDR', 'id') ?? 'Rp. 0';
     }
 
     public function totalOngkir()
     {
-        return Number::currency($this->ongkir, 'IDR', 'id');
+        return Number::currency($this->ongkir ?? 0, 'IDR', 'id');
     }
 
     public function biayaAdmin()
@@ -49,7 +49,7 @@ class Transaction extends Model
 
     public function grandTotal()
     {
-        $recap = $this->total_price + 1000;
+        $recap = $this->total_price ?? 0 + 1000;
         return Number::currency($recap);
     }
 }

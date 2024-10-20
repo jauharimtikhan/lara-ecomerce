@@ -100,13 +100,12 @@ document.addEventListener("livewire:navigated", () => {
         } else {
             navbarContainer.classList.remove("fixed");
             navbarContainer.style.transition = "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
-
         }
     });
 
     // initDatepickers();
-    // initCarousels();
-    // initDropdowns();
+    initCarousels();
+    initDropdowns();
     // initFlowbite();
     // initPopovers();
     // initInputCounters();

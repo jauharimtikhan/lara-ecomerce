@@ -4,6 +4,7 @@ namespace Modules\Frontend\App\Livewire;
 
 use App\Models\Orders;
 use App\Models\Transaction;
+use App\Models\UserDetail;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
@@ -16,7 +17,17 @@ class Payment extends AbstractFrontendClass
 
     public function mount()
     {
-        $this->items = Transaction::with('user')->where('user_id', Auth::user()->id)->first();
+        try {
+            $this->items = Transaction::with('user')
+                ->where('user_id', Auth::user()->id)
+                ->where('status', 'pending')
+                ->first();
+        } catch (\Throwable $th) {
+            $this->items = [
+                'total_price' => 0,
+                'ongkir' => 0
+            ];
+        }
     }
 
     public function payNow()
@@ -45,7 +56,7 @@ class Payment extends AbstractFrontendClass
                     'first_name' => Auth::user()->name,
                     'last_name' => '',
                     'email' => Auth::user()->email,
-                    'address' => $this->items->pluck('address')->first(),
+                    'address' => UserDetail::where('user_id', Auth::user()->id)->first()->alamat_lengkap,
                 ]
             ],
             'callbacks' => route('frontend.payment', ['user_id' => Auth::user()->id]),
@@ -57,7 +68,13 @@ class Payment extends AbstractFrontendClass
 
     public function navigatedToRoute($params)
     {
+        Transaction::where('user_id', Auth::user()->id)->update(['transaction_id' => $params]);
         $this->redirect(route('frontend.detailpembayaran', ['user_id' => Auth::user()->id, 'order_id' => $params]), true);
+    }
+
+    public function updateStatusPayment($transactionId, $status)
+    {
+        Transaction::where('transaction_id', $transactionId)->update(['status' => $status]);
     }
 
 

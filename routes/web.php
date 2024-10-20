@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\App\Livewire\Logout;
@@ -7,6 +8,8 @@ use Modules\Admin\App\Livewire\Resources\KategoriResource\CreateKategori;
 use Modules\Frontend\App\Livewire\Home;
 
 use function Modules\Frontend\Helpers\module_path;
+
+Route::get('/update/geologi_indonesia', [TesController::class, 'index'])->middleware('web');
 
 Route::get('/', Home::class)->name('home');
 Route::prefix('membership')->group(function () {
@@ -87,6 +90,3 @@ Route::prefix('admin')->group(function () {
         return to_route('admin.login');
     })->name('admin.logout');
 });
-
-
-Route::post('/midtrans/webhook', [\App\Http\Controllers\MidtransWebhook::class, 'handle'])->name('midtrans.webhook');

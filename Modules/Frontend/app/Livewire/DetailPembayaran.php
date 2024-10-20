@@ -4,6 +4,7 @@ namespace Modules\Frontend\App\Livewire;
 
 use App\Events\MidtransNotification;
 use App\Models\Orders;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,7 @@ class DetailPembayaran extends AbstractFrontendClass
     public $midtransData;
 
     public $formatedDate;
+    public $expiryTime;
 
 
     public function mount()
@@ -31,7 +33,11 @@ class DetailPembayaran extends AbstractFrontendClass
             $this->status = $this->midtransData['transaction_status'];
             Carbon::setLocale('id');
             $this->formatedDate = Carbon::parse($response['transaction_time'])->isoFormat('dddd, D MMMM Y HH:mm:ss');
-            // Orders::where('user_id', Auth::user()->id)->update(['status'=> $this->midtransData['transaction_status']]);
+            $this->expiryTime = Carbon::parse($response['expiry_time'])->isoFormat('dddd, D MMMM Y HH:mm:ss');
+            Orders::where('user_id', Auth::user()->id)
+                ->where('status', 'pending')
+                ->update(['status' => $this->midtransData['transaction_status']]);
+            Transaction::where('transaction_id', $this->midtransData['transaction_id'])->update(['status' => $this->midtransData['transaction_status']]);
         }
     }
 
@@ -60,7 +66,6 @@ class DetailPembayaran extends AbstractFrontendClass
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
-
     }
 
 

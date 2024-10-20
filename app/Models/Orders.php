@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Number;
 
 class Orders extends Model
 {
@@ -21,7 +23,8 @@ class Orders extends Model
         'grand_total',
         'weight',
         'address',
-        'quantity'
+        'quantity',
+        'notes'
     ];
 
     public function product(): BelongsTo
@@ -40,4 +43,16 @@ class Orders extends Model
         return Carbon::parse($this->created_at)->isoFormat('dddd, D MMMM Y');
     }
 
+    public function summerizePrice()
+    {
+        $convert = ($this->product->price * $this->quantity) + $this->grand_total;
+        return Number::currency($convert, 'IDR', 'id');
+    }
+
+    public static function customQuery()
+    {
+        return collect(self::query()->where('user_id', Auth::user()->id)->get())->filter(function ($item) {
+            return $item->user_id == Auth::user()->id;
+        });
+    }
 }

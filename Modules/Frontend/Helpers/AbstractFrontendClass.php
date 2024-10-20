@@ -11,7 +11,7 @@ use Livewire\Component;
 abstract class AbstractFrontendClass extends Component
 {
 
-    #[Computed(true)]
+
     public function callAlert($type, $message)
     {
         $this->dispatch('alert', ['type' => $type, 'message' => $message]);
