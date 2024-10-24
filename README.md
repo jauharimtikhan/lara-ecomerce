@@ -1,66 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+  <img src="./public/frontend/img/logo.png" width="100" alt="Lara-Ecommerce Logo"/>
+</div>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Lara-Ecommerce
 
-## About Laravel
+Selamat datang di **Lara-Ecommerce**, platform e-commerce inovatif yang dirancang untuk memenuhi kebutuhan toko online modern. Dibangun menggunakan **Laravel 11**, **Laravel Filament 3**, dan **Laravel Livewire 3**, Lara-Ecommerce menawarkan solusi yang andal dan fleksibel bagi bisnis Anda.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Proyek ini tidak hanya dirancang untuk memberikan kemudahan manajemen, tetapi juga memanfaatkan teknologi terkini untuk menciptakan pengalaman pengelolaan yang interaktif, cepat, dan responsif.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Apa itu Lara-Ecommerce?
 
-## Learning Laravel
+**Lara-Ecommerce** adalah sistem manajemen toko online yang lengkap, memungkinkan pengelolaan produk, pesanan, dan konten situs dengan cara yang mudah dan intuitif. Integrasi antara **Laravel Filament** untuk antarmuka admin yang elegan, dan **Laravel Livewire** untuk interaksi real-time tanpa JavaScript yang kompleks, membuat Lara-Ecommerce menjadi platform yang efisien dan ramah pengguna.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Proyek ini sangat cocok bagi para pemilik bisnis yang ingin mengelola toko online secara efisien, tanpa harus khawatir dengan aspek teknis pengembangan aplikasi. Dengan Lara-Ecommerce, Anda bisa fokus pada pertumbuhan bisnis, sementara sistem mengurus pengelolaan backend.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Fitur Unggulan
 
-## Laravel Sponsors
+Lara-Ecommerce dilengkapi dengan berbagai fitur unggulan yang dirancang untuk mempermudah pengelolaan toko online. Berikut beberapa fitur utama yang ditawarkan:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 1. Manajemen Inventory Barang
 
-### Premium Partners
+Pantau dan kelola stok barang Anda secara real-time. Dengan fitur ini, Anda dapat menambah, mengedit, dan menghapus produk dengan mudah, serta melacak jumlah stok secara akurat. Pengaturan kategori produk, variasi, dan harga juga dapat dilakukan melalui antarmuka yang sederhana dan ramah pengguna.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 2. Role & Permission Management
 
-## Contributing
+Sistem ini menawarkan manajemen peran dan izin pengguna yang fleksibel. Dengan **Laravel Permission**, Anda dapat mengatur hak akses pengguna sesuai dengan peran mereka, seperti **Admin**, **Manager**, atau **Customer Support**. Fitur ini memastikan bahwa hanya pengguna yang berwenang yang dapat mengakses fitur-fitur tertentu di dalam sistem.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Content Management System (CMS)
 
-## Code of Conduct
+Dengan CMS bawaan, Anda dapat mengelola halaman statis, banner promosi, dan konten situs lainnya dengan mudah. Fitur ini memungkinkan Anda untuk memperbarui konten tanpa memerlukan keahlian coding, sehingga Anda dapat mengelola situs web secara independen.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Teknologi yang Digunakan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **Laravel 11**: Framework PHP yang kuat dan modern, dikenal karena kemudahan penggunaan dan skalabilitasnya.
+-   **Laravel Filament 3**: Admin panel yang minimalis namun fungsional, memberikan kemudahan dalam mengelola data dan fitur.
+-   **Laravel Livewire 3**: Alat yang memungkinkan pengembangan antarmuka real-time tanpa JavaScript, menjadikan aplikasi lebih responsif dan interaktif.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Instalasi & Konfigurasi
+
+Berikut adalah langkah-langkah untuk memulai proyek **Lara-Ecommerce**. Pastikan Anda sudah memiliki **PHP 8.2**, **Composer**, dan database seperti **MySQL** sebelum melanjutkan.
+
+1. Clone repositori ini:
+
+    ```bash
+    git clone https://github.com/jauharimtikhan/lara-ecomerce.git
+    ```
+
+2. Masuk ke direktori proyek:
+
+    ```bash
+    cd lara-ecommerce
+    ```
+
+3. Install dependencies menggunakan Composer:
+
+    ```bash
+    composer install
+    ```
+
+4. Salin file `.env.example` menjadi `.env` dan atur konfigurasi database:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+5. Generate kunci aplikasi:
+
+    ```bash
+    php artisan key:generate
+    ```
+
+6. Jalankan migrasi database untuk membuat tabel yang dibutuhkan:
+
+    ```bash
+    php artisan migrate
+    ```
+
+7. Jalankan server lokal:
+    ```bash
+    php artisan serve
+    ```
+
+---
+
+## Kontribusi
+
+Kami sangat menghargai setiap bentuk kontribusi dari komunitas. Jika Anda ingin menambahkan fitur baru, memperbaiki bug, atau mengusulkan peningkatan, silakan buat pull request atau buka isu di halaman [Issues](https://github.com/jauharimtikhan/lara-ecommerce/issues).
+
+Kontribusi Anda sangat berarti dalam meningkatkan kualitas dan fungsionalitas proyek ini.
+
+---
+
+## Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE), yang berarti Anda bebas untuk menggunakannya dalam proyek pribadi maupun komersial selama mematuhi ketentuan lisensi.
+
+---
+
+Terima kasih telah memilih **Lara-Ecommerce** sebagai solusi toko online Anda. Kami berharap proyek ini dapat membantu Anda dalam membangun bisnis online yang sukses dan terus berkembang.

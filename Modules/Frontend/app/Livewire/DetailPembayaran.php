@@ -37,7 +37,10 @@ class DetailPembayaran extends AbstractFrontendClass
             Orders::where('user_id', Auth::user()->id)
                 ->where('status', 'pending')
                 ->update(['status' => $this->midtransData['transaction_status']]);
-            Transaction::where('transaction_id', $this->midtransData['transaction_id'])->update(['status' => $this->midtransData['transaction_status']]);
+            Transaction::where('transaction_id', $this->midtransData['transaction_id'])
+                ->where('status', 'pending')
+                ->first()
+                ->update(['status' => $this->midtransData['transaction_status']]);
         }
     }
 

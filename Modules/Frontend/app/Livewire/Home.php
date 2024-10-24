@@ -10,7 +10,7 @@ use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class Home extends AbstractFrontendClass
 {
-    protected static string|array $middleware = 'auth';
+    protected static string|array $middleware = ['auth', 'role:super_admin|member|admin'];
 
     public function render()
     {

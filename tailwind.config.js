@@ -9,6 +9,7 @@ export default {
         "./Modules/Admin/resources/**/*.js",
         "./node_modules/flowbite/**/*.js",
         "./vendor/filament/**/*.blade.php",
+        "./vendor/awcodes/filament-curator/resources/**/*.blade.php",
     ],
     theme: {
         extend: {

@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use Binafy\LaravelCart\Cartable;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
 
-class Product extends Model
+class Product extends Model implements Buyable
 {
     use HasFactory, HasUuids, SoftDeletes;
-
+    use \Gloudemans\Shoppingcart\CanBeBought;
     protected $fillable = [
         'name',
         'slug',
@@ -69,4 +72,39 @@ class Product extends Model
     {
         return Number::currency($this->price, 'IDR', 'id');
     }
+
+    public function gambarThumbnail(): BelongsTo
+    {
+
+        return $this->belongsTo(CuratorMedia::class, 'thumbnail', 'id');
+    }
+
+    public function thumbnail(): BelongsTo
+    {
+
+        return $this->belongsTo(CuratorMedia::class);
+    }
+
+    public function getBuyableIdentifier($options = null)
+    {
+        return $this->id;
+    }
+    public function getBuyableDescription($options = null)
+    {
+        return $this->name;
+    }
+    public function getBuyablePrice($options = null)
+    {
+        return $this->price;
+    }
+    public function getBuyableWeight($options = null)
+    {
+        return $this->weight;
+    }
+
+    // public function media(): BelongsToMany
+    // {
+
+    //     return $this->belongsToMany(CuratorMedia::class, 'product_galleries');
+    // }
 }

@@ -39,7 +39,8 @@
                                                     aria-labelledby="mega-menu-icons-dropdown-button-{{ $it->id }}">
                                                     @foreach ($it->subcategory as $subcategory)
                                                         <li>
-                                                            <a href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
+                                                            <a wire:navigate
+                                                                href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
                                                                 class="flex items-center text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500 group">
                                                                 <span class="sr-only">{{ $subcategory->name }}</span>
 
@@ -134,30 +135,37 @@
 
                     <div id="myCartDropdown1-{{ Auth::user()->id }}"
                         class="hidden z-[400] mx-auto max-w-sm space-y-4 overflow-hidden rounded-lg bg-white p-4 antialiased shadow-lg dark:bg-gray-800">
-                        @foreach ($carts as $cart)
-                            <div class="grid grid-cols-2" wire:key="{{ $cart->id }}">
+
+                        @foreach ($carts[0]['content'] as $cart)
+                            <div class="grid grid-cols-2" wire:key="">
                                 <div>
                                     <a href="#"
                                         class="truncate text-sm font-semibold leading-none text-gray-900 dark:text-white hover:underline">
-                                        {{ $cart->product->name }}
+                                        {{ ucfirst($cart['name']) }}
                                     </a>
                                     <p class="mt-0.5 truncate text-sm font-normal text-gray-500 dark:text-gray-400">
-                                        {{ $cart->product->formatRupiah() }}
+                                        @php
+                                            $subtotal = $cart['price'] * $cart['qty'];
+                                            echo 'Rp. ' . number_format($subtotal, 2, ',', '.');
+
+                                            $idCart = $cart['id'];
+                                            $idItem = $cart['rowId'];
+                                        @endphp
                                     </p>
                                 </div>
 
                                 <div class="flex items-center justify-end gap-6">
                                     <p class="text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Qty:
-                                        {{ $cart->quantity }}
+                                        {{ $cart['qty'] }}
                                     </p>
 
-                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart->id }}"
+                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}"
                                         type="button"
-                                        wire:click="removeItemFromCart('{{ $cart->id }}', '{{ $cart->product->id }}')"
+                                        wire:click="removeItemFromCart('{{ $cart['id'] }}', '{{ $cart['rowId'] }}')"
                                         class="text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-600">
                                         <span class="sr-only"> Remove </span>
                                         <svg wire:loading.remove
-                                            wire:target="removeItemFromCart('{{ $cart->id }}', '{{ $cart->product->id }}')"
+                                            wire:target="removeItemFromCart('{{ $cart['id'] }}', '{{ $cart['rowId'] }}')"
                                             class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="currentColor" viewBox="0 0 24 24">
                                             <path fill-rule="evenodd"
@@ -167,11 +175,11 @@
                                         @svg('bx-loader-alt', [
                                             'class' => 'h-4 w-4 animate-spin',
                                             'wire:loading',
-                                            'wire:target' => "removeItemFromCart('{{ $cart->id }}', '{{ $cart->product->id }}')",
+                                            'wire:target' => "removeItemFromCart('{$idCart}', '{$idItem}')",
                                             'fill' => 'currentColor',
                                         ])
                                     </button>
-                                    <div id="tooltipRemoveItem1a-{{ $cart->id }}" role="tooltip"
+                                    <div id="tooltipRemoveItem1a-{{ $cart['id'] }}" role="tooltip"
                                         class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
                                         Hapus dari keranjang
                                         <div class="tooltip-arrow" data-popper-arrow></div>
@@ -210,21 +218,16 @@
                     <div id="userDropdown1"
                         class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
                         <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
-                            <li><a href="#"
+                            <li><a wire:navigate href="{{ route('frontend.profile') }}"
                                     class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                     Akun </a></li>
                             <li>
-                                <a href="#"
+                                <a href="{{ route('frontend.pesanansaya') }}"
                                     class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                     Pesanan Saya
                                 </a>
                             </li>
-                            <li>
-                                <a href="#"
-                                    class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    Pengaturan
-                                </a>
-                            </li>
+
 
                         </ul>
 

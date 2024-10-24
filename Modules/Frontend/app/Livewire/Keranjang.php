@@ -2,12 +2,12 @@
 
 namespace Modules\Frontend\App\Livewire;
 
-use App\Models\Cart;
 use App\Models\City;
 use App\Models\Orders;
 use App\Models\Provinsi;
 use App\Models\Transaction;
 use App\Models\UserDetail;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ class Keranjang extends AbstractFrontendClass
 
     protected static $middleware = ["auth", "role:admin|member|super_admin"];
     public $modalId;
-    public $items;
+    public ?array $items;
     public $wire;
     public $address;
     public ?array $dataOngkir = [
@@ -56,7 +56,7 @@ class Keranjang extends AbstractFrontendClass
         $this->wire = $this->__id;
         $this->address = $this->getUserAddress();
         $this->modalId = Auth::user()->id;
-        $this->items = Cart::with('product')->where('user_id', Auth::user()->id)->with('user')->get();
+        // $this->items[] = Cart::instance('default')->content();
         if ($this->address !== null) {
             $response = $this->cekOngkirAction($this->address->kabupaten);
             $this->resultOngkirWhenUserDetailIsNotNull = Cache::remember("ongkir_{$this->address->kabupaten}", now()->addMinutes(60), function () use ($response) {
@@ -115,25 +115,23 @@ class Keranjang extends AbstractFrontendClass
 
     public function changeQuantity($id, $type)
     {
-        $cart = Cart::find($id);
+
         switch ($type) {
             case 'decrease':
                 $this->dispatch('updateCart');
-                if ($cart->quantity == 1) {
+                if (Cart::get($id)->qty == 1) {
                     $this->callAlert('danger', 'Quantity minimal 1!');
                     break;
                 }
-                $cart->update([
-                    'quantity' => intval($cart->quantity) - 1,
-                    'sub_total' => $cart->product->price * (intval($cart->quantity) - 1),
+                Cart::update($id, [
+                    'qty' => Cart::get($id)->qty - 1
                 ]);
                 $this->callAlert('success', 'Berhasil update quantity barang!');
                 break;
             default:
                 $this->dispatch('updateCart');
-                $cart->update([
-                    'quantity' => intval($cart->quantity) + 1,
-                    'sub_total' => $cart->product->price * (intval($cart->quantity) + 1),
+                Cart::update($id, [
+                    'qty' => Cart::get($id)->qty + 1
                 ]);
                 $this->callAlert('success', 'Berhasil update quantity barang!');
                 break;
@@ -167,12 +165,12 @@ class Keranjang extends AbstractFrontendClass
         }
     }
 
-    public function cekOngkirAction($id = null): Collection
+    public function cekOngkirAction($id = null)
     {
         $origin = config('services.rajaongkir.origin');
         $courier = config('services.rajaongkir.courier');
         $destination = $id ?? $this->dataOngkir['kabupaten'];
-        $weight = $this->items->sum('weight');
+        $weight = Cart::weight(0, '', '');
 
         $response = $this->requestApi([
             'method' => 'POST',
@@ -193,10 +191,15 @@ class Keranjang extends AbstractFrontendClass
 
     public function removeItem($id)
     {
-        $cart = Cart::find($id);
-        $cart->delete();
-        $this->dispatch('updateCart');
-        $this->callAlert('success', 'Berhasil menghapus item dari keranjang!');
+        try {
+            Cart::remove($id);
+            $this->dispatch('updateCart');
+            $this->callAlert('success', 'Berhasil menghapus item dari keranjang!');
+        } catch (\Exception $th) {
+            $this->dispatch('updateCart');
+            $this->callAlert('danger', 'Gagal menghapus item dari keranjang!');
+            //throw $th;
+        }
     }
 
     public function setOngkir($service, $cost, $estimate, $description)
@@ -225,48 +228,51 @@ class Keranjang extends AbstractFrontendClass
                     ->first();
 
                 if ($orders == null) {
-                    foreach ($this->items as $item) {
+                    foreach (Cart::instance('default')->content() as $item) {
                         Orders::create([
                             'id' => Uuid::uuid4()->toString(),
                             'user_id' => Auth::user()->id,
                             'grand_total' => $this->totalOngkir,
-                            'weight' => $this->items->sum('weight'),
+                            'weight' => Cart::weight(0, '', ''),
                             'status' => 'pending',
                             'address' => $this->address->alamat_lengkap,
-                            'product_id' => $item->product->id,
-                            'sub_total' => $item->product->price * $item->quantity,
-                            'quantity' => $item->quantity,
+                            'product_id' => $item->options->product_id,
+                            'sub_total' => $item->subtotal,
+                            'quantity' => $item->qty,
                             'notes' => $this->notes
                         ]);
-                        $total += $item->grand_total * $item->quantity + $this->totalOngkir;
+                        $total += $item->total + $this->totalOngkir;
 
 
                         $products[] = collect([
-                            'id' => $item->product->id,
-                            'name' => $item->product->name,
-                            'price' => $item->product->price,
-                            'quantity' => $item->quantity,
-                            'weight' => $item->product->weight,
+                            'id' => $item->options->product_id,
+                            'name' => $item->name,
+                            'price' => $item->price,
+                            'quantity' => $item->qty,
+                            'weight' => $item->weight,
                         ])->toArray();
                     }
 
                     Transaction::create([
                         'user_id' => Auth::user()->id,
                         'products' => $products,
-                        'quantity' => $this->items->sum('quantity'),
-                        'weight' => $this->items->sum('weight'),
+                        'quantity' => Cart::count(),
+                        'weight' => Cart::weight(0, '', ''),
                         'status' => 'pending',
-                        'total_price' => $total,
+                        'total_price' => Cart::total(0, '', '') + $this->totalOngkir,
                         'ongkir' => $this->totalOngkir
                     ]);
 
-                    Cart::where('user_id', Auth::user()->id)
-                        ->delete();
+                    Cart::destroy();
+                    Cart::search(function ($itemId, $rowId) {
+                        return Cart::remove($rowId);
+                    });
+
                     $this->redirect(route('frontend.payment', ['user_id' => Auth::user()->id]), true);
                 } else {
                     $this->callAlert('danger', 'Anda masih memiliki tagihan yang belum dibayar!');
                     $transaction_id = Transaction::where('user_id', Auth::user()->id)
-                        ->orWhere('status', 'pending')
+                        ->where('status', 'pending')
                         ->first()->transaction_id;
                     $this->dispatch('redirectOnPaymentIsNotNull', [
                         'url' => route('frontend.detailpembayaran', [
@@ -287,17 +293,18 @@ class Keranjang extends AbstractFrontendClass
     #[On('updateCart')]
     public function render()
     {
-        $cart = collect($this->items);
-        if ($this->items->count() > 0) {
-            $originalPrice = $cart->pluck('sub_total')->sum() / $cart->pluck('quantity')->sum();
+
+
+        if (Cart::content()->count() > 0) {
+            $originalPrice = intval(Cart::total(0, '', ''));
             $originalPriceFormated = 'Rp ' . number_format($originalPrice, 0, ',', '.');
         } else {
             $originalPrice = 0;
             $originalPriceFormated = 'Rp ' . number_format($originalPrice, 0, ',', '.');
         }
         return view('frontend::pages.keranjang', [
-            'items' => $this->items,
-            'cart' => $cart,
+            // 'items' => $this->items,
+            // 'cart' => $this->items,
             'originalPriceFormated' => $originalPriceFormated,
             'totalOngkir' => $this->totalOngkir,
             'address' => $this->address,

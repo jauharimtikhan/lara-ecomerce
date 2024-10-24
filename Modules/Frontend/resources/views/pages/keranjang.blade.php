@@ -5,37 +5,38 @@
         <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
             <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl ">
                 <div class="space-y-6">
-                    @if ($items->count() > 0)
 
-                        @foreach ($items as $item)
+                    @if (Cart::content()->count() > 0)
+
+                        @foreach (Cart::instance('default')->content() as $item)
                             <div wire:key="{{ $item->id }}"
                                 class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
                                 <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                     <a href="{{ route('frontend.productdetail', [
-                                        'id' => $item->product->id,
+                                        'id' => $item->options->product_id,
                                     ]) }}"
                                         class="shrink-0 md:order-1">
                                         <img class="h-20 w-20 rounded-lg"
-                                            src="{{ asset('storage/' . $item->product->thumbnail) }}"
-                                            alt="product {{ $item->product->name }} {{ config('app.name') }}" />
+                                            src="{{ asset('storage/' . $item->options->products['thumbnail']) }}"
+                                            alt="product {{ $item->id }} {{ config('app.name') }}" />
                                     </a>
 
                                     <label for="counter-input" class="sr-only">Jumlah Barang:</label>
                                     <div class="flex items-center justify-between md:order-3 md:justify-end">
                                         <div class="flex items-center">
                                             <button wire:ignore type="button"
-                                                id="decrement-button-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
-                                                data-input-counter-decrement="counter-input-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
-                                                wire:click="changeQuantity('{{ $item->id }}', 'decrease')"
+                                                id="decrement-button-{{ $item->options->product_id }}-{{ Auth::user()->id }}-{{ $item->id }}"
+                                                data-input-counter-decrement="counter-input-{{ $item->options->product_id }}-{{ Auth::user()->id }}-{{ $item->id }}"
+                                                wire:click="changeQuantity('{{ $item->rowId }}', 'decrease')"
                                                 class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                                                 @svg('bx-loader-alt', [
                                                     'class' => 'h-2.5 w-2.5 text-gray-900 dark:text-white animate-spin',
                                                     'wire:loading' => true,
-                                                    'wire:target' => "changeQuantity('{$item->id}', 'decrease')",
+                                                    'wire:target' => "changeQuantity('{$item->rowId}', 'decrease')",
                                                 ])
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
                                                     wire:loading.remove
-                                                    wire:target="changeQuantity('{{ $item->id }}', 'decrease')"
+                                                    wire:target="changeQuantity('{{ $item->rowId }}', 'decrease')"
                                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 18 2">
                                                     <path stroke="currentColor" stroke-linecap="round"
@@ -43,23 +44,23 @@
                                                 </svg>
                                             </button>
                                             <input type="text"
-                                                id="counter-input-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
+                                                id="counter-input-{{ $item->options->product_id }}-{{ Auth::user()->id }}-{{ $item->id }}"
                                                 data-input-counter data-input-counter-min="1"
                                                 class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                                placeholder="" value="{{ $item->quantity }}" required />
+                                                placeholder="" value="{{ $item->qty }}" required />
                                             <button wire:ignore type="button"
-                                                id="increment-button-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
-                                                data-input-counter-increment="counter-input-{{ $item->product->id }}-{{ Auth::user()->id }}-{{ $item->id }}"
-                                                wire:click="changeQuantity('{{ $item->id }}', 'increase')"
+                                                id="increment-button-{{ $item->options->product_id }}-{{ Auth::user()->id }}-{{ $item->id }}"
+                                                data-input-counter-increment="counter-input-{{ $item->options->product_id }}-{{ Auth::user()->id }}-{{ $item->id }}"
+                                                wire:click="changeQuantity('{{ $item->rowId }}', 'increase')"
                                                 class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                                                 @svg('bx-loader-alt', [
                                                     'class' => 'h-2.5 w-2.5 text-gray-900 dark:text-white animate-spin',
                                                     'wire:loading' => true,
-                                                    'wire:target' => "changeQuantity('{$item->id}', 'increase')",
+                                                    'wire:target' => "changeQuantity('{$item->rowId}', 'increase')",
                                                 ])
                                                 <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white"
                                                     wire:loading.remove
-                                                    wire:target="changeQuantity('{{ $item->id }}', 'increase')"
+                                                    wire:target="changeQuantity('{{ $item->rowId }}', 'increase')"
                                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 18 18">
                                                     <path stroke="currentColor" stroke-linecap="round"
@@ -72,29 +73,29 @@
 
                                         <div class="text-end md:order-4 md:w-32 flex items-center justify-end">
                                             <p class="text-base font-bold text-gray-900 dark:text-white flex-wrap">
-                                                {{ $item->formatRupiah('sub_total') }}</p>
+                                                {{ 'Rp. ' . number_format($item->subtotal, 2, ',', '.') }}</p>
                                         </div>
                                     </div>
 
                                     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                                         <a href="#"
                                             class="text-base font-medium text-gray-900 overflow-hidden text-ellipsis hover:text-clip hover:underline dark:text-white">
-                                            {{ ucfirst($item->product->name) }}
+                                            {{ ucfirst($item->name) }}
                                         </a>
                                         </a>
 
                                         <div class="flex items-center gap-4">
                                             <button type="button"
                                                 wire:confirm="Apakah Anda Yakin Ingin Menghapus Item Ini?"
-                                                wire:click="removeItem('{{ $item->id }}')"
+                                                wire:click="removeItem('{{ $item->rowId }}')"
                                                 class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
                                                 @svg('bx-loader-alt', [
                                                     'class' => 'me-1.5 h-5 w-5 animate-spin',
                                                     'wire:loading' => true,
-                                                    'wire:target' => "removeItem('{$item->id}')",
+                                                    'wire:target' => "removeItem('{$item->rowId}')",
                                                 ])
                                                 <svg wire:loading.remove
-                                                    wire:target="removeItem('{{ $item->id }}')"
+                                                    wire:target="removeItem('{{ $item->rowId }}')"
                                                     class="me-1.5 h-5 w-5" aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     fill="none" viewBox="0 0 24 24">
@@ -147,7 +148,7 @@
                             <dl class="flex items-center justify-between gap-4">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Sub Total</dt>
                                 <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                    {{ 'Rp. ' . number_format($cart->pluck('sub_total')->sum(), 2, ',', '.') }}</dd>
+                                    {{ 'Rp. ' . Cart::subtotal(2) }}</dd>
                             </dl>
                             <dl class="grid grid-cols-2 items-center justify-between gap-2">
                                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Ongkir</dt>
@@ -247,11 +248,14 @@
                         </div>
                         @php
                             $total = '';
+                            $subtotal = Cart::subtotal(0, '', ''); // Mengambil subtotal tanpa format
+                            $totalOngkir = intval($totalOngkir);
+
                             if ($totalOngkir > 0) {
-                                $recap = $cart->pluck('sub_total')->sum() + $totalOngkir;
-                                $total .= 'Rp. ' . number_format($recap, 2, ',', '.');
+                                $recap = $subtotal + $totalOngkir;
+                                $total = 'Rp. ' . number_format($recap, 2, ',', '.'); // 0 desimal, karena biasanya harga dalam Rupiah tidak memerlukan desimal
                             } else {
-                                $total .= 'Rp. 0';
+                                $total = 'Rp. 0';
                             }
                         @endphp
                         <dl
@@ -286,8 +290,7 @@
                         </a>
                     </div>
                 </div>
-
-                @if ($items->value('product.discount') !== null)
+                @if (Cart::discount() > 0)
                     <div
                         class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
                         <form class="space-y-4">
