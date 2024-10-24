@@ -11,7 +11,7 @@ use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class Payment extends AbstractFrontendClass
 {
-    protected static $middleware = ["auth", "role:member|admin"];
+    protected static $middleware = ["auth", "role:member|admin|super_admin"];
 
     public $items;
 
@@ -46,7 +46,7 @@ class Payment extends AbstractFrontendClass
         $midtransSnapParams = [
             'transaction_details' => [
                 'order_id' => 'invoice-lara' . Carbon::now()->format('YmdHis'),
-                'gross_amount' => $this->items->total_price + 1000,
+                'gross_amount' => $this->items->total_price + $this->items->ongkir + 1000,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
@@ -68,13 +68,22 @@ class Payment extends AbstractFrontendClass
 
     public function navigatedToRoute($params)
     {
-        Transaction::where('user_id', Auth::user()->id)->update(['transaction_id' => $params]);
+
+        Transaction::updateOrCreate(['user_id' => Auth::user()->id, 'status' => 'pending'], [
+            'transaction_id' => $params
+        ]);
         $this->redirect(route('frontend.detailpembayaran', ['user_id' => Auth::user()->id, 'order_id' => $params]), true);
     }
 
     public function updateStatusPayment($transactionId, $status)
     {
-        Transaction::where('transaction_id', $transactionId)->update(['status' => $status]);
+        Transaction::updateOrCreate([
+            'user_id' => Auth::user()->id,
+            'status' => 'pending',
+            'transaction_id' => $transactionId
+        ], [
+            'status' => $status
+        ]);
     }
 
 

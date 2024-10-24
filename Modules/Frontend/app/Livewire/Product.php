@@ -67,7 +67,7 @@ class Product extends AbstractFrontendClass
     #[Computed(true)]
     protected function getProducts($searchQuery = null, $subSearchQuery = null)
     {
-        $products = ModelsProduct::with(['category', 'category.subcategory'])
+        $products = ModelsProduct::with(['category', 'category.subcategory', 'thumbnail'])
             ->where('is_active', '=', 1)
             ->where(function ($query) use ($searchQuery, $subSearchQuery) {
                 // Kondisi untuk kategori dan subkategori harus terpenuhi
@@ -81,12 +81,10 @@ class Product extends AbstractFrontendClass
                             $query->where('name', 'like', '%' . $subSearchQuery . '%');
                         });
                     });
-            })
-            ->paginate(12, ['*'], 'page', $this->currentPage);
+            })->paginate(12);
         return [
-            'data' => $products->items(),
-            'current_page' => $products->currentPage(),
-            'has_more_pages' => $products->hasMorePages(),
+            'data' => collect($products->items()),
+
         ];
     }
 

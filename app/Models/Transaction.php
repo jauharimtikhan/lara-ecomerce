@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,7 +50,14 @@ class Transaction extends Model
 
     public function grandTotal()
     {
-        $recap = $this->total_price ?? 0 + 1000;
+        $recap = $this->total_price  + $this->ongkir + 1000;
         return Number::currency($recap);
+    }
+
+    public function formatDate()
+    {
+        Carbon::setLocale('ID');
+        return Carbon::parse($this->created_at)
+            ->isoFormat('dddd, D MMMM Y');
     }
 }

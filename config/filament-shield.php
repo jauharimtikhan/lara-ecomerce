@@ -4,9 +4,9 @@ return [
     'shield_resource' => [
         'should_register_navigation' => true,
         'slug' => 'shield/roles',
-        'navigation_sort' => -1,
+        'navigation_sort' => 0,
         'navigation_badge' => true,
-        'navigation_group' => true,
+        'navigation_group' => false,
         'is_globally_searchable' => false,
         'show_model_path' => true,
         'is_scoped_to_tenant' => true,
@@ -86,5 +86,10 @@ return [
     'register_role_policy' => [
         'enabled' => true,
     ],
+    'nav' => [
+        'role' => [
+            'label' => 'Hak Akses'
+        ]
+    ]
 
 ];

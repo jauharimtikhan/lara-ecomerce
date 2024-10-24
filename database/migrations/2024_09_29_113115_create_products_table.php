@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug')->nullable();
             $table->longText('description')->nullable();
-            $table->string('thumbnail');
+            $table->foreignUuid('thumbnail')->constrained('media')->cascadeOnDelete();
             $table->json('product_galleries')->nullable();
             $table->decimal('price', 10, 2);
             $table->boolean('is_active')->default(true);

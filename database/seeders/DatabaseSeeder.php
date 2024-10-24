@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Factories\CategoryFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Route;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,8 +24,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Category::factory(500)->create();
-        SubCategory::factory(1000)->create();
-        Product::factory(20000)->create();
+        // Category::factory(500)->create();
+        // SubCategory::factory(1000)->create();
+        // Product::factory(20000)->create();
+    }
+
+    protected function generatePermission()
+    {
+        $routes = Route::getRoutes();
     }
 }

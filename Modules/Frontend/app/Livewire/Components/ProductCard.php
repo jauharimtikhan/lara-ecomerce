@@ -2,14 +2,37 @@
 
 namespace Modules\Frontend\App\Livewire\Components;
 
-use App\Models\Cart;
+use App\Models\CuratorMedia;
+use App\Models\Product;
 use Filament\Notifications\Notification;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class ProductCard extends Component
 {
     public $product;
+
+    public $thumbnail;
+    public $productGalleries;
+
+    public function mount()
+    {
+        $thumbnail =  CuratorMedia::where('id', $this->product->thumbnail)->first();
+
+        $galleries = Cache::remember("galleries_{$this->product->id}", now()->addMinutes(60), function () {
+            $result = [];
+            foreach ($this->product->product_galleries as $gallery) {
+                $res = CuratorMedia::where('id', $gallery)->get();
+                array_merge($result, [$res]);
+            }
+            return $result;
+        });
+
+        $this->thumbnail = $thumbnail;
+        $this->productGalleries = $galleries;
+    }
 
     public function placeholder()
     {
@@ -50,28 +73,32 @@ class ProductCard extends Component
 
     public function addToCart()
     {
-        try {
-
-            Cart::create([
+        $product = Product::with('gambarThumbnail')->where('id', $this->product->id)->first();
+        $cartItem = Cart::add(
+            Auth::user()->getAuthIdentifier(),
+            $this->product->name,
+            1,
+            $this->product->price,
+            $this->product->weight,
+            [
+                'discount' => $this->product->discount,
                 'product_id' => $this->product->id,
-                'user_id' => Auth::user()->id,
-                'quantity' => 1,
-                'sub_total' => $this->product->sum('price'),
-                'grand_total' => $this->product->sum('price'),
-                'weight' => $this->product->weight
+                'products' => [
+                    'thumbnail' => $product->gambarThumbnail->path ?? null,
+                ],
+            ]
+        );
 
-            ]);
-
-            $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
-            $this->redirect(route('frontend.product'), [
-                'category' => request()->get('category'),
-                'subcategory' => request()->get('subcategory'),
-            ]);
-            // $this->redirect(route('frontend.productdetail', [
-            //     'id' => $this->product->id
-            // ]), true);
-        } catch (\Exception $th) {
-            $this->dispatch('alert', ['type' => 'danger', 'message' => 'Gagal Menambahkan ke keranjang!']);
-        }
+        $cartItem->associate(Product::getModel());
+        Cart::search(function ($cartItem) {
+            if (Cart::get($cartItem->rowId)) {
+                $this->dispatch('updateCart');
+                $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+            } else {
+                $this->dispatch('updateCart');
+                $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+                Cart::store(Auth::user()->getAuthIdentifier());
+            }
+        });
     }
 }

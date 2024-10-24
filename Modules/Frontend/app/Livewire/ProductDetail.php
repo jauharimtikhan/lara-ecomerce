@@ -2,67 +2,118 @@
 
 namespace Modules\Frontend\App\Livewire;
 
-use App\Models\Cart;
+use App\Models\CuratorMedia;
 use App\Models\Product;
 use App\Models\ReviewProduct;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\WithPagination;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class ProductDetail extends AbstractFrontendClass
 {
     use WithPagination;
-    protected static $middleware = ['auth', 'role:member|admin'];
+    protected static $middleware = ['auth', 'role:member|admin|super_admin'];
 
     public $product;
+    public $thumbnail;
+    public $productGalleries;
     // public $ulasans;
     public function mount()
     {
-        $this->product = Product::find(request()->get('id'));
+        $this->product =  Product::where('id', request()->get('id'))->first();
+
+        $thumbnail = CuratorMedia::where('id', $this->product->thumbnail)->first();
+        $galleries = [];
+        foreach ($this->product->product_galleries as $gallery) {
+            $res = CuratorMedia::where('id', $gallery)->first();
+            $galleries[] = $res->path;
+        }
+
+
+        $this->thumbnail = $thumbnail;
+        $this->productGalleries = $galleries;
     }
     public function render()
     {
         return view("frontend::pages.product-detail", [
-            'product' => Product::find(request()->get('id')),
+            'product' => Product::where('id', request()->get('id'))->first(),
             'ulasans' => ReviewProduct::where('product_id', request()->get('id'))->paginate(30),
         ]);
     }
 
     public function addToCart()
     {
-        try {
-
-            Cart::create([
+        $product = Product::with('gambarThumbnail')->where('id', $this->product->id)->first();
+        $cartItem = Cart::add(
+            Auth::user()->getAuthIdentifier(),
+            $this->product->name,
+            1,
+            $this->product->price,
+            $this->product->weight,
+            [
+                'discount' => $this->product->discount,
                 'product_id' => $this->product->id,
-                'user_id' => Auth::user()->id,
-                'quantity' => 1,
-                'sub_total' => $this->product->sum('price'),
-                'grand_total' => $this->product->sum('price'),
-                'weight' => $this->product->weight,
-            ]);
-            $this->callAlert('success', 'Berhasil Menambahkan ke Keranjang!');
-            $this->redirect(route('frontend.productdetail', [
-                'id' => $this->product->id
-            ]));
-        } catch (\Exception $th) {
-            $this->callAlert('danger', 'Gagal Menambahkan ke Keranjang!');
-        }
+                'products' => [
+                    'thumbnail' => $product->gambarThumbnail->path ?? null,
+                ],
+            ]
+        );
+
+        $cartItem->associate(Product::getModel());
+        Cart::search(function ($cartItem) {
+            if (Cart::get($cartItem->rowId)) {
+                $this->dispatch('updateCart');
+                $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+            } else {
+                $this->dispatch('updateCart');
+                $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+                Cart::store(Auth::user()->getAuthIdentifier());
+            }
+        });
     }
 
 
     public function buyNow()
     {
-        Cart::create([
-            'product_id' => $this->product->id,
-            'user_id' => Auth::user()->id,
-            'quantity' => 1,
-            'sub_total' => $this->product->sum('price'),
-            'grand_total' => $this->product->sum('price'),
+        $product = Product::with('gambarThumbnail')->where('id', $this->product->id)->first();
+        $cartItem = Cart::add(
+            Auth::user()->getAuthIdentifier(),
+            $this->product->name,
+            1,
+            $this->product->price,
+            $this->product->weight,
+            [
+                'discount' => $this->product->discount,
+                'product_id' => $this->product->id,
+                'products' => [
+                    'thumbnail' => $product->gambarThumbnail->path ?? null,
+                ],
+            ]
+        );
 
-        ]);
+        $cartItem->associate(Product::getModel());
+        Cart::search(function ($cartItem) {
+            if (Cart::get($cartItem->rowId)) {
+                $this->dispatch('updateCart');
+                $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+                $this->redirect(route('frontend.keranjang', [
+                    'cart_id' => Auth::user()->id
+                ]));
+            } else {
+                $this->dispatch('updateCart');
+                $this->dispatch('alert', ['type' => 'success', 'message' => 'Berhasil Menambahkan ke keranjang!']);
+                $this->redirect(route('frontend.keranjang', [
+                    'cart_id' => Auth::user()->id
+                ]));
+                Cart::store(Auth::user()->getAuthIdentifier());
+            }
+        });
+    }
 
-        $this->redirect(route('frontend.keranjang', [
-            'cart_id' => Auth::user()->id
-        ]));
+    public function setThumbnail($file)
+    {
+        $this->dispatch('previewImage', $file);
     }
 }

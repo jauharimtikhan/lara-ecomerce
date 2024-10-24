@@ -6,14 +6,16 @@ namespace App\Models;
 
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
+use Gloudemans\Shoppingcart\Contracts\InstanceIdentifier;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements InstanceIdentifier
 {
     use HasFactory, Notifiable, HasUuids, HasRoles;
 
@@ -54,5 +56,25 @@ class User extends Authenticatable
     public function product(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function userDetail(): BelongsTo
+    {
+        return $this->belongsTo(UserDetail::class);
+    }
+
+    public function getInstanceIdentifier($options = null)
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get the unique identifier to load the Cart from
+     *
+     * @return int|string
+     */
+    public function getInstanceGlobalDiscount($options = null)
+    {
+        return $this->discountRate ?: 0;
     }
 }

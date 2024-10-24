@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\User;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
@@ -16,21 +18,16 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
-use Intervention\Image\ImageManager;
-use Filament\Support\RawJs;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends Resource
 {
@@ -39,6 +36,7 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-s-archive-box';
     protected static ?string $navigationLabel = 'Produk';
     protected static ?string $navigationGroup = "Inventory";
+    protected static ?string $label = "Produk";
 
     public static function form(Form $form): Form
     {
@@ -101,7 +99,7 @@ class ProductResource extends Resource
                                             'category_id' => $category->id
                                         ]);
                                     })
-                                    ->disabled(fn($get) => empty ($get('category_id')))
+                                    ->disabled(fn($get) => empty($get('category_id')))
                                     ->live()
                                     ->native(false),
                                 TextInput::make('stock')
@@ -118,7 +116,8 @@ class ProductResource extends Resource
                                     })
                                     ->required()
                                     ->native(false)
-                                    ->searchable(),
+                                    ->searchable()
+                                    ->default(fn() => Auth::user()->id),
                                 TextInput::make('weight')
                                     ->label('Berat Produk')
                                     ->placeholder('Masukan Berat Produk')
@@ -138,43 +137,16 @@ class ProductResource extends Resource
                     ])
                         ->columnSpan(8),
                     Section::make()->schema([
-                        FileUpload::make('thumbnail')
-                            ->label('Thumbnail')
-                            ->directory('product')
+                        CuratorPicker::make('thumbnail')
+                            ->label('Thumbnail Produk')
+                            ->listDisplay(false)
                             ->required()
-                            ->disk('public')
-                            ->image()
-                            ->imageEditor()
-                            ->saveUploadedFileUsing(function ($file, $record) {
-                                if ($record && $record->thumbnail) {
-                                    Storage::disk('public')->delete($record->thumbnail);
-                                }
-                                $manager = ImageManager::gd();
-                                $image = $manager->read($file);
-                                $path = "product/thumbnail/" . Str::random(40) . ".webp";
-                                $image->save("storage/{$path}")->toWebp(quality: 10);
-                                return $path;
-                            })
-                            ->deleteUploadedFileUsing(function ($file, $record) {
-                                if ($record && $record->thumbnail) {
-                                    // Menghapus file dari penyimpanan
-                                    Storage::disk('public')->delete($record->thumbnail);
-                                }
-                            }),
-                        FileUpload::make('product_galleries')
-                            ->multiple()
-                            ->label('Galeri Produk')
-                            ->image()
-                            ->imageEditor()
-                            ->disk('public')
-                            ->directory('product')
-                            ->saveUploadedFileUsing(function (Component $component, $file) {
-                                $manager = ImageManager::gd();
-                                $image = $manager->read($file);
-                                $path = "product/product_galleries/" . Str::random(40) . ".webp";
-                                $image->save("storage/{$path}")->toWebp(quality: 10);
-                                return $path;
-                            }),
+                            ->buttonLabel('Upload Thumbnail'),
+                        CuratorPicker::make('product_galleries')
+                            ->label('Gambar Galleri Produk')
+                            ->listDisplay(false)
+                            ->buttonLabel('Upload Galleri Produk')
+                            ->multiple(),
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true),
@@ -216,13 +188,15 @@ class ProductResource extends Resource
                     ->formatStateUsing(function (Product $record) {
                         return $record->is_featured == 1 ? 'Ya' : 'Tidak';
                     }),
-                ImageColumn::make('thumbnail')
+                CuratorColumn::make('thumbnail')
                     ->label('Thumbnail')
-                    ->circular(),
-                ImageColumn::make('product_galleries')
+                    ->circular()
+                    ->size(30),
+                CuratorColumn::make('product_galleries')
                     ->label('Gallery Produk')
                     ->circular()
                     ->stacked()
+                    ->size(30)
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

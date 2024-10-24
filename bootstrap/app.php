@@ -15,9 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->validateCsrfTokens([
-            'midtrans/webhook',
-        ]);
+
 
         $middleware->redirectGuestsTo(function ($request) {
             // Cek apakah pengguna belum login (guest)
