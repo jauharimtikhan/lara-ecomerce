@@ -38,9 +38,10 @@
             {{ $slot }}
         @else
             <livewire:frontend-sub-component::navbar />
-            <div class="mt-8">
+            <div class="xl:pt-8 md:pt-4">
                 {{ $slot }}
             </div>
+            @include('frontend::layouts.footer')
         @endif
     @else
         <livewire:frontend-sub-component::navbar />

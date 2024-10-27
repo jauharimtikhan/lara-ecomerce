@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\TesController;
+use App\Models\Role;
 // use App\Models\Cart;
 use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 use Modules\Admin\App\Livewire\Logout;
 
 
@@ -14,7 +17,25 @@ use function Modules\Frontend\Helpers\module_path;
 
 
 Route::get('/update/geologi_indonesia', [TesController::class, 'index'])->middleware('web');
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+})->middleware('guest')->name('auth.redirect');
+Route::get('/auth/callback', function () {
+    $google = Socialite::driver('google')->user();
+    $user = User::updateOrCreate([
+        'email' => $google->getEmail(),
+    ], [
+        'email' => $google->getEmail(),
+        'password' => Hash::make($google->getId()),
+        'name' => $google->getName()
+    ]);
+    $memberRoleId = Role::where('name', 'member')->first()->uuid;
+    $user->roles()->syncWithoutDetaching([$memberRoleId]);
 
+    Auth::login($user);
+
+    return to_route('frontend.home');
+})->middleware('guest')->name('auth.callback');
 Route::get('/', \Modules\Frontend\App\Livewire\Home::class)->name('home');
 Route::prefix('membership')->group(function () {
     $components = glob(module_path('Frontend') . '/app/Livewire/*.php');

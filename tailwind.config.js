@@ -5,11 +5,10 @@ export default {
     content: [
         "./Modules/Frontend/resources/**/*.blade.php",
         "./Modules/Frontend/resources/**/*.js",
-        "./Modules/Admin/resources/**/*.blade.php",
-        "./Modules/Admin/resources/**/*.js",
         "./node_modules/flowbite/**/*.js",
         "./vendor/filament/**/*.blade.php",
         "./vendor/awcodes/filament-curator/resources/**/*.blade.php",
+        "./vendor/awcodes/filament-quick-create/resources/**/*.blade.php",
     ],
     theme: {
         extend: {

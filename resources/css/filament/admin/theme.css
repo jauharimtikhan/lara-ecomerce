@@ -1,0 +1,4 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+@import '/vendor/awcodes/filament-curator/resources/dist/curator.css';
+
+@config 'tailwind.config.js';

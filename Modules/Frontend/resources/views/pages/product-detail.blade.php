@@ -3,9 +3,9 @@
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
             <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-1 md:grid md:grid-cols-2 md:gap-12">
                 <div class="flex flex-col gap-4">
-                    <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                        <img class="w-full rounded-lg drop-shadow-lg mb-5" id="image-product-{{ $product->id }}"
-                            src="{{ asset('storage/' . $thumbnail->path) }}"
+                    <div class="shrink-0 max-w-md w-full mx-auto bg-gray-100 rounded-lg p-4 flex justify-center">
+                        <img class="w-48 rounded-lg drop-shadow-lg mb-5" id="image-product-{{ $product->id }}"
+                            src="{{ $product->gambarThumbnail->largeUrl }}"
                             alt="product {{ $product->name }} {{ config('app.name') }}" />
 
                     </div>
@@ -17,18 +17,13 @@
                                 @foreach ($productGalleries as $gallery)
                                     <div class="hidden duration-700 ease-in-out" wire:ignore.self
                                         wire:key="{{ $gallery }}" data-carousel-item
-                                        wire:click="setThumbnail('{{ asset('storage/' . $gallery) }}')">
+                                        onclick="setThumbnail('{{ $gallery }}')">
                                         @php
-                                            $image = asset('storage/' . $gallery);
+                                            $image = $gallery;
                                         @endphp
-                                        @svg('bx-loader-alt', [
-                                            'class' => 'animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-5 h-5',
-                                            'wire:loading' => true,
-                                            'wire:target' => "setTumbnail('{$image}')",
-                                        ])
-                                        <div wire:loading.remove wire:target="setTumbnail('{{ $image }}')"
+                                        <div id="gallery-product-{{ $product->id }}"
                                             class=" p-2 cursor-pointer hover:scale-105 hover:shadow-2xl dark:bg-gray-800 w-full h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                            style="background-image: url({{ asset('storage/' . $gallery) }}); background-size: contain; background-position: center center; background-repeat: no-repeat;">
+                                            style="background-image: url({{ $image }}); background-size: contain; background-position: center center; background-repeat: no-repeat;">
                                         </div>
                                     </div>
                                 @endforeach
@@ -68,9 +63,26 @@
                     </div>
                 </div>
                 <div class="mt-6 sm:mt-8 lg:mt-0">
-                    <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                        {{ $product->name }}
-                    </h1>
+                    <div class="flex flex-wrap justify-between items-center">
+                        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                            {{ str()->upper($product->name) }}
+                        </h1>
+                        @php
+                            $colors = ['red', 'blue', 'primary'];
+                            $color = $colors[rand(0, count($colors) - 1)];
+                            $class = sprintf(
+                                'bg-%s-100 text-%s-800 text-lg font-bold me-2 px-2.5 py-0.5 rounded dark:bg-%s-900 dark:text-%s-300',
+                                $color,
+                                $color,
+                                $color,
+                                $color,
+                            );
+                        @endphp
+
+                        <span class="{{ $class }}">
+                            Kategori: {{ str()->ucfirst($product->category->name) }}
+                        </span>
+                    </div>
                     <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                         <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
                             {{ $product->formatRupiah() }}
@@ -167,7 +179,7 @@
             <div class="mx-auto max-w-5xl">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Deskripsi Produk</h2>
                 <div class=" max-w-2xl space-y-0 mt-8 dark:text-white">
-                    {{ $product->description }}
+                    {!! str($product->description)->sanitizeHtml() !!}
                 </div>
 
 
@@ -291,15 +303,19 @@
         </div>
     </section>
 </div>
-@script
+@push('js')
     <script>
-        Livewire.on('previewImage', (file) => {
-            const preview = document.querySelector('#image-product-{{ $product->id }}');
+        const preview = document.querySelector('#image-product-{{ $product->id }}');
 
-            preview.src = file
+        function setThumbnail(file) {
+            if (file instanceof File) {
+                // Buat URL dari file jika merupakan objek `File`
+                preview.src = URL.createObjectURL(file);
+            } else {
+                // Jika `file` adalah URL, langsung gunakan
+                preview.src = file;
+            }
             // console.log(preview.src);
-
-
-        })
+        }
     </script>
-@endscript
+@endpush

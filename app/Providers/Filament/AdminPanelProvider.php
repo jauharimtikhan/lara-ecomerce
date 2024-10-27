@@ -3,12 +3,14 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -33,17 +35,12 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 \Awcodes\Curator\CuratorPlugin::make()
-                    ->label('Media')
-                    ->pluralLabel('Media')
-                    ->navigationIcon('heroicon-o-photo')
-                    ->navigationGroup(false)
-                    ->navigationSort(3)
-                    ->navigationCountBadge()
-                    ->registerNavigation(true)
-                    ->defaultListView('list')
-                    ->resource(
-                        \Awcodes\Curator\Resources\MediaResource::class
-                    )
+                    ->resource(\App\Filament\Resources\MediaResource::class),
+                QuickCreatePlugin::make()
+                    ->excludes([
+                        \App\Filament\Resources\OrderResource::class
+                    ])
+
             ])
             ->colors([
                 'primary' => Color::Amber,
@@ -51,6 +48,7 @@ class AdminPanelProvider extends PanelProvider
                 'info' => Color::Blue,
                 'danger' => Color::Red
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->favicon(asset('favicon_io/favicon.ico'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

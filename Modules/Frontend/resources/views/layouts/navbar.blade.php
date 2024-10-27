@@ -12,7 +12,7 @@
                     </a>
                 </div>
 
-                <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
+                {{-- <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
 
                     @if (Auth::check())
                         @foreach ($items as $item)
@@ -64,7 +64,7 @@
                             @endforeach
                         @endforeach
                     @endif
-                </ul>
+                </ul> --}}
             </div>
 
             <div class="flex items-center lg:space-x-2">
@@ -159,8 +159,7 @@
                                         {{ $cart['qty'] }}
                                     </p>
 
-                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}"
-                                        type="button"
+                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}" type="button"
                                         wire:click="removeItemFromCart('{{ $cart['id'] }}', '{{ $cart['rowId'] }}')"
                                         class="text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-600">
                                         <span class="sr-only"> Remove </span>
@@ -196,7 +195,8 @@
                             role="button"> Checkout Sekarang </a>
                     </div>
 
-                    <button id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
+                    <button id="userDropdownButton1" data-dropdown-toggle="user-dropdown-{{ Auth::user()->id }}"
+                        type="button"
                         class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
                         <span class="sr-only">
                             Account
@@ -215,18 +215,12 @@
                         </svg>
                     </button>
 
-                    <div id="userDropdown1"
+                    <div id="user-dropdown-{{ Auth::user()->id }}"
                         class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
                         <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                             <li><a wire:navigate href="{{ route('frontend.profile') }}"
                                     class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                     Akun </a></li>
-                            <li>
-                                <a href="{{ route('frontend.pesanansaya') }}"
-                                    class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    Pesanan Saya
-                                </a>
-                            </li>
 
 
                         </ul>

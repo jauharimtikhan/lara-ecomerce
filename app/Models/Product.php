@@ -57,7 +57,7 @@ class Product extends Model implements Buyable
     public function subcategory(): BelongsTo
     {
 
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
     public function formatDate()

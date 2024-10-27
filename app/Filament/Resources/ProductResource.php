@@ -13,6 +13,7 @@ use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -127,19 +128,17 @@ class ProductResource extends Resource
                                     ->minValue(0),
 
                             ])->columns(2),
-                            Textarea::make('description')
+                            RichEditor::make('description')
                                 ->label('Deskripsi Produk')
                                 ->columnSpan(2)
                                 ->required()
                                 ->placeholder('Masukan Deskripsi Produk')
-                                ->rows(10),
                         ])
                     ])
                         ->columnSpan(8),
                     Section::make()->schema([
                         CuratorPicker::make('thumbnail')
                             ->label('Thumbnail Produk')
-                            ->listDisplay(false)
                             ->required()
                             ->buttonLabel('Upload Thumbnail'),
                         CuratorPicker::make('product_galleries')
@@ -188,6 +187,10 @@ class ProductResource extends Resource
                     ->formatStateUsing(function (Product $record) {
                         return $record->is_featured == 1 ? 'Ya' : 'Tidak';
                     }),
+                TextColumn::make('category.name')
+                    ->label('Kategori'),
+                TextColumn::make('subcategory.name')
+                    ->label('Sub Kategori'),
                 CuratorColumn::make('thumbnail')
                     ->label('Thumbnail')
                     ->circular()

@@ -15,7 +15,7 @@ use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class Profile extends AbstractFrontendClass
 {
-    protected static string|array $middleware = ['auth', 'role:super_admin|admin'];
+    protected static string|array $middleware = ['auth', 'role:super_admin|admin|member'];
     public ?array $dataUser = [
         'role' => null,
         'name' => null,
@@ -40,10 +40,10 @@ class Profile extends AbstractFrontendClass
         });
         $this->dataUser = [
             'role' => ucfirst(str_replace('_', ' ', Auth::user()->roles->first->name->name)),
-            'name' => $user->user->name,
-            'address' => $user->alamat_lengkap,
-            'phone' => $user->notelp,
-            'email' => $user->user->email,
+            'name' => Auth::user()->name,
+            'address' => $user?->alamat_lengkap,
+            'phone' => $user?->notelp,
+            'email' => Auth::user()->email,
             'profile' => 'heroicon-s-user-circle',
             'historyPayment' => collect($lastorder)
 

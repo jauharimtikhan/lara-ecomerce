@@ -30,8 +30,14 @@
                             class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Lupa
                             Password?</a>
                     </div>
-                    <x-frontend-component::button type="submit" bg_color="primary" wire_loading="true"
-                        wire_target="login" size="large">Login</x-frontend-component::button>
+                    <div class="flex justify-between space-x-2 items-center">
+                        <x-frontend-component::button type="submit" bg_color="primary" wire_loading="true"
+                            wire_target="login" size="large">Login</x-frontend-component::button>
+                        <x-filament::link role="button" href="{{ route('auth.redirect') }}" size="lg"
+                            type="button" class="flex items-center">
+                            <x-slot name="icon">@svg('fab-google-plus-g')</x-slot> Google
+                        </x-filament::link>
+                    </div>
                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                         Belum punya akun? <a href="{{ route('frontend.register') }}"
                             class="font-medium text-primary-600 hover:underline dark:text-primary-500">Daftar</a>
@@ -41,3 +47,10 @@
         </div>
     </div>
 </section>
+@script
+    <script>
+        window.PageProps = {
+            route: '{{ Route::currentRouteName() }}',
+        }
+    </script>
+@endscript

@@ -28,7 +28,7 @@ class ProductDetail extends AbstractFrontendClass
         $galleries = [];
         foreach ($this->product->product_galleries as $gallery) {
             $res = CuratorMedia::where('id', $gallery)->first();
-            $galleries[] = $res->path;
+            $galleries[] = $res->url;
         }
 
 
