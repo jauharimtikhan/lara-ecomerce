@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -19,6 +20,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Number;
 
@@ -35,19 +37,20 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()->schema([
-                    Select::make('status')
-                        ->options([
-                            'pending' => 'Menunggu Pembayaran',
-                            'settlement' => 'Perlu Dikirim',
-                            'cancel' => 'Batalkan',
-                            'proses' => 'Dalam Proses',
-                            'selesai' => 'Selesai',
-                        ])
-                        ->label('Status')
-                        ->native(false)
-
-                ])
+                Select::make('status')
+                    ->options([
+                        'pending' => 'Menunggu Pembayaran',
+                        'settlement' => 'Perlu Dikirim',
+                        'cancel' => 'Batalkan',
+                        'proses' => 'Dalam Proses',
+                        'selesai' => 'Selesai',
+                    ])
+                    ->label('Status')
+                    ->native(false)
+                    ->columnSpan(2),
+                ViewField::make('detail_orders')
+                    ->view('forms.components.order-detail-form')
+                    ->columnSpan(2)
             ]);
     }
 
@@ -57,19 +60,9 @@ class OrderResource extends Resource
             ->columns([
                 TextColumn::make('user.email')
                     ->label('Pembeli'),
-                ViewColumn::make('products')
-                    ->view('tables.columns.orders-product-detail', [
-                        'products' => function ($record) {
-                            $product = [];
-                            foreach ($record->products as  $value) {
-                                $product[] = Product::with('gambarThumbnail')->where('id', $value['id'])->get();
-                            }
-
-
-                            return $product;
-                        }
-                    ])
-                    ->label('Produk'),
+                ViewColumn::make('products.product')
+                    ->label('Produk')
+                    ->view('tables.columns.orders-product-detail'),
                 TextColumn::make('quantity')
                     ->label('Jumlah'),
                 TextColumn::make('total_price')

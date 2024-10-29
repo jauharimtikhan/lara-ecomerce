@@ -30,11 +30,11 @@
                             class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Lupa
                             Password?</a>
                     </div>
-                    <div class="flex justify-between space-x-2 items-center">
+                    <div class="flex justify-between flex-col space-x-2 items-center">
                         <x-frontend-component::button type="submit" bg_color="primary" wire_loading="true"
                             wire_target="login" size="large">Login</x-frontend-component::button>
                         <x-filament::link role="button" href="{{ route('auth.redirect') }}" size="lg"
-                            type="button" class="flex items-center">
+                            type="button" class="flex items-center mt-2">
                             <x-slot name="icon">@svg('fab-google-plus-g')</x-slot> Google
                         </x-filament::link>
                     </div>
