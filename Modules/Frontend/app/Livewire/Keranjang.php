@@ -59,9 +59,7 @@ class Keranjang extends AbstractFrontendClass
         // $this->items[] = Cart::instance('default')->content();
         if ($this->address !== null) {
             $response = $this->cekOngkirAction($this->address->kabupaten);
-            $this->resultOngkirWhenUserDetailIsNotNull = Cache::remember("ongkir_{$this->address->kabupaten}", now()->addMinutes(60), function () use ($response) {
-                return $response['costs'];
-            });
+            $this->resultOngkirWhenUserDetailIsNotNull = $response !== null ? $response['costs'] : [];
         }
     }
 
@@ -148,6 +146,7 @@ class Keranjang extends AbstractFrontendClass
 
     protected function requestApi($params)
     {
+
         $endpoint = "https://api.rajaongkir.com/starter/";
         $client = new Client();
         try {
@@ -161,12 +160,13 @@ class Keranjang extends AbstractFrontendClass
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (\GuzzleHttp\Exception\ClientException $th) {
-            return $th->getMessage();
+            return null;
         }
     }
 
     public function cekOngkirAction($id = null)
     {
+
         $origin = config('services.rajaongkir.origin');
         $courier = config('services.rajaongkir.courier');
         $destination = $id ?? $this->dataOngkir['kabupaten'];
@@ -184,7 +184,7 @@ class Keranjang extends AbstractFrontendClass
             ]
         ]);
 
-        return collect($response['rajaongkir']['results'][0]);
+        return $response !== null ? collect($response['rajaongkir']['results'][0]) : null;
     }
 
 

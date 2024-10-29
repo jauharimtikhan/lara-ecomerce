@@ -60,4 +60,21 @@ class Transaction extends Model
         return Carbon::parse($this->created_at)
             ->isoFormat('dddd, D MMMM Y');
     }
+
+    public function product($id)
+    {
+        return Product::with('gambarThumbnail')->find($id);
+    }
+    public function userDetail(): BelongsTo
+    {
+        return $this->belongsTo(UserDetail::class, 'user_id', 'user_id');
+    }
+
+    public function dateToDelivery()
+    {
+        Carbon::setLocale('ID');
+        return Carbon::parse($this->created_at)
+            ->subHours(24)
+            ->isoFormat('dddd, D MMMM Y HH:mm:ss');
+    }
 }

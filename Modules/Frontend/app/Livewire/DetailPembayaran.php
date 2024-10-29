@@ -34,13 +34,18 @@ class DetailPembayaran extends AbstractFrontendClass
             Carbon::setLocale('id');
             $this->formatedDate = Carbon::parse($response['transaction_time'])->isoFormat('dddd, D MMMM Y HH:mm:ss');
             $this->expiryTime = Carbon::parse($response['expiry_time'])->isoFormat('dddd, D MMMM Y HH:mm:ss');
-            Orders::where('user_id', Auth::user()->id)
-                ->where('status', 'pending')
-                ->update(['status' => $this->midtransData['transaction_status']]);
-            Transaction::where('transaction_id', $this->midtransData['transaction_id'])
-                ->where('status', 'pending')
-                ->first()
-                ->update(['status' => $this->midtransData['transaction_status']]);
+            Orders::updateOrCreate([
+                'user_id' => Auth::user()->id,
+                'status' => 'pending'
+            ], [
+                'status' => $this->midtransData['transaction_status']
+            ]);
+            Transaction::updateOrCreate([
+                'user_id' => Auth::user()->id,
+                'status' => 'pending'
+            ], [
+                'status' => $this->midtransData['transaction_status']
+            ]);
         }
     }
 

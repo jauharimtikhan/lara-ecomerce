@@ -12,7 +12,7 @@
                     </a>
                 </div>
 
-                <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
+                {{-- <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
 
                     @if (Auth::check())
                         @foreach ($items as $item)
@@ -64,7 +64,7 @@
                             @endforeach
                         @endforeach
                     @endif
-                </ul>
+                </ul> --}}
             </div>
 
             <div class="flex items-center lg:space-x-2">
@@ -159,8 +159,7 @@
                                         {{ $cart['qty'] }}
                                     </p>
 
-                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}"
-                                        type="button"
+                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}" type="button"
                                         wire:click="removeItemFromCart('{{ $cart['id'] }}', '{{ $cart['rowId'] }}')"
                                         class="text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-600">
                                         <span class="sr-only"> Remove </span>
@@ -196,7 +195,8 @@
                             role="button"> Checkout Sekarang </a>
                     </div>
 
-                    <button id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
+                    <button id="userDropdownButton1" data-dropdown-toggle="user-dropdown-{{ Auth::user()->id }}"
+                        type="button"
                         class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
                         <span class="sr-only">
                             Account
@@ -215,18 +215,12 @@
                         </svg>
                     </button>
 
-                    <div id="userDropdown1"
+                    <div id="user-dropdown-{{ Auth::user()->id }}"
                         class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
                         <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                             <li><a wire:navigate href="{{ route('frontend.profile') }}"
                                     class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                                     Akun </a></li>
-                            <li>
-                                <a href="{{ route('frontend.pesanansaya') }}"
-                                    class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    Pesanan Saya
-                                </a>
-                            </li>
 
 
                         </ul>
@@ -253,78 +247,8 @@
                 @endif
 
 
-                <button type="button" data-collapse-toggle="ecommerce-navbar-menu-1"
-                    aria-controls="ecommerce-navbar-menu-1" aria-expanded="false"
-                    class="inline-flex lg:hidden items-center justify-center hover:bg-gray-100 rounded-md dark:hover:bg-gray-700 p-2 text-gray-900 dark:text-white">
-                    <span class="sr-only">
-                        Open Menu
-                    </span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                            d="M5 7h14M5 12h14M5 17h14" />
-                    </svg>
-                </button>
             </div>
         </div>
 
-        <div id="ecommerce-navbar-menu-1" wire:ignore
-            class="bg-gray-50 dark:bg-gray-700 dark:border-gray-600 border border-gray-200 rounded-lg py-3 hidden px-4 mt-4">
-            <ul class="text-gray-900 dark:text-white text-sm font-medium space-y-3">
-                <li>
-                    <a href="{{ route('frontend.home') }}"
-                        class="hover:text-primary-700 dark:hover:text-primary-500">Home</a>
-                </li>
-                <li>
-                    <a href="{{ route('frontend.product', ['category' => 'pria']) }}"
-                        class="hover:text-primary-700 dark:hover:text-primary-500">Pria</a>
-                </li>
-                <li>
-                    <a href="{{ route('frontend.product', ['category' => 'wanita-anak']) }}"
-                        class="hover:text-primary-700 dark:hover:text-primary-500">Wanita & Anak</a>
-                </li>
-                <li>
-                    <a href="{{ route('frontend.product', ['category' => 'perlengkapan']) }}"
-                        class="hover:text-primary-700 dark:hover:text-primary-500">Perlengkapan</a>
-                </li>
-                <li>
-                    <form class="flex md:hidden items-center max-w-sm ">
-                        <label for="simple-search" class="sr-only">Search</label>
-                        <div class="relative w-full">
-
-                            <input type="text" id="simple-search"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Cari Produk..." required />
-                        </div>
-                        <button type="submit"
-                            class="p-2.5 ms-2 text-sm font-medium text-white bg-primary-700 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                            <span class="sr-only">Search</span>
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
-@script
-    <script>
-        const navbarContainer = document.getElementById("navbarContainer");
-        navbarContainer.classList.add("fixed");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY >= 0) {
-                navbarContainer.classList.add("fixed");
-                navbarContainer.style.transition =
-                    "all 0.3s ease-in-out"; // Properti transition diatur setelah class ditambahkan
-            } else {
-                navbarContainer.classList.remove("fixed");
-                navbarContainer.style.transition =
-                    "all 0.3s ease-in-out"; // Masih memberikan transisi meskipun class dihapus
-            }
-        });
-    </script>
-@endscript

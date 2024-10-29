@@ -4,32 +4,36 @@ namespace Modules\Frontend\App\Livewire;
 
 use App\Models\Product as ModelsProduct;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Modules\Frontend\Helpers\AbstractFrontendClass;
 
 class Product extends AbstractFrontendClass
 {
     use WithPagination;
-    public $products = [];
-    public $currentPage = 1;
-    public $hasMorePages = true;
+    // public $products;
+    public $perPage = 1;
     public string $searchQuery = '';
     public string $subSearchQuery = '';
 
+    protected $listeners = [
+        'loadMore'
+    ];
+
     public function mount()
     {
-        $query = request()->get('category');
-        $subQuery = request()->get('subcategory');
-        $this->searchQuery = urldecode($query);
-        $this->subSearchQuery = urldecode($subQuery);
-        $this->loadProducts();
+        $this->initializeSearchQueries();
+        $this->getProducts();
     }
 
-    public function placehlder()
+    private function initializeSearchQueries(): void
+    {
+        $this->searchQuery = urldecode(request()->get('category', ''));
+        $this->subSearchQuery = urldecode(request()->get('subcategory', ''));
+    }
+
+    public function placehlder(): string
     {
         return <<<HTML
-          
         <div role="status" class="animate-pulse">
             <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 max-w-[640px] mb-2.5 mx-auto"></div>
             <div class="h-2.5 mx-auto bg-gray-300 rounded-full dark:bg-gray-700 max-w-[540px]"></div>
@@ -42,57 +46,37 @@ class Product extends AbstractFrontendClass
             </div>
             <span class="sr-only">Loading...</span>
         </div>
-
         HTML;
     }
 
-    public function loadProducts()
+    public function loadMore(): void
     {
-        $newProducts = $this->getProducts($this->searchQuery, $this->subSearchQuery);
+        $this->perPage += 1;
+    }
 
-        if (count($newProducts) > 0) {
-            $this->products = array_merge($this->products, $newProducts);
-            $this->currentPage++;
-        } else {
-            $this->hasMorePages = false; // Tidak ada halaman lebih
-        }
-    }
-    #[On('loadMore')]
-    public function loadMore()
+    #[Computed]
+    public function getProducts()
     {
-        if ($this->hasMorePages) {
-            $this->loadProducts();
-        }
-    }
-    #[Computed(true)]
-    protected function getProducts($searchQuery = null, $subSearchQuery = null)
-    {
-        $products = ModelsProduct::with(['category', 'category.subcategory', 'thumbnail'])
-            ->where('is_active', '=', 1)
-            ->where(function ($query) use ($searchQuery, $subSearchQuery) {
-                // Kondisi untuk kategori dan subkategori harus terpenuhi
-                $query->where(function ($categoryQuery) use ($searchQuery) {
-                    $categoryQuery->whereHas('category', function ($query) use ($searchQuery) {
-                        $query->where('name', 'like', '%' . $searchQuery . '%');
+        return ModelsProduct::with(['category', 'subcategory', 'thumbnail'])
+            ->where('is_active', 1)
+            ->where(function ($query) {
+                $query->when($this->searchQuery, function ($query) {
+                    $query->whereHas('category', function ($q) {
+                        $q->where('name', 'like', '%' . $this->searchQuery . '%');
                     });
-                })
-                    ->orWhere(function ($subcategoryQuery) use ($subSearchQuery) {
-                        $subcategoryQuery->whereHas('category.subcategory', function ($query) use ($subSearchQuery) {
-                            $query->where('name', 'like', '%' . $subSearchQuery . '%');
-                        });
+                })->when($this->subSearchQuery, function ($query) {
+                    $query->orWhereHas('category.subcategory', function ($q) {
+                        $q->where('name', 'like', '%' . $this->subSearchQuery . '%');
                     });
-            })->paginate(12);
-        return [
-            'data' => collect($products->items()),
-
-        ];
+                });
+            })
+            ->paginate($this->perPage);
     }
-
 
     public function render()
     {
         return view('frontend::pages.product-list', [
-            'products' => $this->products,
+            'products' => $this->getProducts(),
         ]);
     }
 }

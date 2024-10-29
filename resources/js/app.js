@@ -14,8 +14,10 @@ import {
 } from "flowbite";
 document.addEventListener("livewire:navigated", () => {
     AOS.init();
-
     const pageProps = window.PageProps;
+
+    // console.log(pageProps);
+
     const dismiss = document.getElementById(`alert-${pageProps.session}`);
     Livewire.on("alert", () => {
         dismiss.classList.add("block");
