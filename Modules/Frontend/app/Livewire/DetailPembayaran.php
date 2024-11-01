@@ -5,6 +5,7 @@ namespace Modules\Frontend\App\Livewire;
 use App\Events\MidtransNotification;
 use App\Models\Orders;
 use App\Models\Transaction;
+use App\Models\UserDetail;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -22,35 +23,40 @@ class DetailPembayaran extends AbstractFrontendClass
 
     public $formatedDate;
     public $expiryTime;
+    public $transaction;
 
+    protected $listeners = ['echo:transactions,TransactionStatusUpdated' => 'updateTransactionStatus'];
 
-    public function mount()
+    public function mount(Transaction $transaction)
     {
         $this->orders = Orders::where('user_id', Auth::user()->id)->first();
         if (request()->get('order_id') != null) {
+
             $response = $this->loadMidtrans(request()->get('order_id'));
             $this->midtransData = collect($response);
             $this->status = $this->midtransData['transaction_status'];
             Carbon::setLocale('id');
             $this->formatedDate = Carbon::parse($response['transaction_time'])->isoFormat('dddd, D MMMM Y HH:mm:ss');
             $this->expiryTime = Carbon::parse($response['expiry_time'])->isoFormat('dddd, D MMMM Y HH:mm:ss');
-            Orders::updateOrCreate([
+
+            Orders::whereAll([
                 'user_id' => Auth::user()->id,
-                'status' => 'pending'
-            ], [
+                'status' => 'pending',
+
+            ])->update([
                 'status' => $this->midtransData['transaction_status']
             ]);
-            Transaction::updateOrCreate([
+            Transaction::whereAll([
                 'user_id' => Auth::user()->id,
                 'status' => 'pending'
-            ], [
+            ])->update([
                 'status' => $this->midtransData['transaction_status']
             ]);
         }
     }
 
 
-    public function handleNotificationMidtrans($notification)
+    public function updateTransactionStatus($notification)
     {
         dd($notification);
     }

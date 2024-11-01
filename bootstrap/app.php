@@ -12,10 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__ . '/../routes/web.php',
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
+        channels: __DIR__ . '/../routes/channels.php'
 
     )
     ->withMiddleware(function (Middleware $middleware) {
-
+        $middleware->validateCsrfTokens([
+            'midtrans/webhook'
+        ]);
 
         $middleware->redirectGuestsTo(function ($request) {
             // Cek apakah pengguna belum login (guest)

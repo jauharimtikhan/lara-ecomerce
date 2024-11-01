@@ -18,6 +18,7 @@ class CuratorMedia extends Media
 {
     use HasFactory, HasUuids, MediaAlly;
 
+
     protected $table = 'media';
 
 
@@ -40,6 +41,24 @@ class CuratorMedia extends Media
                 }
 
                 return Storage::disk($this->disk)->url($this->path);
+            }
+        );
+    }
+
+    protected function hd(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                if ($this->disk === 'cloudinary') {
+                    return (string) (new Cloudinary())
+                        ->image($this->path)
+                        ->resize(Resize::fit(1920))
+                        ->format(Format::auto())
+                        ->quality(Quality::auto())
+                        ->toUrl();
+                }
+
+                return $this->getSignedUrl(['w' => 1920, 'h' => 1080, 'fit' => 'crop', 'fm' => 'jpg']);
             }
         );
     }

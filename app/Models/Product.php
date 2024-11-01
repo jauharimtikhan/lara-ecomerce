@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Binafy\LaravelCart\Cartable;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,10 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
+use Laravel\Scout\Searchable;
 
 class Product extends Model implements Buyable
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes, Searchable;
     use \Gloudemans\Shoppingcart\CanBeBought;
     protected $fillable = [
         'name',
@@ -38,6 +38,17 @@ class Product extends Model implements Buyable
         'is_active' => 'boolean',
         'is_featured' => 'boolean'
     ];
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'updated_at' => $this->updated_at,
+            'thumbnail' => CuratorMedia::where('id', $this->thumbnail)->first()->url
+        ];
+    }
 
     public function category(): BelongsTo
     {

@@ -10,6 +10,7 @@ export default defineConfig({
                 "resources/js/app.js",
                 "resources/js/admin.js",
                 "resources/js/unauthenticate.js",
+                "resources/js/global.js",
                 "resources/css/filament/admin/theme.css",
             ],
             refresh: true,

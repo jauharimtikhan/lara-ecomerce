@@ -12,15 +12,31 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <title>{{ $title ?? config('app.name') }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.5/dist/algoliasearch-lite.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+    <link rel="stylesheet" href="https://unpkg.com/instantsearch.css@7/themes/satellite-min.css" />
     @if (!Auth::check())
-        @vite(['resources/css/app.css', 'resources/js/unauthenticate.js'])
+        @vite(['resources/css/app.css', 'resources/js/unauthenticate.js', 'resources/js/global.js'])
+        <script>
+            window.PageProps = {
+                algoliaEnv: {
+                    appId: @json(env('ALGOLIA_APP_ID')),
+                    apiKey: @json(env('ALGOLIA_API_KEY'))
+                },
+                appUrl: @json(env('APP_URL'))
+            }
+        </script>
     @else
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/global.js'])
         <script>
             window.PageProps = {
                 user: @json(Auth::user()->toArray()),
                 session: @json(session()->getId()),
-
+                algoliaEnv: {
+                    appId: @json(env('ALGOLIA_APP_ID')),
+                    apiKey: @json(env('ALGOLIA_API_KEY'))
+                },
+                appUrl: @json(env('APP_URL'))
             }
         </script>
     @endif
@@ -38,21 +54,24 @@
             {{ $slot }}
         @else
             <livewire:frontend-sub-component::navbar />
-            <div class="xl:pt-8 md:pt-4">
+            <livewire:frontend-sub-component::globalsearch />
+            <div class="pt-2">
                 {{ $slot }}
             </div>
-            @include('frontend::layouts.footer')
+            <x-frontend-component::footer />
         @endif
     @else
         <livewire:frontend-sub-component::navbar />
-        <div class="xl:pt-8 md:pt-4">
+        <livewire:frontend-sub-component::globalsearch />
+
+        <div class="pt-2">
             {{ $slot }}
         </div>
-        @include('frontend::layouts.footer')
+        <x-frontend-component::footer />
+        {{-- @include('frontend::layouts.footer') --}}
     @endif
     @filamentScripts
     @livewireScripts
-
     @stack('js')
 </body>
 

@@ -19,7 +19,6 @@ class SubCategoryResource extends Resource
 {
     protected static ?string $model = SubCategory::class;
 
-    protected static ?string $navigationIcon = 'bxs-category-alt';
     protected static ?string $navigationLabel = 'Sub Kategori Produk';
     protected static ?string $navigationGroup = 'Inventory';
     protected static ?int $navigationSort = 3;

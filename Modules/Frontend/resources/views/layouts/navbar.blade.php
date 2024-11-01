@@ -1,4 +1,4 @@
-<nav id="navbarContainer" class="bg-white  top-0 left-0 w-full z-30 dark:bg-gray-800 antialiased" wire:ignore.self>
+<nav id="navbarContainer" class="bg-white top-0 left-0 w-full z-30 dark:bg-gray-800 antialiased" wire:ignore.self>
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
         <div class="flex items-center justify-between">
 
@@ -69,28 +69,12 @@
 
             <div class="flex items-center lg:space-x-2">
 
-
-                <form class="md:flex hidden  items-center max-w-sm mx-auto">
-                    <label for="simple-search" class="sr-only">Search</label>
-                    <div class="relative w-full">
-
-                        <input type="text" id="simple-search"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Cari Produk..." required />
-                    </div>
-                    <button type="submit"
-                        class="p-2.5 ms-2 text-sm font-medium text-white bg-primary-700 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                        <span class="sr-only">Search</span>
-                    </button>
-                </form>
-
-
-
+                <button id="btnGlobalSearch" type="button" wire:ignore.self
+                    class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                    @svg('fas-search', [
+                        'class' => 'w-5 h-5',
+                    ])
+                </button>
                 <button id="theme-toggle" type="button" wire:ignore.self
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -201,8 +185,8 @@
                         <span class="sr-only">
                             Account
                         </span>
-                        <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-width="2"
                                 d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>

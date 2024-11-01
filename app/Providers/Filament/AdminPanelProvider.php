@@ -20,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\NavigationGroup;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -32,13 +33,25 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->topNavigation()
             ->spa()
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Inventory')
+                    ->icon('bxs-grid'),
+                NavigationGroup::make()
+                    ->label('CMS')
+                    ->icon('fas-outdent'),
+            ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 \Awcodes\Curator\CuratorPlugin::make()
                     ->resource(\App\Filament\Resources\MediaResource::class),
                 QuickCreatePlugin::make()
                     ->excludes([
-                        \App\Filament\Resources\OrderResource::class
+                        \App\Filament\Resources\OrderResource::class,
+                        \App\Filament\Resources\HomeCmsResource::class,
+                        \App\Filament\Resources\SaleReportResource::class,
+                        \App\Filament\Resources\MediaResource::class,
+                        \App\Filament\Resources\Shield\RoleResource::class,
                     ])
 
             ])

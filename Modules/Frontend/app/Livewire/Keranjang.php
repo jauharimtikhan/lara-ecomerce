@@ -259,7 +259,7 @@ class Keranjang extends AbstractFrontendClass
                         'quantity' => Cart::count(),
                         'weight' => Cart::weight(0, '', ''),
                         'status' => 'pending',
-                        'total_price' => Cart::total(0, '', '') + $this->totalOngkir,
+                        'total_price' => Cart::total(0, '', ''),
                         'ongkir' => $this->totalOngkir
                     ]);
 

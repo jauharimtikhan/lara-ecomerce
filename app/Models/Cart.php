@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Gloudemans\Shoppingcart\Cart as FacadesCart;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Number;
 
-class Cart extends Model
+class Cart extends FacadesCart
 {
     use HasFactory, HasUuids;
 
@@ -38,5 +39,10 @@ class Cart extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function thumbnail()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

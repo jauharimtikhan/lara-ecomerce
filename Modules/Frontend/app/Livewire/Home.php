@@ -3,6 +3,7 @@
 namespace Modules\Frontend\App\Livewire;
 
 use App\Models\Category;
+use App\Models\HomeCms;
 use App\Models\Product;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -31,7 +32,8 @@ class Home extends AbstractFrontendClass
                 ->where('is_featured', 1)
                 ->orderBy('id', 'desc')
                 ->paginate($this->perPage),
-            'categories' => Category::paginate(10)
+            'categories' => Category::paginate(10),
+            'dynamicContents' => HomeCms::find('9d600c3a-f0dc-4779-a22d-f897d3efde98'),
         ]);
     }
 }

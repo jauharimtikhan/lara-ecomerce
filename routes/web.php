@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MidtransWebhookController;
 use App\Http\Controllers\TesController;
 use App\Models\Role;
 // use App\Models\Cart;
@@ -76,3 +77,5 @@ Route::get('/erase/cart', function () {
         ], 500);
     }
 });
+
+Route::post('/midtrans/webhook', [MidtransWebhookController::class, 'handle'])->name('midtrans.webhook');

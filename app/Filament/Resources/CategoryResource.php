@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -21,7 +23,6 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'bxs-category';
     protected static ?string $navigationGroup = 'Inventory';
 
     protected static ?string $navigationLabel = 'Kategori Produk';
@@ -39,7 +40,10 @@ class CategoryResource extends Resource
                     TextInput::make('name')
                         ->label('Nama Kategori')
                         ->placeholder('Masukan Nama Kategori')
-                        ->columnSpan(2)
+                        ->columnSpan(2),
+                    CuratorPicker::make('media')
+                        ->label('Gambar Kategori')
+
                 ])
             ]);
     }
@@ -56,6 +60,10 @@ class CategoryResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Dibuat Pada')
                     ->date('Y-m-d H:i:s'),
+                CuratorColumn::make('media_id')
+                    ->label('Gambar Kategori')
+                    ->circular()
+                    ->size(30),
             ])
             ->filters([
                 //

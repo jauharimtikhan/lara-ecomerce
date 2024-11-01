@@ -17,7 +17,7 @@
                                     ]) }}"
                                         class="shrink-0 md:order-1">
                                         <img class="h-20 w-20 rounded-lg"
-                                            src="{{ asset('storage/' . $item->options->products['thumbnail']) }}"
+                                            src="https://res.cloudinary.com/duietmmd2/image/upload/c_fit,w_800/f_auto/q_auto/v1/{{ $item->options->products['thumbnail'] }}?_a=BAAAV6E0"
                                             alt="product {{ $item->id }} {{ config('app.name') }}" />
                                     </a>
 
