@@ -96,13 +96,5 @@
 
 
         })
-        window.addEventListener("beforeunload", function(e) {
-            if (showEmbed) {
-                // Menampilkan pesan peringatan untuk mencegah refresh
-                e.preventDefault();
-
-                e.returnValue = 'Silahkan klik tombol "Tutup"'; // Pesan default akan ditampilkan di browser
-            }
-        });
     </script>
 @endscript

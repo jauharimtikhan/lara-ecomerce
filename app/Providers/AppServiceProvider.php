@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\TransactionStatusUpdated;
+use App\Listeners\BroadcastTransactionStatus;
 use App\Models\Category;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -9,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      */
@@ -25,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
         });
+        Event::listen(TransactionStatusUpdated::class, BroadcastTransactionStatus::class);
     }
 }

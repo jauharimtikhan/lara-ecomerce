@@ -274,13 +274,15 @@ class Keranjang extends AbstractFrontendClass
                     $transaction_id = Transaction::where('user_id', Auth::user()->id)
                         ->where('status', 'pending')
                         ->first()->transaction_id;
-                    $this->dispatch('redirectOnPaymentIsNotNull', [
-                        'url' => route('frontend.detailpembayaran', [
-                            'user_id' => Auth::user()->id,
-                            'order_id' => $transaction_id
-                        ]),
-                        'delay' => 4000
-                    ]);
+                    if ($transaction_id != null) {
+                        $this->dispatch('redirectOnPaymentIsNotNull', [
+                            'url' => route('frontend.detailpembayaran', [
+                                'user_id' => Auth::user()->id,
+                                'order_id' => $transaction_id
+                            ]),
+                            'delay' => 4000
+                        ]);
+                    }
                 }
             } catch (\Exception $th) {
                 dd($th->getMessage());

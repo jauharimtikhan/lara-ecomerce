@@ -8,7 +8,7 @@ use Livewire\Component;
 class GlobalSearch extends Component
 {
     public string $querySearch = '';
-    public $results = [];
+    public $results;
 
     public function updatedQuerySearch()
     {

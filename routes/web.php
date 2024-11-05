@@ -78,4 +78,6 @@ Route::get('/erase/cart', function () {
     }
 });
 
-Route::post('/midtrans/webhook', [MidtransWebhookController::class, 'handle'])->name('midtrans.webhook');
+Route::post('/midtrans/webhook', [MidtransWebhookController::class, 'handle'])
+    ->middleware('web')
+    ->name('midtrans.webhook');

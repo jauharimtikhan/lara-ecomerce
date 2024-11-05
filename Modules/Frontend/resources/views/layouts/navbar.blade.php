@@ -121,7 +121,7 @@
                         class="hidden z-[400] mx-auto max-w-sm space-y-4 overflow-hidden rounded-lg bg-white p-4 antialiased shadow-lg dark:bg-gray-800">
 
                         @foreach ($carts[0]['content'] as $cart)
-                            <div class="grid grid-cols-2" wire:key="">
+                            <div class="grid grid-cols-2" wire:key="{{ $cart['id'] }}">
                                 <div>
                                     <a href="#"
                                         class="truncate text-sm font-semibold leading-none text-gray-900 dark:text-white hover:underline">

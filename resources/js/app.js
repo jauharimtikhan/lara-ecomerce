@@ -11,7 +11,10 @@ import {
     initDismisses,
     initInputCounters,
     initModals,
+    initTooltips,
+    initCopyClipboards,
 } from "flowbite";
+
 document.addEventListener("livewire:navigated", () => {
     AOS.init();
     const pageProps = window.PageProps;
@@ -108,6 +111,8 @@ document.addEventListener("livewire:navigated", () => {
     // initDatepickers();
     initCarousels();
     initDropdowns();
+    initTooltips();
+    initCopyClipboards();
     // initFlowbite();
     // initPopovers();
     // initInputCounters();

@@ -21,7 +21,7 @@ class Payment extends AbstractFrontendClass
             $this->items = Transaction::with('user')
                 ->where('user_id', Auth::user()->id)
                 ->where('status', 'pending')
-                ->first();
+                ->latest()->first();
         } catch (\Throwable $th) {
             $this->items = [
                 'total_price' => 0,
@@ -68,10 +68,16 @@ class Payment extends AbstractFrontendClass
 
     public function navigatedToRoute($params)
     {
+        $transaction = Transaction::where('user_id', Auth::user()->id)
+            ->where('status', 'pending')->get();
 
-        Transaction::updateOrCreate(['user_id' => Auth::user()->id, 'status' => 'pending'], [
-            'transaction_id' => $params
-        ]);
+        foreach ($transaction as $trans) {
+            if ($trans->transaction_id == null) {
+                Transaction::where('id', $trans->id)->update([
+                    'transaction_id' => $params
+                ]);
+            }
+        }
         $this->redirect(route('frontend.detailpembayaran', ['user_id' => Auth::user()->id, 'order_id' => $params]), true);
     }
 

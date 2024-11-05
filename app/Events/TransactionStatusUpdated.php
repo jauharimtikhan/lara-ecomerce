@@ -13,23 +13,19 @@ use Illuminate\Queue\SerializesModels;
 
 class TransactionStatusUpdated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
     /**
      * Create a new event instance.
      */
 
     public $transaction;
-    public function __construct(Transaction $record)
+    public function __construct($transaction)
     {
-        $this->transaction = $record;
+        $this->transaction = $transaction;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
+
     public function broadcastOn(): array
     {
         return [
