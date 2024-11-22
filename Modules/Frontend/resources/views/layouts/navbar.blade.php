@@ -12,69 +12,42 @@
                     </a>
                 </div>
 
-                {{-- <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
-
-                    @if (Auth::check())
-                        @foreach ($items as $item)
-                            @foreach ($item as $it)
-                                @php
-                                    $url = urlencode($it->name);
-                                @endphp
-                                @if ($it->subcategory->count() > 0)
-                                    <li wire:key="{{ $it->id }}" wire:ignore.self>
-                                        <button id="mega-menu-dropdown-button-{{ $it->id }}"
-                                            data-dropdown-toggle="mega-menu-icons-dropdown-{{ $it->id }}"
-                                            class="flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-                                            {{ ucfirst($it->name) }}
-                                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                                            </svg>
-                                        </button>
-                                        <div id="mega-menu-icons-dropdown-{{ $it->id }}"
-                                            class="absolute z-[100] grid hidden w-auto grid-cols-2 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
-                                            <div class="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
-                                                <ul class="space-y-4"
-                                                    aria-labelledby="mega-menu-icons-dropdown-button-{{ $it->id }}">
-                                                    @foreach ($it->subcategory as $subcategory)
-                                                        <li>
-                                                            <a wire:navigate
-                                                                href="{{ route('frontend.product', ['category' => $it->name, 'subcategory' => $subcategory->name]) }}"
-                                                                class="flex items-center text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500 group">
-                                                                <span class="sr-only">{{ $subcategory->name }}</span>
-
-                                                                {{ $subcategory->name }}
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ route('frontend.product', ['category' => $url]) }}" wire:navigate
-                                            class="flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-                                            {{ ucfirst($it->name) }}
-                                        </a>
-                                    </li>
-                                @endif
-                            @endforeach
-                        @endforeach
-                    @endif
-                </ul> --}}
+                <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
+                    <li>
+                        <a href="{{ route('frontend.home') }}" wire:navigate
+                            class="flex items-center text-sm font-medium text-gray-900 {{ request()->routeIs('frontend.home') ? 'text-primary-700' : '' }} hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                            Beranda
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('frontend.product') }}" wire:navigate
+                            class="{{ request()->routeIs('frontend.product') ? 'text-primary-700' : '' }} flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                            Produk
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('frontend.aboutme') }}" wire:navigate
+                            class="{{ request()->routeIs('frontend.aboutme') ? 'text-primary-700' : '' }} flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                            Tentang Kami
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" wire:navigate
+                            class="flex items-center text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                            Kontak
+                        </a>
+                    </li>
+                </ul>
             </div>
 
             <div class="flex items-center lg:space-x-2">
 
-                <button id="btnGlobalSearch" type="button" wire:ignore.self
+                {{-- <button id="btnGlobalSearch" type="button" wire:ignore.self
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                     @svg('fas-search', [
                         'class' => 'w-5 h-5',
                     ])
-                </button>
+                </button> --}}
                 <button id="theme-toggle" type="button" wire:ignore.self
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -143,7 +116,8 @@
                                         {{ $cart['qty'] }}
                                     </p>
 
-                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}" type="button"
+                                    <button data-tooltip-target="tooltipRemoveItem1a-{{ $cart['id'] }}"
+                                        type="button"
                                         wire:click="removeItemFromCart('{{ $cart['id'] }}', '{{ $cart['rowId'] }}')"
                                         class="text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-600">
                                         <span class="sr-only"> Remove </span>
@@ -185,8 +159,8 @@
                         <span class="sr-only">
                             Account
                         </span>
-                        <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-width="2"
                                 d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>

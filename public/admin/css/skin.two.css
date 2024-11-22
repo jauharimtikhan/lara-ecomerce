@@ -1,0 +1,185 @@
+body {
+  background-image: none;
+  background-color: #d8dce3; }
+
+.sidebar {
+  background-color: #212b35;
+  background-image: linear-gradient(to bottom, #212b35 0%, #1b232c 100%);
+  background-repeat: repeat-x;
+  border-right-width: 0; }
+  .sidebar hr {
+    opacity: .1; }
+
+.sidebar-header {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: auto; }
+
+.sidebar-logo {
+  color: #6e6ffd; }
+  .sidebar-logo:hover, .sidebar-logo:focus {
+    color: #6e6ffd; }
+  .sidebar-logo span {
+    font-weight: 500; }
+
+.sidebar-logo-headline {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300; }
+
+.sidebar-body > .ps__rail-y {
+  background-color: transparent; }
+  .sidebar-body > .ps__rail-y > .ps__thumb-y {
+    background-color: rgba(255, 255, 255, 0.85); }
+
+.nav-sidebar .content-label {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+  letter-spacing: 1px; }
+
+.nav-sidebar .nav-item.show .nav-link {
+  color: #fff;
+  font-weight: 400; }
+  .nav-sidebar .nav-item.show .nav-link svg {
+    color: #fff;
+    fill: none; }
+
+.nav-sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300; }
+  .nav-sidebar .nav-link:hover, .nav-sidebar .nav-link:focus {
+    background-color: transparent; }
+  .nav-sidebar .nav-link.with-sub::after {
+    border-color: rgba(255, 255, 255, 0.4); }
+  .nav-sidebar .nav-link.active {
+    background-color: #5556fd;
+    color: #fff;
+    font-weight: 400; }
+    .nav-sidebar .nav-link.active svg {
+      fill: rgba(255, 255, 255, 0.16);
+      color: #fff; }
+
+.nav-sidebar .nav-sub::before {
+  border-left-color: rgba(255, 255, 255, 0.1); }
+
+.nav-sidebar .nav-sub-link {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300; }
+  .nav-sidebar .nav-sub-link:hover, .nav-sidebar .nav-sub-link:focus {
+    color: #fff; }
+  .nav-sidebar .nav-sub-link.active {
+    color: #8788fe;
+    font-weight: 400; }
+    .nav-sidebar .nav-sub-link.active::before {
+      border-color: #5556fd; }
+
+.content {
+  padding-top: 60px; }
+  @media (min-width: 576px) {
+    .content {
+      padding-top: 70px; } }
+  @media (min-width: 992px) {
+    .content {
+      padding-top: 80px; } }
+
+.content-header {
+  padding: 15px; }
+  @media (min-width: 576px) {
+    .content-header {
+      padding: 20px; } }
+
+.header {
+  background-color: #fff;
+  border-bottom-width: 0;
+  box-shadow: 2px 2px 5px 0 rgba(60, 70, 83, 0.04);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100; }
+  @media (min-width: 992px) {
+    .header {
+      left: 230px; } }
+  @media (min-width: 1200px) {
+    .header {
+      left: 240px; } }
+
+.header-search {
+  background-color: #efeffa;
+  border-color: transparent; }
+  .header-search.active {
+    box-shadow: none; }
+
+.card {
+  border-width: 0;
+  box-shadow: none; }
+
+.content-body-calendar,
+.content-body-chat,
+.content-body-profile {
+  padding-top: 10px; }
+  @media (min-width: 576px) {
+    .content-body-calendar,
+    .content-body-chat,
+    .content-body-profile {
+      padding-top: 20px; } }
+
+.content-calendar {
+  border-width: 0;
+  box-shadow: 0 4px 12px 0 rgba(131, 146, 165, 0.15), 0 1px 3px 0 rgba(131, 146, 165, 0.2);
+  height: calc(100vh - 120px); }
+
+.chat-sidebar,
+.chat-body,
+.mail-body-content,
+.profile-body {
+  border-width: 0;
+  box-shadow: 0 4px 12px 0 rgba(131, 146, 165, 0.15), 0 1px 3px 0 rgba(131, 146, 165, 0.2); }
+
+.timeline-body::before {
+  border-left-color: #b3c2d2; }
+
+.card-timeline,
+.card-timeline-event {
+  border-width: 0;
+  box-shadow: none; }
+
+.card-people, .card-people:hover, .card-people:focus {
+  border-width: 0;
+  box-shadow: none; }
+
+.card-people-two,
+.card-people-two .card-body,
+.card-people-two .card-footer {
+  border-width: 0;
+  box-shadow: none; }
+
+.card-people-three, .card-people-three .card-body {
+  border-width: 0;
+  box-shadow: none; }
+
+.list-group-settings {
+  border-width: 0;
+  box-shadow: none; }
+
+.card-invoice {
+  border-width: 0;
+  box-shadow: none; }
+
+.card-pricing {
+  border-width: 0;
+  box-shadow: none; }
+
+.content-right-components .nav {
+  border-left-color: #adbccf; }
+
+.component-section {
+  padding: 25px;
+  background-color: #f9f9fd;
+  border: 0; }
+  .component-section.no-code {
+    padding-bottom: 25px; }
+  .component-section + .component-section {
+    margin-top: 30px; }
+  .component-section .card {
+    border-width: 1px;
+    border-color: #d9dfe7; }

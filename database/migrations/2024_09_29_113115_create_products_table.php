@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->boolean('is_featured')->default(false);
             $table->integer('stock')->default(1);
             $table->char('weight', 50);
+            $table->char('size', 50)->nullable();
+            $table->char('color', 50)->nullable();
             $table->float('discount')->nullable();
             $table->foreignUuid('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
             $table->foreignUuid('sub_category_id')->nullable()->constrained('sub_categories')->cascadeOnDelete();

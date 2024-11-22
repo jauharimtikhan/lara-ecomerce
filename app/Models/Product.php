@@ -15,7 +15,7 @@ use Laravel\Scout\Searchable;
 
 class Product extends Model implements Buyable
 {
-    use HasFactory, HasUuids, SoftDeletes, Searchable;
+    use HasFactory, HasUuids, SoftDeletes;
     use \Gloudemans\Shoppingcart\CanBeBought;
     protected $fillable = [
         'name',
@@ -32,6 +32,8 @@ class Product extends Model implements Buyable
         'category_id',
         'sub_category_id',
         'user_id',
+        'size',
+        'color',
     ];
     protected $casts = [
         'product_galleries' => 'array',
@@ -39,16 +41,7 @@ class Product extends Model implements Buyable
         'is_featured' => 'boolean'
     ];
 
-    public function toSearchableArray()
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'updated_at' => $this->updated_at,
-            'thumbnail' => CuratorMedia::where('id', $this->thumbnail)->first()->url
-        ];
-    }
+
 
     public function category(): BelongsTo
     {
@@ -87,13 +80,12 @@ class Product extends Model implements Buyable
     public function gambarThumbnail(): BelongsTo
     {
 
-        return $this->belongsTo(CuratorMedia::class, 'thumbnail', 'id');
+        return $this->belongsTo(CuratorMedia::class, 'thumbnail');
     }
 
-    public function thumbnail(): BelongsTo
+    public function thumbnail()
     {
-
-        return $this->belongsTo(CuratorMedia::class);
+        return $this->thumbnail;
     }
 
     public function getBuyableIdentifier($options = null)

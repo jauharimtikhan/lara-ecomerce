@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Number;
 
 class Transaction extends Model
@@ -21,6 +22,7 @@ class Transaction extends Model
         'quantity',
         'status',
         'ongkir',
+        'note',
     ];
 
     protected $casts = [
@@ -34,7 +36,7 @@ class Transaction extends Model
 
     public function totalHarga()
     {
-        $result = $this->total_price ?? 0  - $this->ongkir ?? 0;
+        $result = $this->total_price ?? 0 - $this->ongkir ?? 0;
         return Number::currency($result, 'IDR', 'id') ?? 'Rp. 0';
     }
 
@@ -50,7 +52,7 @@ class Transaction extends Model
 
     public function grandTotal()
     {
-        $recap = $this->total_price  + $this->ongkir + 1000;
+        $recap = $this->total_price + $this->ongkir + 1000;
         return Number::currency($recap, 'IDR', 'id');
     }
 
@@ -59,6 +61,11 @@ class Transaction extends Model
         Carbon::setLocale('ID');
         return Carbon::parse($this->created_at)
             ->isoFormat('dddd, D MMMM Y');
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'id');
     }
 
     public function product($id)

@@ -43,6 +43,13 @@
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     @filamentStyles
     @livewireStyles
+    <style>
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -51,6 +58,8 @@
 
     @if (!Auth::check())
         @if (Route::currentRouteName() == 'frontend.login')
+            {{ $slot }}
+        @elseif(Route::currentRouteName() == 'frontend.register')
             {{ $slot }}
         @else
             <livewire:frontend-sub-component::navbar />

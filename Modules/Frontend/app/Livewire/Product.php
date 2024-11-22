@@ -11,7 +11,7 @@ class Product extends AbstractFrontendClass
 {
     use WithPagination;
     // public $products;
-    public $perPage = 1;
+    public $perPage = 30;
     public string $searchQuery = '';
     public string $subSearchQuery = '';
 
@@ -57,7 +57,7 @@ class Product extends AbstractFrontendClass
     #[Computed]
     public function getProducts()
     {
-        return ModelsProduct::with(['category', 'subcategory', 'thumbnail'])
+        return ModelsProduct::with(['category', 'subcategory', 'gambarThumbnail'])
             ->where('is_active', 1)
             ->where(function ($query) {
                 $query->when($this->searchQuery, function ($query) {

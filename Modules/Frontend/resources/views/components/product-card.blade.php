@@ -17,11 +17,7 @@
             <div class="flex items-center justify-end gap-1">
 
 
-                <button type="button" data-tooltip-target="tooltip-add-to-favorites-{{ $product['id'] }}"
-                    class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only"> Add to Favorites </span>
-                    <img src="{{ asset('frontend/icon/love.gif') }}" alt="" class="h-7 w-7">
-                </button>
+
                 <div id="tooltip-add-to-favorites-{{ $product['id'] }}" role="tooltip"
                     class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
                     data-popper-placement="top">
@@ -75,6 +71,34 @@
 
 
         <div class="mt-4 flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex mb-4 justify-start gap-4 items-center mt-4">
+                <div>
+                    <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih
+                        Warna</label>
+                    <select id="color" wire:model="selectedColor"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        @php
+                            $colors = explode(',', $product->color);
+                        @endphp
+                        @foreach ($colors as $color)
+                            <option value="{{ $color }}">{{ Str::ucfirst($color) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="size" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih
+                        Ukuran</label>
+                    <select id="size" wire:model="selectedSize"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        @php
+                            $sizes = explode(',', $product->size);
+                        @endphp
+                        @foreach ($sizes as $size)
+                            <option value="{{ $size }}">{{ Str::ucfirst($size) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             <p class="text-2xl font-extrabold leading-tight text-wrap text-gray-900 dark:text-white">
                 {{ $product->formatRupiah() }}
             </p>

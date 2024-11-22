@@ -1,0 +1,71 @@
+/*
+* Cassie Docs v1.0.0 (https://themepixels.me/cassie/docs.html)
+* Copyright 2019 ThemePixels
+* Licensed under ThemeForest License
+*
+*/
+.docs-logo {
+  font-weight: 700;
+  margin-bottom: 3px;
+  letter-spacing: -1px;
+  color: #373857; }
+
+.docs-slogan {
+  margin-bottom: 25px;
+  font-size: 11px;
+  opacity: .6; }
+
+.nav-docs {
+  flex-direction: column;
+  line-height: 1.7; }
+  .nav-docs .nav-label {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: #06072d; }
+  .nav-docs .nav-link {
+    padding: 0;
+    padding-left: 10px;
+    border-left: 1px solid rgba(230, 231, 239, 0.85);
+    font-size: 13px; }
+    .nav-docs .nav-link.active {
+      color: #373857;
+      font-weight: 500;
+      letter-spacing: -.15px;
+      position: relative; }
+      .nav-docs .nav-link.active::before {
+        content: '';
+        position: absolute;
+        top: 3px;
+        bottom: 3px;
+        left: -2px;
+        border-left: 3px solid #373857; }
+
+.file-structure {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-family: 'Roboto Mono', cursive;
+  font-size: 13px; }
+  .file-structure ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 25px; }
+    .file-structure ul li {
+      display: block;
+      position: relative; }
+      .file-structure ul li::before {
+        content: '|--';
+        display: inline-block;
+        margin-right: 5px; }
+
+.table-docs th {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .5px;
+  text-transform: uppercase; }
+
+.table-docs td {
+  font-size: 12px;
+  font-family: 'Roboto Mono', cursive; }

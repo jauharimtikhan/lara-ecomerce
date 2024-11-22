@@ -15,16 +15,24 @@ class ProductCard extends Component
     public $product;
 
     public $thumbnail;
+    public $selectedColor;
+    public $selectedSize;
     public $productGalleries;
 
     public function mount()
     {
-        $thumbnail =  CuratorMedia::where('id', $this->product->thumbnail)->first();
+        $thumbnail = CuratorMedia::where('id', $this->product->thumbnail)->first();
 
         $galleries = Cache::remember("galleries_{$this->product->id}", now()->addMinutes(60), function () {
             $result = [];
-            foreach ($this->product->product_galleries as $gallery) {
-                $res = CuratorMedia::where('id', $gallery)->get();
+            if (is_array($this->product->product_galleries)) {
+                foreach ($this->product->product_galleries as $gallery) {
+
+                    $res = CuratorMedia::where('id', $gallery)->get();
+                    array_merge($result, [$res]);
+                }
+            } else {
+                $res = CuratorMedia::where('id', $this->product->product_galleries)->get();
                 array_merge($result, [$res]);
             }
             return $result;
@@ -86,6 +94,8 @@ class ProductCard extends Component
                 'products' => [
                     'thumbnail' => $product->gambarThumbnail->path ?? null,
                 ],
+                'color' => $this->product->color,
+                'size' => $this->product->size
             ]
         );
 

@@ -15,11 +15,15 @@ class Permission extends SpatiePermission
 
     public function convertUuidToWireModel(string $id)
     {
-        if($this->find($id)){
+        if ($this->find($id)) {
             $count = $this->count();
             $i = time();
-         return "permission.{$this->name}.{$i}";
+            return "permission.{$this->name}.{$i}";
         }
+    }
 
+    public function getModelClassname()
+    {
+        return self::class;
     }
 }

@@ -27,10 +27,16 @@ class Login extends AbstractFrontendClass
         $this->validate();
 
         $user = User::where('email', $this->email)->first();
+        // dd($user->roles->first()->name);
         if ($user && Hash::check($this->password, $user->password)) {
             if (Auth::attempt($this->validate())) {
-                $this->redirect(route('frontend.home'));
-                $this->callAlert('success', 'Login Success');
+                if ($user->roles->first()->name == 'admin' || $user->roles->first()->name == 'super_admin') {
+                    $this->redirect(route('admin.dashboard.index'));
+                    $this->callAlert('success', 'Login Success');
+                } else {
+                    $this->redirect(route('frontend.home'));
+                    $this->callAlert('success', 'Login Success');
+                }
             } else {
                 $this->callAlert('danger', 'Login Failed');
             }

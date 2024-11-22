@@ -131,7 +131,35 @@
                             </div>
                         @endif
                     </div>
-
+                    <div class="flex mb-4 justify-start gap-4 items-center mt-4">
+                        <div>
+                            <label for="color"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Warna</label>
+                            <select id="color" wire:model="selectedColor"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                @php
+                                    $colors = explode(',', $product->color);
+                                @endphp
+                                @foreach ($colors as $color)
+                                    <option value="{{ $color }}">{{ Str::ucfirst($color) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="size"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih
+                                Ukuran</label>
+                            <select id="size" wire:model="selectedSize"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                @php
+                                    $sizes = explode(',', $product->size);
+                                @endphp
+                                @foreach ($sizes as $size)
+                                    <option value="{{ $size }}">{{ Str::ucfirst($size) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="mt-6 pb-6 flex items-center gap-4">
                         <button type="button" wire:click="addToCart"
                             class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">

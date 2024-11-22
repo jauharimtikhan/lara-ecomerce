@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->bigInteger('weight')->nullable();
             $table->decimal('ongkir', 10, 2);
             $table->decimal('total_price', 10, 2);
+            $table->longText('note')->nullable();
             $table->timestamps();
         });
     }

@@ -1,0 +1,120 @@
+.rounded-lg {
+    border-radius: 0.7rem !important;
+}
+
+.rounded-t-b-r {
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.selection {
+    border-radius: 10px !important;
+}
+
+.select2-selection.select2-selection--single {
+    border-radius: 10px !important;
+}
+
+.select2-selection.select2-selection--multiple {
+    border-radius: 10px !important;
+}
+
+div.dt-length {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+}
+
+div.dt-layout-cell.dt-layout-start {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.fs-sm {
+    font-size: 0.8rem !important;
+    cursor: pointer;
+}
+
+.thumbnail-img {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.card-media-picker {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.card-media-picker .media-img:hover {
+    cursor: pointer;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.select-none {
+    user-select: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
+#color_produk_select2
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+    background: transparent;
+}
+
+#color_produk_select2
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice
+    .select2-selection__choice__remove {
+    color: #000000;
+}
+
+.container-header-datatable {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.item-header-datatable {
+    font-size: 0.9em !important;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-header-datatable:hover::after {
+    content: attr(data-message);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.item-header-datatable:hover::after {
+    opacity: 1;
+    visibility: visible;
+}

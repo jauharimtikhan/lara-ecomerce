@@ -18,6 +18,8 @@ class ProductDetail extends AbstractFrontendClass
 
     public $product;
     public $thumbnail;
+    public $selectedColor;
+    public $selectedSize;
     public $productGalleries;
     // public $ulasans;
     public function mount()
@@ -26,9 +28,13 @@ class ProductDetail extends AbstractFrontendClass
 
         $thumbnail = CuratorMedia::where('id', $this->product->thumbnail)->first();
         $galleries = [];
-        foreach ($this->product->product_galleries as $gallery) {
-            $res = CuratorMedia::where('id', $gallery)->first();
-            $galleries[] = $res->url;
+        if ($this->product->product_galleries == null) {
+            $galleries[] = null;
+        } else {
+            foreach ($this->product->product_galleries as $gallery) {
+                $res = CuratorMedia::where('id', $gallery)->first();
+                $galleries[] = $res->url;
+            }
         }
 
 
@@ -58,7 +64,10 @@ class ProductDetail extends AbstractFrontendClass
                 'products' => [
                     'thumbnail' => $product->gambarThumbnail->path ?? null,
                 ],
-            ]
+                'color' => $this->selectedColor,
+                'size' => $this->selectedSize
+            ],
+
         );
 
         $cartItem->associate(Product::getModel());
@@ -90,6 +99,8 @@ class ProductDetail extends AbstractFrontendClass
                 'products' => [
                     'thumbnail' => $product->gambarThumbnail->path ?? null,
                 ],
+                'color' => $this->selectedColor,
+                'size' => $this->selectedSize
             ]
         );
 

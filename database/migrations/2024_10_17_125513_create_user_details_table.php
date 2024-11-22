@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kecamatan')->nullable();
             $table->char('notelp', 23)->nullable();
             $table->text('alamat_lengkap')->nullable();
+            $table->char('kodepos', 7)->nullable();
             $table->timestamps();
         });
     }

@@ -36,9 +36,8 @@ class HomeCms extends Model
     public function banner()
     {
         $images = [];
-        foreach ($this->home_banner as  $value) {
-
-            $images[] = CuratorMedia::where('id', $value)->first()->hd;
+        foreach ($this->home_banner as $value) {
+            $images[] = CuratorMedia::where('id', $value)->first()?->hd;
         }
         return $images;
     }
@@ -46,11 +45,10 @@ class HomeCms extends Model
     public function CategoryBanner()
     {
         $images = [];
-        foreach ($this->home_category as  $value) {
-
+        foreach ($this->home_category as $value) {
             $images[] = [
-                'url' => Category::where('id', $value)->first()->media->mediumUrl,
-                'title' => Category::where('id', $value)->first()->name
+                'url' => Category::with('media')->where('id', $value)->first()?->media->first()->url,
+                'title' => Category::where('id', $value)->first()
             ];
         }
         return $images;

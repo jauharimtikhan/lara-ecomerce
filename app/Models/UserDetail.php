@@ -18,6 +18,7 @@ class UserDetail extends Model
         'kecamatan',
         'provinsi',
         'alamat_lengkap',
+        'kodepos',
     ];
 
     public function user(): BelongsTo
